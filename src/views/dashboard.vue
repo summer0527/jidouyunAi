@@ -1,357 +1,297 @@
 <template>
-    <div>
-        <el-row :gutter="20" class="mgb20">
-            <el-col :span="6">
-                <el-card shadow="hover" body-class="card-body">
-                    <el-icon class="card-icon bg1">
-                        <User />
-                    </el-icon>
-                    <div class="card-content">
-                        <countup class="card-num color1" :end="6666" />
-                        <div>用户访问量</div>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="6">
-                <el-card shadow="hover" body-class="card-body">
-                    <el-icon class="card-icon bg2">
-                        <ChatDotRound />
-                    </el-icon>
-                    <div class="card-content">
-                        <countup class="card-num color2" :end="168" />
-                        <div>系统消息</div>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="6">
-                <el-card shadow="hover" body-class="card-body">
-                    <el-icon class="card-icon bg3">
-                        <Goods />
-                    </el-icon>
-                    <div class="card-content">
-                        <countup class="card-num color3" :end="8888" />
-                        <div>商品数量</div>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="6">
-                <el-card shadow="hover" body-class="card-body">
-                    <el-icon class="card-icon bg4">
-                        <ShoppingCartFull />
-                    </el-icon>
-                    <div class="card-content">
-                        <countup class="card-num color4" :end="568" />
-                        <div>今日订单量</div>
-                    </div>
-                </el-card>
-            </el-col>
-        </el-row>
-
-        <el-row :gutter="20" class="mgb20">
-            <el-col :span="18">
-                <el-card shadow="hover">
-                    <div class="card-header">
-                        <p class="card-header-title">订单动态</p>
-                        <p class="card-header-desc">最近一周订单状态，包括订单成交量和订单退货量</p>
-                    </div>
-                    <v-chart class="chart" :option="dashOpt1" />
-                </el-card>
-            </el-col>
-            <el-col :span="6">
-                <el-card shadow="hover">
-                    <div class="card-header">
-                        <p class="card-header-title">品类分布</p>
-                        <p class="card-header-desc">最近一个月销售商品的品类情况</p>
-                    </div>
-                    <v-chart class="chart" :option="dashOpt2" />
-                </el-card>
-            </el-col>
-        </el-row>
-        <el-row :gutter="20">
-            <el-col :span="7">
-                <el-card shadow="hover" :body-style="{ height: '400px' }">
-                    <div class="card-header">
-                        <p class="card-header-title">时间线</p>
-                        <p class="card-header-desc">最新的销售动态和活动信息</p>
-                    </div>
-                    <el-timeline>
-                        <el-timeline-item v-for="(activity, index) in activities" :key="index" :color="activity.color">
-                            <div class="timeline-item">
-                                <div>
-                                    <p>{{ activity.content }}</p>
-                                    <p class="timeline-desc">{{ activity.description }}</p>
-                                </div>
-                                <div class="timeline-time">{{ activity.timestamp }}</div>
-                            </div>
-                        </el-timeline-item>
-                    </el-timeline>
-                </el-card>
-            </el-col>
-            <el-col :span="10">
-                <el-card shadow="hover" :body-style="{ height: '400px' }">
-                    <div class="card-header">
-                        <p class="card-header-title">渠道统计</p>
-                        <p class="card-header-desc">最近一个月的订单来源统计</p>
-                    </div>
-                    <v-chart class="map-chart" :option="mapOptions" />
-                </el-card>
-            </el-col>
-            <el-col :span="7">
-                <el-card shadow="hover" :body-style="{ height: '400px' }">
-                    <div class="card-header">
-                        <p class="card-header-title">排行榜</p>
-                        <p class="card-header-desc">销售商品的热门榜单Top5</p>
-                    </div>
-                    <div>
-                        <div class="rank-item" v-for="(rank, index) in ranks">
-                            <div class="rank-item-avatar">{{ index + 1 }}</div>
-                            <div class="rank-item-content">
-                                <div class="rank-item-top">
-                                    <div class="rank-item-title">{{ rank.title }}</div>
-                                    <div class="rank-item-desc">销量：{{ rank.value }}</div>
-                                </div>
-                                <el-progress
-                                    :show-text="false"
-                                    striped
-                                    :stroke-width="10"
-                                    :percentage="rank.percent"
-                                    :color="rank.color"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </el-card>
-            </el-col>
-        </el-row>
+  <div style="float: left;width: 100%;height: 100%;">
+    <!-- 对话列表 -->
+    <div class="openCom">
+      <div  @click="handleOpenC" class="title">
+        <el-icon><ChatSquare /></el-icon>
+        开启新对话
+      </div>
+      <div>
+        <ul>
+          <li v-for="item in listData" :key="item.id" style=" list-style: none;line-height: 50px;text-indent: 30px;" @click="handleOpenConstion">
+            {{ item.title }}</li>
+        </ul>
+      </div>
     </div>
+    <!-- 对话内容 -->
+    <div style="width: 90%; float: left; height: 100%">
+      <!-- 对话内容列表 -->
+      <div class="list" v-if="isShowList">
+        <BubbleList :list="list" max-height="350px" />
+      </div>
+      <!-- 对话输入框 -->
+      <Sender ref="senderRef" v-model:value="senderValue" @submit="handleSubmit">
+        <template #header>
+          <div class="header-self-wrap">
+            <div class="header-self-title">
+              <div
+                class="header-left"
+                style="display: flex; align-items: center"
+              >
+                <img class="logo" src="../assets/img/logo.png" alt="" />
+                <span> 欢迎使用 吉斗云AI！</span>
+              </div>
+              <div class="header-right">
+                <el-button @click.stop="closeHeader">
+                  <el-icon><CircleClose /></el-icon>
+                  <span>关闭头部</span>
+                </el-button>
+              </div>
+            </div>
+            <div class="header-self-content">
+              <div class="welcomeMessage">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <img class="logo" src="../assets/img/logo.png" alt="" />
+                  <p class="ai-title">我是吉斗云AI，很高兴见到你！</p>
+                </div>
+
+                <p class="ai-title2" style="margin-bottom: 10px">
+                  我可以帮你写代码、读文件、写作各种创意内容，请把你的任务交给我吧
+                  ~
+                </p>
+                <div class="ai-title3">
+                  <p class="radiostyle">
+                    <span style="color: #4d6bfe">吉斗云AI</span>
+                    <span style="color: #3d3d3d">大模型累计解决</span>
+                    <span style="color: #4d6bfe">xxx个问题</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- 自定义前缀 -->
+        <template #prefix>
+          <div class="prefix-self-wrap">
+            <el-button dark>
+              <el-icon><Link /></el-icon>
+              <span>自定义前缀</span>
+            </el-button>
+
+            <el-button color="#626aef" :dark="true" @click="openCloseHeader">
+              打开/关闭头部
+            </el-button>
+          </div>
+        </template>
+      </Sender>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts" name="dashboard">
-import countup from '@/components/countup.vue';
-import { use, registerMap } from 'echarts/core';
-import { BarChart, LineChart, PieChart, MapChart } from 'echarts/charts';
-import {
-    GridComponent,
-    TooltipComponent,
-    LegendComponent,
-    TitleComponent,
-    VisualMapComponent,
-} from 'echarts/components';
-import { CanvasRenderer } from 'echarts/renderers';
-import VChart from 'vue-echarts';
-import { dashOpt1, dashOpt2, mapOptions } from './chart/options';
-import chinaMap from '@/utils/china';
-use([
-    CanvasRenderer,
-    BarChart,
-    GridComponent,
-    LineChart,
-    PieChart,
-    TooltipComponent,
-    LegendComponent,
-    TitleComponent,
-    VisualMapComponent,
-    MapChart,
-]);
-registerMap('china', chinaMap);
-const activities = [
-    {
-        content: '收藏商品',
-        description: 'xxx收藏了你的商品，就是不买',
-        timestamp: '30分钟前',
-        color: '#00bcd4',
-    },
-    {
-        content: '用户评价',
-        description: 'xxx给了某某商品一个差评，吐血啊',
-        timestamp: '55分钟前',
-        color: '#1ABC9C',
-    },
-    {
-        content: '订单提交',
-        description: 'xxx提交了订单，快去收钱吧',
-        timestamp: '1小时前',
-        color: '#3f51b5',
-    },
-    {
-        content: '退款申请',
-        description: 'xxx申请了仅退款，又要亏钱了',
-        timestamp: '15小时前',
-        color: '#f44336',
-    },
-    {
-        content: '商品上架',
-        description: '运营专员瞒着你上架了一辆飞机',
-        timestamp: '1天前',
-        color: '#009688',
-    },
-];
+<script setup lang="ts">
+import { ref, reactive, onMounted } from "vue";
+import { Bubble, Sender } from "vue-element-plus-x";
+import { BubbleList } from "vue-element-plus-x";
+import { CircleClose, Link } from "@element-plus/icons-vue";
+import type {
+  BubbleListItemProps,
+  BubbleListProps,
+} from "element-plus-x/bubbleList/types";
+interface ListData{
+  id:string,
+  title:string
+}
+interface List {
+  content:string,
+  role:string,
+  placement:string,
+  avatar:string,
+  avatarSize:string
+}
+type listType = BubbleListItemProps & {
+  key: number;
+  role: "user" | "ai";
+};
+const content = ref("hello world !");
+const senderRef = ref();
+const senderValue = ref("");
+const showHeaderFlog = ref(false);
+const listData = reactive<ListData[]>([])
+  const list = reactive<List[]>([
+    
+    {content:'💖 感谢使用 Element Plus X ! 你的支持，是我们开源的最强动力 ~',role:'ai',placement:'start',avatar:'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',avatarSize:'24px'}])
 
-const ranks = [
-    {
-        title: '手机',
-        value: 10000,
-        percent: 80,
-        color: '#f25e43',
-    },
-    {
-        title: '电脑',
-        value: 8000,
-        percent: 70,
-        color: '#00bcd4',
-    },
-    {
-        title: '相机',
-        value: 6000,
-        percent: 60,
-        color: '#64d572',
-    },
-    {
-        title: '衣服',
-        value: 5000,
-        percent: 55,
-        color: '#e9a745',
-    },
-    {
-        title: '书籍',
-        value: 4000,
-        percent: 50,
-        color: '#009688',
-    },
-];
+const isShowList = ref(false)
+// 新加对话
+const handleOpenC=()=>{
+  console.log('开启新对话')
+  const length=eval(listData.length+1);
+  const titleC = '新对话'+length
+  listData.push({id:length,title:titleC})
+}
+// 开启老的对话
+const handleOpenConstion=()=>{
+
+}
+// 输入内容提交
+const handleSubmit=()=>{
+  console.log(senderValue.value)
+  isShowList.value = true;
+  list.push({content:senderValue.value,role:'user',placement:'end',avatar:'https://avatars.githubusercontent.com/u/76239030?v=4',avatarSize:'24px'})
+  list.push({content:'💖 感谢使用 Element Plus X ! 你的支持，是我们开源的最强动力 ~',role:'ai',placement:'start',avatar:'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',avatarSize:'24px'})
+  senderValue.value = ''
+}
+onMounted(() => {
+  showHeaderFlog.value = true;
+  senderRef.value.openHeader();
+});
+
+function openCloseHeader() {
+  if (!showHeaderFlog.value) {
+    senderRef.value.openHeader();
+  } else {
+    senderRef.value.closeHeader();
+  }
+  showHeaderFlog.value = !showHeaderFlog.value;
+}
+
+function closeHeader() {
+  showHeaderFlog.value = false;
+  senderRef.value.closeHeader();
+}
+
+
+// 示例调用
+
+// const list: BubbleListProps<listType>['list'] = generateFakeItems(5)
+ 
+// console.log(list,'list')
+// function generateFakeItems(count: number): listType[] {
+//   const messages: listType[] = [];
+//   for (let i = 0; i < count; i++) {
+//     const role = i % 2 === 0 ? "ai" : "user";
+//     const placement = role === "ai" ? "start" : "end";
+//     const key = i + 1;
+//     const content =
+//       role === "ai"
+//         ? "💖 感谢使用 Element Plus X ! 你的支持，是我们开源的最强动力 ~"
+//         : `哈哈哈，让我试试`;
+//     const loading = false;
+//     const shape = "corner";
+//     const variant = role === "ai" ? "filled" : "outlined";
+//     const isMarkdown = false;
+//     const typing = role === "ai" ? i === count - 1 : false;
+//     const avatar =
+//       role === "ai"
+//         ? "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+//         : "https://avatars.githubusercontent.com/u/76239030?v=4";
+
+//     messages.push({
+//       key,
+//       role,
+//       placement,
+//       content,
+//       loading,
+//       shape,
+//       variant,
+//       isMarkdown,
+//       typing,
+//       avatar,
+//       avatarSize: "24px",
+//     });
+//     console.log(messages);
+//   }
+//   return messages;
+// }
 </script>
 
-<style>
-.card-body {
-    display: flex;
-    align-items: center;
-    height: 100px;
-    padding: 0;
+<style scoped lang="less">
+.openCom {
+  width: 10%;
+  height: 100%;
+  float: left;
+  background: #F9FBFF;
+ 
 }
-</style>
-<style scoped>
-.card-content {
+.openCom .title{
+  line-height: 50px;
+    color: #4D6BFE;
+    background: #DBEAFE;
+    border: 1px solid #DBEAFE;
+    border-radius: 10px;
+    width: 150px;
+    text-align: center;
+}
+.header-self-wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  height: 200px;
+
+  .header-self-content {
     flex: 1;
-    text-align: center;
-    font-size: 14px;
-    color: #999;
-    padding: 0 20px;
-}
-
-.card-num {
-    font-size: 30px;
-}
-
-.card-icon {
-    font-size: 50px;
-    width: 100px;
-    height: 100px;
-    text-align: center;
-    line-height: 100px;
-    color: #fff;
-}
-
-.bg1 {
-    background: #2d8cf0;
-}
-
-.bg2 {
-    background: #64d572;
-}
-
-.bg3 {
-    background: #f25e43;
-}
-
-.bg4 {
-    background: #e9a745;
-}
-
-.color1 {
-    color: #2d8cf0;
-}
-
-.color2 {
-    color: #64d572;
-}
-
-.color3 {
-    color: #f25e43;
-}
-
-.color4 {
-    color: #e9a745;
-}
-
-.chart {
-    width: 100%;
-    height: 400px;
-}
-
-.card-header {
-    padding-left: 10px;
-    margin-bottom: 20px;
-}
-
-.card-header-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.card-header-desc {
-    font-size: 14px;
-    color: #999;
-}
-
-.timeline-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-    color: #000;
-}
-
-.timeline-time,
-.timeline-desc {
-    font-size: 12px;
-    color: #787878;
-}
-
-.rank-item {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: center;
+    font-size: 20px;
+    color: #626aef;
+    font-weight: 600;
+  }
 }
+.header-self-title {
+  width: 100%;
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+.prefix-self-wrap {
+  display: flex;
+}
+.ai-title {
+  font-family: Source Han Sans;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0em;
 
-.rank-item-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #f2f2f2;
-    text-align: center;
-    line-height: 40px;
-    margin-right: 10px;
+  font-variation-settings: "opsz" auto;
+  font-feature-settings: "kern" on;
+  color: #3d3d3d;
 }
+.ai-title2 {
+  font-family: Source Han Sans;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0em;
+  display: flex;
+  justify-content: center;
 
-.rank-item-content {
-    flex: 1;
+  font-variation-settings: "opsz" auto;
+  font-feature-settings: "kern" on;
+  color: #3d3d3d;
 }
+.ai-title3 {
+  font-family: Source Han Sans;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0em;
+  display: flex;
+  justify-content: center;
+  font-variation-settings: "opsz" auto;
+  font-feature-settings: "kern" on;
+}
+.welcomeMessage {
+  float: left;
 
-.rank-item-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #343434;
-    margin-bottom: 10px;
+  width: 100%;
+  // background: red;
 }
-
-.rank-item-desc {
-    font-size: 14px;
-    color: #999;
-}
-.map-chart {
-    width: 100%;
-    height: 350px;
+.radiostyle {
+  width: 500px;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid blue;
+  line-height: 50px;
 }
 </style>

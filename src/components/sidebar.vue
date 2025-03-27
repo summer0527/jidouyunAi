@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <el-menu
+        <!-- <el-menu
             class="sidebar-el-menu"
             :default-active="onRoutes"
             :collapse="sidebar.collapse"
@@ -48,8 +48,8 @@
                     </el-menu-item>
                 </template>
             </template>
-        </el-menu>
-    </div>
+        </el-menu> -->
+   </div>
 </template>
 
 <script setup lang="ts">

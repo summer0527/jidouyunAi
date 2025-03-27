@@ -20,3 +20,10 @@ export const fetchRoleData = () => {
         method: 'get'
     });
 };
+// 注册
+export const regeditData = () => {
+    return request({
+        url: '/regedit',
+        method: 'post'
+    });
+};

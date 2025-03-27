@@ -4,6 +4,8 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Vue from '@vitejs/plugin-vue';
+
 export default defineConfig({
 	base: './',
 	plugins: [
@@ -14,8 +16,18 @@ export default defineConfig({
 		}),
 		Components({
 			resolvers: [ElementPlusResolver()]
-		})
+		}),
+		
 	],
+	server:{
+		proxy: {
+			'/regedit': {
+				target: 'http://192.168.1.4:8080',
+				changeOrigin: true,
+		
+			}
+		}
+	},
 	optimizeDeps: {
 		include: ['schart.js']
 	},

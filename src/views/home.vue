@@ -1,9 +1,9 @@
 <template>
     <div class="wrapper">
         <v-header />
-        <v-sidebar />
+        <!-- <v-sidebar /> -->
         <div class="content-box" :class="{ 'content-collapse': sidebar.collapse }">
-            <v-tabs></v-tabs>
+            <!-- <v-tabs></v-tabs> -->
             <div class="content">
                 <router-view v-slot="{ Component }">
                     <transition name="move" mode="out-in">
@@ -20,8 +20,8 @@
 import { useSidebarStore } from '@/store/sidebar';
 import { useTabsStore } from '@/store/tabs';
 import vHeader from '@/components/header.vue';
-import vSidebar from '@/components/sidebar.vue';
-import vTabs from '@/components/tabs.vue';
+// import vSidebar from '@/components/sidebar.vue';
+// import vTabs from '@/components/tabs.vue';
 
 const sidebar = useSidebarStore();
 const tabs = useTabsStore();
@@ -34,7 +34,7 @@ const tabs = useTabsStore();
 }
 .content-box {
     position: absolute;
-    left: 250px;
+    left: 0;
     right: 0;
     top: 70px;
     bottom: 0;

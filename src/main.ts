@@ -6,11 +6,11 @@ import router from './router';
 import { usePermissStore } from './store/permiss';
 import 'element-plus/dist/index.css';
 import './assets/css/icon.css';
+import 'atropos/css'
 
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
-
 // 注册elementplus图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);

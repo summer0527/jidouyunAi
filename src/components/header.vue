@@ -2,8 +2,8 @@
     <div class="header">
         <!-- 折叠按钮 -->
         <div class="header-left">
-            <img class="logo" src="../assets/img/logo.svg" alt="" />
-            <div class="web-title">后台管理系统</div>
+            <img class="logo" src="../assets/img/logo.png" alt="" />
+            <div class="web-title">吉斗云AI</div>
             <div class="collapse-btn" @click="collapseChage">
                 <el-icon v-if="sidebar.collapse">
                     <Expand />
@@ -110,8 +110,8 @@ const setFullScreen = () => {
     box-sizing: border-box;
     width: 100%;
     height: 70px;
-    color: var(--header-text-color);
-    background-color: var(--header-bg-color);
+    color: #3D3D3D;
+    background-color: #fff;
     border-bottom: 1px solid #ddd;
 }
 
@@ -184,7 +184,7 @@ const setFullScreen = () => {
     height: 8px;
     border-radius: 4px;
     background: #f56c6c;
-    color: var(--header-text-color);
+    color: #3D3D3D;
 }
 
 .user-avator {
@@ -192,7 +192,7 @@ const setFullScreen = () => {
 }
 
 .el-dropdown-link {
-    color: var(--header-text-color);
+    color: #3D3D3D;
     cursor: pointer;
     display: flex;
     align-items: center;
