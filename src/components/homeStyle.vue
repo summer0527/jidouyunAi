@@ -1,5 +1,5 @@
 <template>
-    <div class="homeStyle" style="width: 70%;height: 100%;float: left;position: relative;">
+    <div class="homeStyle" style="width: 1300px;height: 100%;float: left;position: relative;display: flex; align-items: center;margin-right: 2%;">
         <div class="login-message-box" style="z-index: 1800">
       <div class="message-left">
         <p class="message-1 mssageHover">
@@ -231,9 +231,9 @@ onMounted(() => {
 }
 .login-message-box {
   display: flex;
-  position: absolute;
-  left: 41px;
-  top: 120px;
+  position: relative;
+  /* left: 41px;
+  top: 120px; */
   width: 100%;
   height: 700px;
   border-radius: 10px;
