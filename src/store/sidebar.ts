@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 export const useSidebarStore = defineStore('sidebar', {
 	state: () => {
 		return {
-			collapse: false,
+			collapse: true,
 			bgColor: '#fff',
 			textColor: '#3D3D3D'
 		};

@@ -231,7 +231,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
-import vHomeStyle from '../../components/homeStyle.vue';
+import vHomeStyle from "../../components/homeStyle.vue";
 
 import { useRouter } from "vue-router";
 import {
@@ -243,6 +243,8 @@ import {
 // import { AbstractShapeBg } from "../../../build/jsm/AbstractShapeBg.module.js";
 // import meesage2 from "../../assets/img/mesage2.png";
 import axios from "axios";
+import {registerApi} from '../../api/index'
+import request from '../../utils/request';
 // import Atropos from "atropos";
 const router = useRouter();
 interface Register {
@@ -301,7 +303,7 @@ const param = reactive<Register>({
 //   });
 // });
 // 校验函数
-const reg2 = /^(?![a-z]+$)[a-zA-Z]{6,12}$/;
+const reg2 = /^[a-zA-Z]{6,12}$/;
 const userPassValidate = (rule, value, callback) => {
   console.log("lllll");
   if (!value) {
@@ -324,7 +326,7 @@ const userUserValidate = (rule, value, callback) => {
     return callback(new Error("用户名不能为空"));
   }
   setTimeout(() => {
-    if ( value.toString().length > 12) {
+    if (value.toString().length > 12) {
       callback(new Error("用户名最长12位"));
     } else if (!reg.test(value)) {
       callback(new Error("请输入中文"));
@@ -340,7 +342,7 @@ const userNumberValidate = (rule, value, callback) => {
     return callback(new Error("学号不能为空"));
   }
   setTimeout(() => {
-     if (!regNumbei.test(value)) {
+    if (!regNumbei.test(value)) {
       callback(new Error("请输入数字"));
     } else {
       callback();
@@ -353,9 +355,9 @@ const userPassConfirm = (rule, value, callback) => {
     return callback(new Error("再次输入密码不能为空"));
   }
   setTimeout(() => {
-    if (value!=param.s_pass) {
+    if (value != param.s_pass) {
       callback(new Error("两次输入密码不一致"));
-    }  else {
+    } else {
       callback();
     }
   }, 0);
@@ -368,27 +370,28 @@ const rules: FormRules = {
       message: "请输入用户名",
       trigger: "blur",
     },
-    
+
     { validator: userUserValidate, trigger: "blur" },
   ],
   s_pass: [
     { required: true, message: "请输入密码", trigger: "blur" },
     { validator: userPassValidate, trigger: "blur" },
   ],
-  s_college: [{ required: true, message: "请输入院校", trigger: "blur" },
-  { validator: userUserValidate, trigger: "blur" },
-
+  s_college: [
+    { required: true, message: "请输入院校", trigger: "blur" },
+    { validator: userUserValidate, trigger: "blur" },
   ],
-  s_speciality: [{ required: true, message: "请输入专业", trigger: "blur" },
-  { validator: userUserValidate, trigger: "blur" },
-
+  s_speciality: [
+    { required: true, message: "请输入专业", trigger: "blur" },
+    { validator: userUserValidate, trigger: "blur" },
   ],
-  s_student_id:[{ required: true, message: "请输入学号", trigger: "blur" },
-  { validator: userNumberValidate, trigger: "blur" },
-
+  s_student_id: [
+    { required: true, message: "请输入学号", trigger: "blur" },
+    { validator: userNumberValidate, trigger: "blur" },
   ],
-  password: [{ required: true, message: "请再次输入密码", trigger: "blur" },
-  { validator: userPassConfirm, trigger: "blur" },
+  password: [
+    { required: true, message: "请再次输入密码", trigger: "blur" },
+    { validator: userPassConfirm, trigger: "blur" },
   ],
 };
 const config = {
@@ -399,42 +402,48 @@ const config = {
 };
 const register = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
-
-  
-  
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
-      
-      axios
-    .post("/regedit/register", param, config)
-    .then((res) => {
-      const { message, s_name, code } = res.data;
-      if (code == 201) {
-        ElMessageBox.confirm("注册成功,是否去登陆?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "success",
-  })
-    .then(() => {
-      router.push("/login");
-    })
-    .catch(() => {
-      ElMessage({
-        message: "取消操作成功",
-        type: "success",
-      });
-    });
-      } else if (code == 409) {
-        ElMessage({
-          message: message,
-          type: "error",
-        });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      request.post(registerApi, param,config)
+    .then(response => {
+          // 请求成功，处理响应数据
+          console.log('响应数据:', response);
+          const { message, s_name, code } = response;
+          if (code == 201) {
+            ElMessageBox.confirm(s_name+"您已注册成功,是否去登陆?", "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "success",
+            })
+              .then(() => {
+                router.push("/login");
+              })
+              .catch(() => {
+                ElMessage({
+                  message: "取消操作成功",
+                  type: "success",
+                });
+              });
+          } 
+      })
+    .catch(error => {
+          // 请求失败，处理错误
+          console.log('请求出错:', error);
+          const { message, code } = error.response.data;
+          if (code==409) {
+            ElMessage({
+              message: message,
+              type: "error",
+            });
+          } else {
+            ElMessage({
+              message: error.response.data,
+              type: "error",
+            });
+          }
+      });  
+     
     } else {
       return false;
     }
@@ -443,7 +452,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped>
-
+.el-message--error{
+ 
+  min-width: 400px;
+  min-height: 50px;
+}
 .my-atropost {
   z-index: 1999 !important;
   width: 354px;
@@ -479,7 +492,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
   left: 41px;
   top: 120px;
   width: 1293px;
-  height: 700px;
+  height: 794px;
+
   border-radius: 10px;
   opacity: 1;
 
@@ -520,7 +534,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
   height: 100%;
   margin-top: 50px;
 }
-
 
 .ms-title {
   display: flex;
@@ -602,7 +615,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   z-index: 100000000000;
   float: left;
   margin-left: 1350px;
-  height: 680px;
+  height: 694px;
   position: absolute;
   left: 41px;
   top: 120px;

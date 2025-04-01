@@ -15,7 +15,16 @@ a {
 i {
 	font-style: normal;
 }
-
+.el-message--error{
+ 
+	min-width: 400px;
+	min-height: 50px;
+  }
+  .el-message--success{
+ 
+	min-width: 400px;
+	min-height: 50px;
+  }
 .container {
 	padding: 30px;
 	background: #fff;

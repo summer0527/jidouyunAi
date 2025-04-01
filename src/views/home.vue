@@ -2,7 +2,7 @@
     <div class="wrapper">
         <v-header />
         <!-- <v-sidebar /> -->
-        <div class="content-box" :class="{ 'content-collapse': sidebar.collapse }">
+        <div class="content-box" >
             <!-- <v-tabs></v-tabs> -->
             <div class="content">
                 <router-view v-slot="{ Component }">
@@ -41,14 +41,14 @@ const tabs = useTabsStore();
     padding-bottom: 30px;
     -webkit-transition: left 0.3s ease-in-out;
     transition: left 0.3s ease-in-out;
-    background: #eef0fc;
+    background: #FFFFFF;
     overflow: hidden;
 }
 
 .content {
     width: auto;
     height: 100%;
-    padding: 20px;
+    /* padding: 20px; */
     overflow-y: scroll;
     box-sizing: border-box;
 }

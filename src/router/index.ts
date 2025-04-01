@@ -225,6 +225,7 @@ const routes: RouteRecordRaw[] = [
     },
     {
         path: '/login',
+        name:'Login',
         meta: {
             title: '登录',
             noAuth: true,
@@ -233,6 +234,7 @@ const routes: RouteRecordRaw[] = [
     },
     {
         path: '/register',
+        name:'Register',
         meta: {
             title: '注册',
             noAuth: true,
@@ -273,16 +275,32 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    const role = localStorage.getItem('vuems_name');
+    const role = localStorage.getItem('s_name');
     const permiss = usePermissStore();
+console.log('=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=')
+    // if (!role && to.meta.noAuth !== true) {
+        
+    //     next('/login');
+    // } else if (typeof to.meta.permiss == 'string' && !permiss.key.includes(to.meta.permiss)) {
+    //     // 如果没有权限，则进入403
+    //     next('/403');
+    // } else {
+    //     next();
+    // }
 
-    if (!role && to.meta.noAuth !== true) {
-        next('/login');
-    } else if (typeof to.meta.permiss == 'string' && !permiss.key.includes(to.meta.permiss)) {
-        // 如果没有权限，则进入403
-        next('/403');
+    const isAuthenticated = localStorage.getItem('token'); 
+    if (to.name !== 'Login'&&to.name !== 'Register' && !isAuthenticated) {
+      // 用户未登录且访问的不是登录页面，重定向到登录页面
+      next({ name: 'Login' }); 
+    }else if (to.name == 'Register' && !isAuthenticated){
+        // next({ name: 'Register' }); 
+        next(); 
+    }else if (to.name === 'Login' && isAuthenticated) {
+      // 用户已登录且访问的是登录页面，重定向到首页或其他合适的页面
+      next({ name: 'Home' }); 
     } else {
-        next();
+      // 用户已登录且访问的是其他允许访问的页面，或者用户未登录且访问的是登录页面，直接放行
+      next(); 
     }
 });
 

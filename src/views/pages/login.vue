@@ -15,32 +15,11 @@
         label-width="auto"
         size="large"
       >
-        <el-form-item prop="school" label="学院">
-          <el-input
-            v-model="param.school"
-            placeholder="请输入学院"
-            @change="handleChange"
-          >
-            <template #append>
-              <el-icon><UserFilled /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="professional" label="专业">
-          <el-input
-            v-model="param.professional"
-            placeholder="请输入专业"
-            @change="handleChange"
-          >
-            <template #append>
-              <el-icon><UserFilled /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="username" label="学号">
+      
+        <el-form-item prop="username" label="用户名">
           <el-input
             v-model="param.username"
-            placeholder="请输入学号"
+            placeholder="请输入用户名"
             @change="handleChange"
           >
             <template #append>
@@ -88,18 +67,21 @@ import { ref, reactive, onMounted } from "vue";
 import { useTabsStore } from "@/store/tabs";
 import { usePermissStore } from "@/store/permiss";
 import { useRouter } from "vue-router";
-import { ElMessage } from "element-plus";
+import { ElMessage,ElMessageBox } from "element-plus";
 import vHomeStyle from '../../components/homeStyle.vue';
-
+import axios from "axios";
+import qs from 'qs';
 import type { FormInstance, FormRules } from "element-plus";
 import { AbstractShapeBg } from "../../../build/jsm/AbstractShapeBg.module.js";
 import meesage2 from "../../assets/img/mesage2.png";
 import Atropos from "atropos";
+import {loginApi} from '../../api/index'
+import request from '../../utils/request';
+
 interface LoginInfo {
   username: string;
   password: string;
-  school: string;
-  professional: string;
+ 
 }
 
 const lgStr = localStorage.getItem("login-param");
@@ -110,54 +92,106 @@ const router = useRouter();
 const param = reactive<LoginInfo>({
   username: "",
   password: "",
-  school: "",
-  professional: "",
+ 
 });
+const reg2 = /^[a-zA-Z]{6,12}$/;
+const userPassValidate = (rule, value, callback) => {
+  console.log("lllll");
+  if (!value) {
+    return callback(new Error("密码不能为空"));
+  }
+  setTimeout(() => {
+    if (value.toString().length < 6 || value.toString().length > 12) {
+      callback(new Error("密码长度要在6到12位之间"));
+    } else if (!reg2.test(value)) {
+      callback(new Error("请输入英文"));
+    } else {
+      callback();
+    }
+  }, 0);
+};
+const reg = /^[\u4e00-\u9fff]+$/;
+const userUserValidate = (rule, value, callback) => {
+  console.log("lllll");
+  if (!value) {
+    return callback(new Error("用户名不能为空"));
+  }
+  setTimeout(() => {
+    if (value.toString().length > 12) {
+      callback(new Error("用户名最长12位"));
+    } else if (!reg.test(value)) {
+      callback(new Error("请输入中文"));
+    } else {
+      callback();
+    }
+  }, 0);
+};
 const rules: FormRules = {
+  // 只能是中文，最长12个字符
   username: [
     {
       required: true,
-      message: "请输入学号",
+      message: "请输入用户名",
       trigger: "blur",
     },
+
+    { validator: userUserValidate, trigger: "blur" },
   ],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-  // school:[
-  //   {
-  //     required: true,
-  //     message: "请输入学院",
-  //     trigger: "blur",
-  //   },
-  // ],
-  // professional:[
-  //   {
-  //     required: true,
-  //     message: "请输入专业",
-  //     trigger: "blur",
-  //   }
-  // ]
+  password: [
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { validator: userPassValidate, trigger: "blur" },
+  ],
+ 
 };
+
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
-      ElMessage.success("登录成功");
-      localStorage.setItem("vuems_name", param.username);
-      const keys =
-        permiss.defaultList[param.username == "admin" ? "admin" : "user"];
-      permiss.handleSet(keys);
-      router.push("/");
-      if (checked.value) {
-        localStorage.setItem("login-param", JSON.stringify(param));
-      } else {
-        localStorage.removeItem("login-param");
-      }
+      const config = {
+
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+};
+request.post(loginApi, qs.stringify(param),config)
+    .then(response => {
+          // 请求成功，处理响应数据
+          console.log('响应数据:', response);
+          const { code,access_token,refresh_token,s_name } = response;
+          if (code == 201) {
+            localStorage.setItem("token", access_token);
+            localStorage.setItem("refreshToken", refresh_token);
+            localStorage.setItem("s_name", s_name);
+
+            router.push("/");
+          } 
+      })
+    .catch(error => {
+          // 请求失败，处理错误
+          console.log('请求出错:', error);
+          const { code,message } = error.response.data;
+          if (code==409) {
+            ElMessage({
+              message: message,
+              type: "error",
+            });
+          } else {
+            ElMessage({
+              message: error.response.data,
+              type: "error",
+            });
+          }
+      });  
+
+     
     } else {
-      ElMessage.error("登录失败");
       return false;
     }
+    
   });
 };
 const handleChange = () => {};
@@ -169,36 +203,36 @@ onMounted(() => {
     loop: true,
   });
   console.log("Component has been mounted!");
-  const myAtropos = Atropos({
-    el: ".my-atropos",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos2 = Atropos({
-    el: ".my-atropos2",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos3 = Atropos({
-    el: ".my-atropos3",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos4 = Atropos({
-    el: ".my-atropos4",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos5 = Atropos({
-    el: ".my-atropos5",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos6 = Atropos({
-    el: ".my-atropos6",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
+  // const myAtropos = Atropos({
+  //   el: ".my-atropos",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos2 = Atropos({
+  //   el: ".my-atropos2",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos3 = Atropos({
+  //   el: ".my-atropos3",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos4 = Atropos({
+  //   el: ".my-atropos4",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos5 = Atropos({
+  //   el: ".my-atropos5",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos6 = Atropos({
+  //   el: ".my-atropos6",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
 });
 
 const tabs = useTabsStore();
@@ -241,7 +275,7 @@ tabs.clearTabs();
   left: 41px;
   top: 120px;
   width: 1293px;
-  height: 700px;
+  height: 794px;
   border-radius: 10px;
   opacity: 1;
 
@@ -364,7 +398,7 @@ tabs.clearTabs();
   float: left;
   margin-left: 1350px;
   /* margin-top: 12px; */
-  height: 680px;
+  height: 694px;
   position: absolute;
   left: 41px;
   top: 120px;

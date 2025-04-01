@@ -47,12 +47,7 @@
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
-                                <el-dropdown-item>项目仓库</el-dropdown-item>
-                            </a>
-                            <a href="https://lin-xin.gitee.io/example/vuems-doc/" target="_blank">
-                                <el-dropdown-item>官方文档</el-dropdown-item>
-                            </a>
+                           
                             <el-dropdown-item command="user">个人中心</el-dropdown-item>
                             <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
@@ -67,8 +62,11 @@ import { onMounted } from 'vue';
 import { useSidebarStore } from '../store/sidebar';
 import { useRouter } from 'vue-router';
 import imgurl from '../assets/img/img.jpg';
+import {loginOut} from '../api/index'
+import request from '../utils/request';
+import { ElMessage,ElMessageBox } from "element-plus";
 
-const username: string | null = localStorage.getItem('vuems_name');
+const username: string | null = localStorage.getItem('s_name');
 const message: number = 2;
 
 const sidebar = useSidebarStore();
@@ -82,13 +80,48 @@ onMounted(() => {
         collapseChage();
     }
 });
-
+function loginOutFunction() {
+    request.post(loginOut)
+    .then(response => {
+          // 请求成功，处理响应数据
+          console.log('响应数据:', response);
+          const {code,message} = response;
+          if (code == 200) {
+            ElMessage({
+              message: message,
+              type: "success",
+              onClose:function(){
+                localStorage.removeItem('refreshToken');
+        localStorage.removeItem('token');
+        router.push('/login');
+              }
+            });
+          
+          } 
+      })
+    .catch(error => {
+          // 请求失败，处理错误
+          console.log('请求出错:', error.response.data);
+          const { code,message } = error.response.data;
+          if (code==409) {
+            ElMessage({
+              message: message,
+              type: "error",
+            });
+          } else {
+            ElMessage({
+              message: error.response.data,
+              type: "error",
+            });
+          }
+      });  
+}
 // 用户名下拉菜单选择事件
 const router = useRouter();
 const handleCommand = (command: string) => {
     if (command == 'loginout') {
-        localStorage.removeItem('vuems_name');
-        router.push('/login');
+        loginOutFunction()
+       
     } else if (command == 'user') {
         router.push('/ucenter');
     }

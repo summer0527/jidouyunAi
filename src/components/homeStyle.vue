@@ -154,7 +154,7 @@ import { AbstractShapeBg } from "../../build/jsm/AbstractShapeBg.module.js";
 import meesage2 from "../assets/img/mesage2.png";
 
 import axios from "axios";
-import Atropos from "atropos";
+// import Atropos from "atropos";
 onMounted(() => {
   let colorbg = new AbstractShapeBg({
     dom: "login-wrap",
@@ -163,36 +163,36 @@ onMounted(() => {
     loop: true,
   });
   console.log("Component has been mounted!");
-  const myAtropos = Atropos({
-    el: ".my-atropos",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos2 = Atropos({
-    el: ".my-atropos2",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos3 = Atropos({
-    el: ".my-atropos3",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos4 = Atropos({
-    el: ".my-atropos4",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos5 = Atropos({
-    el: ".my-atropos5",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
-  const myAtropos6 = Atropos({
-    el: ".my-atropos6",
-    activeOffset: 10,
-    shadowScale: 0.9,
-  });
+  // const myAtropos = Atropos({
+  //   el: ".my-atropos",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos2 = Atropos({
+  //   el: ".my-atropos2",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos3 = Atropos({
+  //   el: ".my-atropos3",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos4 = Atropos({
+  //   el: ".my-atropos4",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos5 = Atropos({
+  //   el: ".my-atropos5",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
+  // const myAtropos6 = Atropos({
+  //   el: ".my-atropos6",
+  //   activeOffset: 10,
+  //   shadowScale: 0.9,
+  // });
 });
 </script>
 <style scoped>
@@ -202,6 +202,10 @@ onMounted(() => {
   height: 207px;
   box-sizing: border-box;
   float: left;
+  margin-bottom: 20px;
+  margin-right: 15px;
+  border-radius: 12px;
+  box-shadow: rgba(16, 24, 40, 0.03) 0px 0px 0px 0px, rgba(16, 24, 40, 0.08) 0px 0px 0px 0px;
 }
 .my-atropos2 {
   z-index: 1999 !important;
@@ -234,16 +238,16 @@ onMounted(() => {
   height: 700px;
   border-radius: 10px;
   opacity: 1;
+padding-right: 10px;
+  /* background: rgba(0, 0, 0, 0.2);
 
-  background: rgba(0, 0, 0, 0.2);
-
-  backdrop-filter: blur(25px);
-  box-shadow: inset 0px 0px 23px 0px rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(25px);*/
+  box-shadow: inset 0px 0px 23px 0px rgba(255, 255, 255, 0.8); 
 }
 .message-1 {
   position: absolute;
   left: 44px;
-  top: 43px;
+  top: 30px;
   width: 499px;
   height: 232px;
   opacity: 1;
@@ -270,7 +274,7 @@ onMounted(() => {
   margin-left: 30px;
   float: left;
   height: 100%;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .message-style {
   padding: 10px;
@@ -311,7 +315,7 @@ onMounted(() => {
   background-color: rgb(56, 146, 249);
   transform: scale(0);
   transform-origin: 0 100%;
-  border-radius: 5%;
+  border-radius: 8px;
   transition-property: transform;
   transition-timing-function: ease-out;
   transition-duration: 0.3s;
@@ -401,7 +405,7 @@ onMounted(() => {
   z-index: 100000000000;
   float: left;
   margin-left: 1350px;
-  height: 680px;
+  height: 694px;
   position: absolute;
   left: 41px;
   top: 120px;

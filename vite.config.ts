@@ -21,11 +21,16 @@ export default defineConfig({
 	],
 	server:{
 		proxy: {
-			'/regedit': {
-				target: 'http://192.168.1.4:8080',
+			'/regedit_login': {
+				target: 'http://192.168.1.17:1818',
 				changeOrigin: true,
 		
+			},
+			'/login':{
+				target: 'http://192.168.1.17:1818',
+				changeOrigin: true,
 			}
+
 		}
 	},
 	optimizeDeps: {
