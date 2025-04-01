@@ -1,7 +1,12 @@
 <template>
   <div class="login-bg" id="login-wrap">
-    <!-- 公用组件 -->
-    <v-homeStyle></v-homeStyle>
+    <div style="width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;">
+<!-- 公用组件 -->
+<v-homeStyle></v-homeStyle>
     <div class="login-container">
       <div class="login-header">
         <img class="logo mr10" src="../../assets/img/logo.png" alt="" />
@@ -59,6 +64,8 @@
         </p>
       </el-form>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -363,9 +370,9 @@ tabs.clearTabs();
   color: black !important;
 }
 .login-bg {
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   width: 100%;
   height: 100vh;
   background: url(../../assets/img/login-bg.jpg) center/cover no-repeat;
@@ -396,7 +403,7 @@ tabs.clearTabs();
   box-sizing: border-box;
   z-index: 100000000000;
   float: left;
-  margin-left: 1350px;
+  margin-left: 72%;
   /* margin-top: 12px; */
   height: 694px;
   position: absolute;

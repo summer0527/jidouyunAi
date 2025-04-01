@@ -1,5 +1,5 @@
 <template>
-    <div class="homeStyle">
+    <div class="homeStyle" style="width: 70%;height: 100%;float: left;position: relative;">
         <div class="login-message-box" style="z-index: 1800">
       <div class="message-left">
         <p class="message-1 mssageHover">
@@ -234,7 +234,7 @@ onMounted(() => {
   position: absolute;
   left: 41px;
   top: 120px;
-  width: 1293px;
+  width: 100%;
   height: 700px;
   border-radius: 10px;
   opacity: 1;
