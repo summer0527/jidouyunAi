@@ -1,6 +1,6 @@
 <template>
   <div class="login-bg" id="login-wrap">
-    <div style="width: 80%;
+    <div style="width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -278,9 +278,9 @@ tabs.clearTabs();
 }
 .login-message-box {
   display: flex;
-  position: absolute;
-  left: 41px;
-  top: 120px;
+  position: relative;
+  /* left: 41px;
+  top: 120px; */
   width: 1293px;
   height: 794px;
   border-radius: 10px;
@@ -403,12 +403,12 @@ tabs.clearTabs();
   box-sizing: border-box;
   z-index: 100000000000;
   float: left;
-  margin-left: 72%;
+  /* margin-left: 72%; */
   /* margin-top: 12px; */
   height: 694px;
-  position: absolute;
+  /* position: absolute;
   left: 41px;
-  top: 120px;
+  top: 120px; */
 }
 
 .pwd-tips {
