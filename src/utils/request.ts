@@ -16,12 +16,14 @@ service.interceptors.request.use(
         const isLoginPage = config.url.includes('/regedit_login/token');
 
         const isRegisterPage = config.url.includes('/regedit_login/register');
+        const isPassresetPage = config.url.includes('/regedit_login/update-password');
+
 
 console.log(token,'token')
 console.log(isLoginPage,'isLoginPage')
 console.log(!token,'!token')
 
-        if (!isLoginPage&&!isRegisterPage&& token==null) {
+        if (!isLoginPage&&!isRegisterPage&&!isPassresetPage&& token==null) {
             console.log('====================')
             // router.push('/login');
             return Promise.reject(new Error('未登录，请先登录'));
@@ -42,6 +44,7 @@ service.interceptors.response.use(
         return response.data;
     },
    async error => {
+    console.log('========================================2')
         const { config, response } = error;
       
         if (response && response.status === 401) {

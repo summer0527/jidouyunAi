@@ -51,50 +51,50 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "system-menu" */ '../views/system/menu.vue'),
             },
             {
-                path: '/table',
-                name: 'basetable',
+                path: '/dify-code',
+                name: 'difycode',
                 meta: {
-                    title: '基础表格',
+                    title: '代码生成助手',
                     permiss: '31',
                 },
-                component: () => import(/* webpackChunkName: "table" */ '../views/table/basetable.vue'),
+                component: () => import(/* webpackChunkName: "dify-code" */ '../views/table/dify-code.vue'),
             },
             {
-                path: '/table-editor',
-                name: 'table-editor',
+                path: '/dify-qa',
+                name: 'dify-qa',
                 meta: {
-                    title: '可编辑表格',
+                    title: '研发问题助手',
                     permiss: '32',
                 },
-                component: () => import(/* webpackChunkName: "table-editor" */ '../views/table/table-editor.vue'),
+                component: () => import(/* webpackChunkName: "dify-qa" */ '../views/table/dify-qa.vue'),
             },
             {
-                path: '/schart',
-                name: 'schart',
+                path: '/dify-memory',
+                name: 'dify-memory',
                 meta: {
-                    title: 'schart图表',
+                    title: '对话记忆',
                     permiss: '41',
                 },
-                component: () => import(/* webpackChunkName: "schart" */ '../views/chart/schart.vue'),
+                component: () => import(/* webpackChunkName: "dify-memory" */ '../views/table/dify-memory.vue'),
             },
             {
-                path: '/echarts',
-                name: 'echarts',
+                path: '/dify-teacher',
+                name: 'dify-teacher',
                 meta: {
-                    title: 'echarts图表',
+                    title: '教案生成助手',
                     permiss: '42',
                 },
-                component: () => import(/* webpackChunkName: "echarts" */ '../views/chart/echarts.vue'),
+                component: () => import(/* webpackChunkName: "dify-teacher" */ '../views/table/dify-teacher.vue'),
             },
 
             {
-                path: '/icon',
-                name: 'icon',
+                path: '/dify-customer',
+                name: 'dify-customer',
                 meta: {
-                    title: '图标',
+                    title: '智能客服助手',
                     permiss: '5',
                 },
-                component: () => import(/* webpackChunkName: "icon" */ '../views/pages/icon.vue'),
+                component: () => import(/* webpackChunkName: "dify-customer" */ '../views/table/dify-customer.vue'),
             },
             {
                 path: '/ucenter',
@@ -122,15 +122,7 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "markdown" */ '../views/pages/markdown.vue'),
             },
-            {
-                path: '/export',
-                name: 'export',
-                meta: {
-                    title: '导出Excel',
-                    permiss: '34',
-                },
-                component: () => import(/* webpackChunkName: "export" */ '../views/table/export.vue'),
-            },
+           
             {
                 path: '/import',
                 name: 'import',
@@ -243,6 +235,7 @@ const routes: RouteRecordRaw[] = [
     },
     {
         path: '/reset-pwd',
+        name:'Resetpwd',
         meta: {
             title: '重置密码',
             noAuth: true,
@@ -289,10 +282,10 @@ console.log('=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=')
     // }
 
     const isAuthenticated = localStorage.getItem('token'); 
-    if (to.name !== 'Login'&&to.name !== 'Register' && !isAuthenticated) {
+    if (to.name !== 'Login'&&to.name !== 'Register'&&to.name !== 'Resetpwd' && !isAuthenticated) {
       // 用户未登录且访问的不是登录页面，重定向到登录页面
       next({ name: 'Login' }); 
-    }else if (to.name == 'Register' && !isAuthenticated){
+    }else if ((to.name == 'Register'||to.name=='Resetpwd')&& !isAuthenticated){
         // next({ name: 'Register' }); 
         next(); 
     }else if (to.name === 'Login' && isAuthenticated) {

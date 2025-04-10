@@ -25,7 +25,7 @@
                   >
                     学科AI场景全覆盖
                   </p>
-                  <p class="mssageHover">
+                  <p class="mssageHover eliClass">
                     全面覆盖文、理、工、商等多学科领域，为高校师生提供精准的学科内容支持，满足多样化学习与研究需求。通过智能化工具与服务的深度整合，平台有效提升教学与科研效率，助力高校实现高质量教育创新与科研成果转化。
                   </p>
                 </div>
@@ -47,7 +47,7 @@
                   >
                     智能赋能教育双向优化
                   </p>
-                  <p class="mssageHover">
+                  <p class="mssageHover eliClass">
                     平台依托大模型AI技术，深度融合图片、语音、视频等多模态数据处理能力，提供高效的智能对话功能，助力学生与教师快速解决学科相关问题。通过多模态交互方式，平台显著降低学习门槛，提升学习效果，同时有效减轻教师答疑负担，实现教学与学习的双向赋能与效率提升。
                   </p>
                 </div>
@@ -69,7 +69,7 @@
                   >
                     个性化学习路径
                   </p>
-                  <p class="mssageHover">
+                  <p class="mssageHover eliClass">
                     平台基于学生的学习习惯与各学科科研需求，智能生成个性化学习建议与资源推荐，精准匹配学习目标。通过定制化学习方案，助力学生高效掌握知识，全面提升学术成绩与研究能力，赋能学术成长与科研创新。
                   </p>
                 </div>
@@ -91,7 +91,7 @@
                   >
                     教学辅助工具
                   </p>
-                  <p class="mssageHover">
+                  <p class="mssageHover eliClass">
                     平台为教师提供智能备课、课堂管理及学生数据分析等全方位工具，助力高效教学。通过智能化赋能，显著提升教学质量，优化课堂管理效能，支持教师专业成长与教学创新，为教育高质量发展注入新动力。
                   </p>
                 </div>
@@ -113,7 +113,7 @@
                   >
                     教育管理优化
                   </p>
-                  <p class="mssageHover">
+                  <p class="mssageHover eliClass">
                     平台为高校管理者提供数据驱动的智能决策支持，助力优化资源配置与教学质量监控。通过精准的数据分析与可视化工具，全面提升管理效率，加速教育数字化转型进程，推动高校高质量发展。
                   </p>
                 </div>
@@ -135,7 +135,7 @@
                   >
                     生态闭环与持续创新
                   </p>
-                  <p class="mssageHover">
+                  <p class="mssageHover eliClass">
                     平台以持续优化与创新为核心，打造教育生态闭环，精准响应高校动态变化的智能需求。通过深度服务与高效体验，强化用户粘性，塑造行业领先的品牌影响力与良好口碑，推动教育智能化生态的可持续发展。
                   </p>
                 </div>
@@ -198,18 +198,18 @@ onMounted(() => {
 <style scoped>
 .my-atropost {
   z-index: 1999 !important;
-  width: 354px;
+  width: 47%;
   height: 207px;
   box-sizing: border-box;
   float: left;
   margin-bottom: 20px;
-  margin-right: 15px;
+  margin-right: 2%;
   border-radius: 12px;
   box-shadow: rgba(16, 24, 40, 0.03) 0px 0px 0px 0px, rgba(16, 24, 40, 0.08) 0px 0px 0px 0px;
 }
 .my-atropos2 {
   z-index: 1999 !important;
-  width: 354px;
+  width: 47%;
   height: 207px;
   box-sizing: border-box;
   float: left;
@@ -278,8 +278,8 @@ padding-right: 10px;
 }
 .message-style {
   padding: 10px;
-  width: 324px;
-  height: 180px;
+  width: 100%;
+  height: 200px;
   border-radius: 8px;
   opacity: 1;
   background: #ffffff;
@@ -300,6 +300,7 @@ padding-right: 10px;
   backface-visibility: hidden;
   transition-property: color;
   transition-duration: 1s;
+  box-sizing: border-box;
 }
 .message-style:hover {
   color: #fff;
@@ -455,5 +456,12 @@ padding-right: 10px;
 }
 .el-form-item--large {
   margin-bottom: 30px !important;
+}
+.eliClass{
+  display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>

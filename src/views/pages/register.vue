@@ -1,230 +1,105 @@
 <template>
   <div class="login-bg" id="login-wrap">
-    <!-- 公用组件 -->
-    <!-- <div class="login-message-box" style="z-index: 1800">
-      <div class="message-left">
-        <p class="message-1 mssageHover">
-          以智能化教育服务为突破口，点燃并激发高校与教育机构对AI技术的深度关注与广泛应用。“智慧数境”在满足高校多学科智能对话需求的基础上，将持续深耕教育场景，开发覆盖教学、学习、科研与管理等全流程的深度工具与服务，全面提升教育效率与质量。通过构建良性循环的智能化服务体系，智慧数境致力于打造一个完整的教育生态闭环，为高校、教师、学生及教育管理者提供全方位、多层次的支持，推动教育数字化转型。
-        </p>
-        <p class="message2">
-          <el-image style="width: 480px; height: 350px" :src="meesage2" />
-        </p>
-      </div>
-      <div class="message-right">
-        <div class="atropos my-atropos my-atropost">
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="message-style">
-                  <span class="ripple"></span>
-                  <el-icon :size="20">
-                    <Edit />
-                  </el-icon>
-                  <p
-                    style="font-size: 20px; margin-bottom: 10px"
-                    class="mssageHover"
-                  >
-                    学科AI场景全覆盖
-                  </p>
-                  <p class="mssageHover">
-                    全面覆盖文、理、工、商等多学科领域，为高校师生提供精准的学科内容支持，满足多样化学习与研究需求。通过智能化工具与服务的深度整合，平台有效提升教学与科研效率，助力高校实现高质量教育创新与科研成果转化。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="atropos my-atropos2 my-atropost">
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="message-style">
-                  <el-icon :size="20">
-                    <Edit />
-                  </el-icon>
-                  <p
-                    style="font-size: 20px; margin-bottom: 10px"
-                    class="mssageHover"
-                  >
-                    智能赋能教育双向优化
-                  </p>
-                  <p class="mssageHover">
-                    平台依托大模型AI技术，深度融合图片、语音、视频等多模态数据处理能力，提供高效的智能对话功能，助力学生与教师快速解决学科相关问题。通过多模态交互方式，平台显著降低学习门槛，提升学习效果，同时有效减轻教师答疑负担，实现教学与学习的双向赋能与效率提升。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="atropos my-atropos3 my-atropost">
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="message-style">
-                  <el-icon :size="20">
-                    <Edit />
-                  </el-icon>
-                  <p
-                    style="font-size: 20px; margin-bottom: 10px"
-                    class="mssageHover"
-                  >
-                    个性化学习路径
-                  </p>
-                  <p class="mssageHover">
-                    平台基于学生的学习习惯与各学科科研需求，智能生成个性化学习建议与资源推荐，精准匹配学习目标。通过定制化学习方案，助力学生高效掌握知识，全面提升学术成绩与研究能力，赋能学术成长与科研创新。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="atropos my-atropos4 my-atropost">
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="message-style">
-                  <el-icon :size="20">
-                    <Edit />
-                  </el-icon>
-                  <p
-                    style="font-size: 20px; margin-bottom: 10px"
-                    class="mssageHover"
-                  >
-                    教学辅助工具
-                  </p>
-                  <p class="mssageHover">
-                    平台为教师提供智能备课、课堂管理及学生数据分析等全方位工具，助力高效教学。通过智能化赋能，显著提升教学质量，优化课堂管理效能，支持教师专业成长与教学创新，为教育高质量发展注入新动力。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="atropos my-atropos5 my-atropost">
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="message-style">
-                  <el-icon :size="20">
-                    <Edit />
-                  </el-icon>
-                  <p
-                    style="font-size: 20px; margin-bottom: 10px"
-                    class="mssageHover"
-                  >
-                    教育管理优化
-                  </p>
-                  <p class="mssageHover">
-                    平台为高校管理者提供数据驱动的智能决策支持，助力优化资源配置与教学质量监控。通过精准的数据分析与可视化工具，全面提升管理效率，加速教育数字化转型进程，推动高校高质量发展。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="atropos my-atropos6 my-atropost">
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="message-style">
-                  <el-icon :size="20">
-                    <Edit />
-                  </el-icon>
-                  <p
-                    style="font-size: 20px; margin-bottom: 10px"
-                    class="mssageHover"
-                  >
-                    生态闭环与持续创新
-                  </p>
-                  <p class="mssageHover">
-                    平台以持续优化与创新为核心，打造教育生态闭环，精准响应高校动态变化的智能需求。通过深度服务与高效体验，强化用户粘性，塑造行业领先的品牌影响力与良好口碑，推动教育智能化生态的可持续发展。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <v-homeStyle></v-homeStyle>
-    <div class="login-container">
-      <div class="login-header">
-        <img class="logo mr10" src="../../assets/img/logo.png" alt="" />
-        <div class="login-title">吉斗云AI</div>
-      </div>
-      <el-form
-        :model="param"
-        :rules="rules"
-        ref="register"
-        style="max-width: 600px"
-        label-width="auto"
-        size="large"
-      >
-        <el-form-item prop="s_name" label="用户名">
-          <el-input v-model="param.s_name" placeholder="请输入用户名">
-            <template #append>
-              <el-icon><UserFilled /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="s_student_id" label="学号">
-          <el-input v-model="param.s_student_id" placeholder="请输入学号">
-            <template #append>
-              <el-icon><UserFilled /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
+    <div
+      style="
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 4%;
+    padding-right: 4%;
+    box-sizing: border-box;
+      "
+    >
+      <v-homeStyle></v-homeStyle>
+      <div class="login-container">
+        <div class="login-header">
+          <img class="logo mr10" src="../../assets/img/logo.png" alt="" />
+        <div class="login-title">吉斗云AI-校园场景风向标</div>
 
-        <el-form-item prop="s_college" label="学院">
-          <el-input v-model="param.s_college" placeholder="请输入学院">
-            <template #append>
-              <el-icon><UserFilled /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="s_speciality" label="专业">
-          <el-input v-model="param.s_speciality" placeholder="请输入专业">
-            <template #append>
-              <el-icon><UserFilled /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
+        </div>
 
-        <el-form-item prop="s_pass" label="密码">
-          <el-input
-            type="password"
-            placeholder="请输入密码"
-            v-model="param.s_pass"
-          >
-            <template #append>
-              <el-icon>
-                <View />
-              </el-icon>
-            </template>
-          </el-input>
-          <span class="passTip">密码为6到12位的英文字符</span>
-        </el-form-item>
-        <el-form-item prop="password" label="确认密码">
-          <el-input
-            type="password"
-            placeholder="请再次输入密码"
-            v-model="param.password"
-          >
-            <template #append>
-              <el-icon>
-                <View />
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-button
-          class="login-btn"
-          type="primary"
+        <el-form
+          :model="param"
+          :rules="rules"
+          ref="register"
+          style="max-width: 600px"
+          label-width="auto"
           size="large"
-          @click="submitForm(register)"
-          >立即注册</el-button
         >
-      </el-form>
+          <el-form-item prop="s_name" label="用户名">
+            <el-input v-model="param.s_name" placeholder="请输入用户名">
+              <template #append>
+                <el-icon><UserFilled /></el-icon>
+              </template>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="s_student_id" label="学号">
+            <el-input v-model="param.s_student_id" placeholder="请输入学号">
+              <template #append>
+                <el-icon><Coin /></el-icon>
+              </template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item prop="s_college" label="学院">
+            <el-input v-model="param.s_college" placeholder="请输入学院">
+              <template #append>
+                <el-icon><School /></el-icon>
+              </template>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="s_speciality" label="专业">
+            <el-input v-model="param.s_speciality" placeholder="请输入专业">
+              <template #append>
+                <el-icon><Guide /></el-icon>
+              </template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item prop="s_pass" label="密码">
+            <el-input
+              type="password"
+              placeholder="请输入密码"
+              v-model="param.s_pass"
+             
+            >
+              <template #append>
+                <el-icon>
+                  <View />
+                </el-icon>
+              </template>
+            </el-input>
+            <span class="passTip">密码为6到12位的英文字符</span>
+          </el-form-item>
+          <el-form-item prop="password" label="确认密码">
+            <el-input
+              type="password"
+              placeholder="请再次输入密码"
+              v-model="param.password"
+               @keydown.enter="submitForm(register)"
+            >
+              <template #append>
+                
+                <el-icon><SuccessFilled /></el-icon>
+              </template>
+            </el-input>
+          </el-form-item>
+          <el-button
+            class="login-btn"
+            type="primary"
+            size="large"
+            @click="submitForm(register)"
+            >立即注册</el-button
+          >
+        </el-form>
+      </div>
+      <p style="position: fixed;
+    bottom: 2%;
+    z-index: 10000000;
+    color: #ffffff;">吉林省吉斗云科技有限公司版权所有  Copyright © JiDouYun.com, All Rights Reserved.</p>
+
     </div>
   </div>
 </template>
@@ -243,8 +118,8 @@ import {
 // import { AbstractShapeBg } from "../../../build/jsm/AbstractShapeBg.module.js";
 // import meesage2 from "../../assets/img/mesage2.png";
 import axios from "axios";
-import {registerApi} from '../../api/index'
-import request from '../../utils/request';
+import { registerApi } from "../../api/index";
+import request from "../../utils/request";
 // import Atropos from "atropos";
 const router = useRouter();
 interface Register {
@@ -405,13 +280,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
-      request.post(registerApi, param,config)
-    .then(response => {
+      request
+        .post(registerApi, param, config)
+        .then((response) => {
           // 请求成功，处理响应数据
-          console.log('响应数据:', response);
+          console.log("响应数据:", response);
           const { message, s_name, code } = response;
           if (code == 201) {
-            ElMessageBox.confirm(s_name+"您已注册成功,是否去登陆?", "提示", {
+            ElMessageBox.confirm(s_name + "您已注册成功,是否去登陆?", "提示", {
               confirmButtonText: "确定",
               cancelButtonText: "取消",
               type: "success",
@@ -425,13 +301,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
                   type: "success",
                 });
               });
-          } 
-      })
-    .catch(error => {
+          }
+        })
+        .catch((error) => {
           // 请求失败，处理错误
-          console.log('请求出错:', error);
+          console.log("请求出错:", error);
           const { message, code } = error.response.data;
-          if (code==409) {
+          if (code == 409) {
             ElMessage({
               message: message,
               type: "error",
@@ -442,8 +318,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
               type: "error",
             });
           }
-      });  
-     
+        });
     } else {
       return false;
     }
@@ -452,8 +327,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped>
-.el-message--error{
- 
+.el-message--error {
   min-width: 400px;
   min-height: 50px;
 }
@@ -488,12 +362,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 .login-message-box {
   display: flex;
-  position: absolute;
-  left: 41px;
-  top: 120px;
+  position: relative;
+  /* left: 41px;
+  top: 120px; */
   width: 1293px;
   height: 794px;
-
   border-radius: 10px;
   opacity: 1;
 
@@ -593,15 +466,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .logo {
-  width: 35px;
+  width: 50px;
 }
 
 .login-title {
-  font-size: 22px;
+  font-size: 24px;
   color: #333;
   font-weight: bold;
 }
@@ -614,11 +487,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
   box-sizing: border-box;
   z-index: 100000000000;
   float: left;
-  margin-left: 1350px;
+  /* margin-left: 72%; */
+  /* margin-top: 12px; */
   height: 694px;
-  position: absolute;
+  /* position: absolute;
   left: 41px;
-  top: 120px;
+  top: 120px; */
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .pwd-tips {
@@ -665,5 +543,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 .el-form-item--large {
   margin-bottom: 30px !important;
+}
+.sub-title{
+  font-family: HarmonyOS Sans SC;
+    font-size: 23px;
+    font-weight: normal;
+    line-height: 36px;
+    letter-spacing: 0px;
+    font-variation-settings: "opsz" auto;
+    font-feature-settings: "kern" on;
+    color: #333;
+    margin-bottom: 20px;
 }
 </style>

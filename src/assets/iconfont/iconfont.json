@@ -1,0 +1,23 @@
+{
+  "id": "4888257",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "21151020",
+      "name": "暂停",
+      "font_class": "zantingtingzhi",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "5943957",
+      "name": "上传",
+      "font_class": "shangchuan",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    }
+  ]
+}

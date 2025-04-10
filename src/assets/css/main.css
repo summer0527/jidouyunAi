@@ -94,3 +94,54 @@ i {
 	--header-text-color: #fff;
 	--active-color: var(--el-color-primary);
 }
+.el-avatar>img{
+	object-fit: contain !important;
+	background: #ffffff;
+  }
+  .his .el-button-group{
+	display: flex !important
+  ;
+	  justify-content: center !important;
+	  align-items: center !important;
+	  width:100% !important;
+	
+  }
+  .his .el-button-group>.el-button:first-child {
+	width: 80% !important;
+	/* border: none !important; */
+    background: none !important;
+	border: none !important;
+    border-radius: 14px !important;
+	display: flex;
+	justify-content: flex-start;
+
+  }
+  .his .el-button-group>.el-button:last-child {
+	/* border: none !important; */
+  border: none !important;
+    border-radius: 14px !important;
+    background: none !important;
+
+  }
+  .el-dropdown .el-dropdown__caret-button.el-button:before{
+	background: none !important;
+  }
+  /* 隐藏默认箭头 */
+.el-dropdown__caret-button::after {
+	display: none;
+  }
+  
+  /* 添加自定义内容 */
+  .el-dropdown__caret-button::before {
+	content: '....' !important;
+	margin-left: 5px !important;
+	font-weight: 600 !important;
+  }
+  /* 隐藏默认箭头 */
+.el-dropdown__caret-button::after {
+	display: none !important;
+  }
+  .el-dropdown .el-dropdown__caret-button .el-dropdown__icon{
+	display: none !important;
+  }
+  

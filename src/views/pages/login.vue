@@ -4,15 +4,21 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;">
+    align-items: center;
+    padding-left: 4%;
+    padding-right: 4%;
+    box-sizing: border-box;
+    ">
 <!-- 公用组件 -->
 <v-homeStyle></v-homeStyle>
     <div class="login-container">
       <div class="login-header">
         <img class="logo mr10" src="../../assets/img/logo.png" alt="" />
-        <div class="login-title">吉斗云AI</div>
+        <div class="login-title">吉斗云AI-校园场景风向标</div>
       </div>
-      <el-form
+      <!-- <p class="sub-title">AI场景校园风向标</p> -->
+<div>
+  <el-form
         :model="param"
         :rules="rules"
         ref="login"
@@ -33,12 +39,12 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="password" label="密码">
-          <el-input type="password" placeholder="密码" v-model="param.password">
+          <el-input type="password" placeholder="密码" v-model="param.password" @keydown.enter="submitForm(login)">
             <template #append>
               <el-icon><View /></el-icon>
             </template>
           </el-input>
-          <span class="passTip">密码至少包含 8 个字符，需包含字母和数字</span>
+          <span class="passTip">密码为6-12字符的英文</span>
         </el-form-item>
         <div class="pwd-tips">
           <el-checkbox
@@ -63,9 +69,15 @@
           >
         </p>
       </el-form>
-    </div>
-    </div>
+</div>
     
+    </div>
+    <p style="position: fixed;
+    bottom: 2%;
+    z-index: 10000000;
+    color: #ffffff;">吉林省吉斗云科技有限公司版权所有  Copyright © JiDouYun.com, All Rights Reserved.</p>
+
+    </div>
   </div>
 </template>
 
@@ -154,6 +166,7 @@ const rules: FormRules = {
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
+  console.log('-=-=-=-=-=-=-=')
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
@@ -174,7 +187,7 @@ request.post(loginApi, qs.stringify(param),config)
             localStorage.setItem("refreshToken", refresh_token);
             localStorage.setItem("s_name", s_name);
 
-            router.push("/");
+            router.push("/dashboard");
           } 
       })
     .catch(error => {
@@ -382,15 +395,15 @@ tabs.clearTabs();
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .logo {
-  width: 35px;
+  width: 50px;
 }
 
 .login-title {
-  font-size: 22px;
+  font-size: 24px;
   color: #333;
   font-weight: bold;
 }
@@ -409,6 +422,10 @@ tabs.clearTabs();
   /* position: absolute;
   left: 41px;
   top: 120px; */
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .pwd-tips {
@@ -455,5 +472,16 @@ tabs.clearTabs();
 }
 .el-form-item--large {
   margin-bottom: 45px !important;
+}
+.sub-title{
+  font-family: HarmonyOS Sans SC;
+    font-size: 23px;
+    font-weight: normal;
+    line-height: 36px;
+    letter-spacing: 0px;
+    font-variation-settings: "opsz" auto;
+    font-feature-settings: "kern" on;
+    color: #333;
+    margin-bottom: 50px;
 }
 </style>

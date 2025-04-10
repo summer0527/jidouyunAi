@@ -20,16 +20,63 @@ export default defineConfig({
 		
 	],
 	server:{
+		hmr: true, // 确保热更新开启
+		host: '0.0.0.0',
 		proxy: {
 			'/regedit_login': {
-				target: 'http://192.168.1.17:1818',
+				target: 'http://192.168.1.6:1818',
 				changeOrigin: true,
 		
 			},
 			'/login':{
-				target: 'http://192.168.1.17:1818',
+				target: 'http://192.168.1.6:1818',
 				changeOrigin: true,
+			},
+			'/speciality': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
+			},
+			'/dify_data': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
+			},
+			'/dify_code': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
+			},
+			'/dify_aq': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
+			},
+			'/dify_memory': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
+			},
+			'/dify_teaching': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
+			},
+			'/dify_language': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
+			},
+			'/dify_customer': {
+				target: 'http://192.168.1.6:1818',
+				changeOrigin: true,
+		
 			}
+			
+			
+			
+			
+			
 
 		}
 	},

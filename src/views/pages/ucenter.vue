@@ -73,6 +73,8 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="onSubmit">保存</el-button>
+                                <el-button  @click="handleBack">返回</el-button>
+
                             </el-form-item>
                         </el-form>
                     </el-tab-pane>
@@ -100,9 +102,12 @@
 <script setup lang="ts" name="ucenter">
 import { reactive, ref } from 'vue';
 import { VueCropper } from 'vue-cropper';
+import { useRouter } from "vue-router";
+
 import 'vue-cropper/dist/index.css';
 import avatar from '@/assets/img/img.jpg';
 import TabsComp from '../element/tabs.vue';
+const router = useRouter();
 
 const name = localStorage.getItem('vuems_name');
 const form = reactive({
@@ -139,6 +144,9 @@ const cropImage = () => {
 const saveAvatar = () => {
     avatarImg.value = cropImg.value;
 };
+const handleBack=()=>{
+    router.push("/dashboard");
+}
 </script>
 
 <style scoped>

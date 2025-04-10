@@ -1,6 +1,6 @@
 <template>
   <div style="float: left; width: 100%; height: 100%">
-    <!-- 对话列表 -->
+    <!--左侧对话列表 -->
     <transition name="collapse">
       <div class="openCom" v-if="sidebar.collapse">
         <div @click="handleOpenC" class="title">
@@ -30,10 +30,31 @@
     <el-dialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
-    <!-- 对话内容 -->
+    <!-- 右侧对话内容 -->
     <div
       style="width: 88%; float: left; height: 100%; background-color: #ffffff"
     >
+      <!-- 头部专业选择 -->
+      <div>
+        <el-dropdown v-for="(item, index) in specialityList" :key="index">
+          <el-button
+            style="margin-right: 10px; margin-left: 10px; margin-top: 10px"
+          >
+            {{ item }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
+
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Action 1</el-dropdown-item>
+              <el-dropdown-item>Action 2</el-dropdown-item>
+              <el-dropdown-item>Action 3</el-dropdown-item>
+              <el-dropdown-item disabled>Action 4</el-dropdown-item>
+              <el-dropdown-item divided>Action 5</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+      <!-- 专业选择结束 -->
       <!-- 7种场景展示 -->
       <div
         style="
@@ -140,11 +161,18 @@
           display: flex;
           justify-content: center;
           align-items: center;
-         
         "
         v-show="isShowDialog"
       >
-        <div style="margin-top: 10px; margin-bottom: 10px; border: 1px solid #bbbcc5;border-radius: 10px;padding: 50px 20px;">
+        <div
+          style="
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #bbbcc5;
+            border-radius: 10px;
+            padding: 50px 20px;
+          "
+        >
           <el-form
             :model="translateForm"
             label-width="auto"
@@ -153,14 +181,13 @@
             ref="ruleFormRef"
           >
             <el-form-item label="请上传文件" prop="file">
-                <el-upload
-                  :limit="1"
-                  class="upload-demo"
-                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                >
-                  <el-button type="primary">点击上传文件</el-button>
-                  
-                </el-upload>
+              <el-upload
+                :limit="1"
+                class="upload-demo"
+                action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+              >
+                <el-button type="primary">点击上传文件</el-button>
+              </el-upload>
             </el-form-item>
             <el-form-item label="翻译语种" prop="languages">
               <el-select
@@ -173,7 +200,11 @@
             </el-form-item>
 
             <el-form-item label="输入你要翻译的文字" prop="content">
-              <el-input v-model="translateForm.content" type="textarea"  :rows="5"/>
+              <el-input
+                v-model="translateForm.content"
+                type="textarea"
+                :rows="5"
+              />
             </el-form-item>
             <el-form-item label="翻译的类型" prop="type">
               <el-select
@@ -188,133 +219,157 @@
         </div>
       </div>
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList">
-        <BubbleList :list="list" max-height="350px" />
+      <div class="list" v-if="isShowList" style="height: 70%">
+        <BubbleList :list="list" max-height="100%">
+          <!-- 自定义气泡内容 -->
+          <!-- <template #content="{ item  }">
+            <el-card v-if="item.role === 'ai'">
+              <template #header>
+                <span>代码块展示</span>
+              </template>
+              <pre><code class="language-typescript">{{ item.content }}</code></pre>
+            </el-card>
+          </template> -->
+        </BubbleList>
+
+        <!-- <Typewriter :content="contentData" /> -->
+      </div>
+      <!-- 选择数据库类型 -->
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div style="position: fixed; bottom: 110px; width: 60%">
+          <el-form :inline="true" class="demo-form-inline">
+            <el-form-item label="数据库类型" class="is-required">
+              <el-select
+                v-model="sqlType"
+                placeholder="请选择数据库类型"
+                clearable
+                style="width: 200px"
+              >
+                <el-option
+                  v-for="item in sqlTypeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
       <!-- 对话输入框 -->
-      <Sender
-        ref="senderRef"
-        v-model:value="senderValue"
-        style="position: fixed; bottom: 30px; width: 88%"
+
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
       >
-        <!-- <template #header>
-          <div class="header-self-wrap">
-            <div class="header-self-title">
-              <div
-                class="header-left"
-                style="display: flex; align-items: center"
-              >
-                <img class="logo" src="../assets/img/logo.png" alt="" />
-                <span> 欢迎使用 吉斗云AI！</span>
-              </div>
-              <div class="header-right">
-                <el-button @click.stop="closeHeader">
-                  <el-icon><CircleClose /></el-icon>
-                  <span>关闭头部</span>
-                </el-button>
-              </div>
-            </div>
-            <div class="header-self-content">
-              <div class="welcomeMessage">
-                <div
+        <Sender
+          ref="senderRef"
+          v-model="senderValue"
+          style="position: fixed; bottom: 30px; width: 60%"
+           submit-type="enter" 
+          @submit="handleSubmit"
+        >
+          <template #prefix>
+            <div class="prefix-self-wrap">
+              <ul style="margin-left: 5px">
+                <li
+                  v-for="(item, index) in imageList"
+                  :key="index"
                   style="
+                    position: relative;
+                    width: 100px;
+                    height: 100px;
+                    float: left;
+                    border: 1px solid #bbbcc5;
                     display: flex;
                     justify-content: center;
-                    margin-bottom: 10px;
+                    align-items: center;
+                    margin-right: 5px;
                   "
                 >
-                  <img class="logo" src="../assets/img/logo.png" alt="" />
-                  <p class="ai-title">我是吉斗云AI，很高兴见到你！</p>
-                </div>
-
-                <p class="ai-title2" style="margin-bottom: 10px">
-                  我可以帮你写代码、读文件、写作各种创意内容，请把你的任务交给我吧
-                  ~
-                </p>
-                <div class="ai-title3">
-                  <p class="radiostyle">
-                    <span style="color: #4d6bfe">吉斗云AI</span>
-                    <span style="color: #3d3d3d">大模型累计解决</span>
-                    <span style="color: #4d6bfe">xxx个问题</span>
-                  </p>
-                </div>
-              </div>
+                  <el-icon
+                    style="position: absolute; top: 0; right: 0"
+                    @click="handleDeletimg(index)"
+                    ><Close
+                  /></el-icon>
+                  <img
+                    :src="item.imageUrl"
+                    class="avatar"
+                    style="max-width: 100%"
+                    @click="handleClickImg(item.imageUrl)"
+                  />
+                </li>
+              </ul>
             </div>
-          </div>
-        </template> -->
+          </template>
 
-        <!-- 自定义前缀 -->
-        <template #prefix>
-          <div class="prefix-self-wrap">
-            <!-- <el-button color="#626aef" :dark="true" @click="openCloseHeader">
-              打开/关闭头部
-            </el-button> -->
-            <ul style="margin-left: 5px">
-              <li
-                v-for="(item, index) in imageList"
-                :key="index"
-                style="
-                  position: relative;
-                  width: 100px;
-                  height: 100px;
-                  float: left;
-                  border: 1px solid #bbbcc5;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  margin-right: 5px;
-                "
-              >
-                <el-icon
-                  style="position: absolute; top: 0; right: 0"
-                  @click="handleDeletimg(index)"
-                  ><Close
-                /></el-icon>
-                <img
-                  :src="item.imageUrl"
-                  class="avatar"
-                  style="max-width: 100%"
-                  @click="handleClickImg(item.imageUrl)"
-                />
-              </li>
-            </ul>
-          </div>
-        </template>
-
-        <template #action-list>
-          <div class="action-list-self-wrap">
-            <el-upload
-              class="upload-demo"
-              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-              :on-success="handlesuccess"
-              :on-error="handleError"
-            >
-              <el-button circle>
-                <el-icon><Link /></el-icon>
-              </el-button>
-            </el-upload>
-
-            <el-button
-              type="primary"
-              circle
-              style="rotate: -45deg"
-              @click="handleSubmit"
-            >
-              <el-icon><Position /></el-icon>
-            </el-button>
-          </div>
-        </template>
-      </Sender>
+          <template #action-list>
+            <div class="action-list-self-wrap">
+              <el-tooltip content="添加图片" placement="top">
+                <el-upload
+                  class="upload-demo"
+                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  :on-success="handlesuccess"
+                  :on-error="handleError"
+                >
+                  <el-button circle>
+                    <el-icon><Link /></el-icon>
+                  </el-button>
+                </el-upload>
+              </el-tooltip>
+              <el-tooltip content="发送" placement="top">
+                <el-button
+                  type="primary"
+                  circle
+                  style="rotate: -45deg"
+                  @click="handleSubmit"
+                >
+                  <el-icon><Position /></el-icon>
+                </el-button>
+              </el-tooltip>
+              <el-tooltip content="终止" placement="top">
+                <el-button
+                  circle
+                  style="rotate: -45deg"
+                  @click="stopFlowFunction"
+                >
+                  <el-icon><VideoPlay /></el-icon>
+                </el-button>
+              </el-tooltip>
+            </div>
+          </template>
+        </Sender>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted,Ref } from "vue";
-import { Bubble, Sender } from "vue-element-plus-x";
+// 示例代码
+// 示例代码
+const code = ref(`
+function greet(name: string) {
+  return \`Hello, \${name}!\`;
+}
+
+const message = greet('World');
+console.log(message);
+`);
+import { ref, reactive, onMounted, Ref, watch } from "vue";
+import { Bubble, Sender, Typewriter } from "vue-element-plus-x";
 import { BubbleList } from "vue-element-plus-x";
 import { useRouter } from "vue-router";
-
 import {
   CircleClose,
   Link,
@@ -329,10 +384,24 @@ import type {
   BubbleListProps,
 } from "element-plus-x/bubbleList/types";
 import { useSidebarStore } from "@/store/sidebar";
-import type { UploadProps, FormInstance, FormRules,UploadFile } from "element-plus";
-import { loginUserApi } from "../api/index";
+import type {
+  UploadProps,
+  FormInstance,
+  FormRules,
+  UploadFile,
+} from "element-plus";
+import {
+  loginUserApi,
+  difyApi,
+  runApi,
+  stopApi,
+  stopFlowApi,
+} from "../api/index";
 import request from "../utils/request";
-import type { ElForm } from 'element-plus';
+import type { ElForm } from "element-plus";
+import axios, { AxiosResponse } from "axios";
+import { useXStream } from "vue-element-plus-x";
+import { fetchEventSource } from "@microsoft/fetch-event-source";
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 const sidebar = useSidebarStore();
@@ -340,6 +409,13 @@ const imageUrl = ref("");
 const router = useRouter();
 const isShowScene = ref(true);
 const isShowDialog = ref(false);
+const sqlType = ref("mysql");
+const sqlTypeOptions = ref([
+  { label: "mysql", value: "mysql" },
+  { label: "mongodb", value: "mongodb" },
+  { label: "redis", value: "redis" },
+]);
+
 interface ListData {
   id: string;
   title: string;
@@ -355,7 +431,7 @@ interface TranslateForm {
   file: File | null;
   type: string;
   content: string;
-  languages:string
+  languages: string;
 }
 interface imgList {
   imageUrl: string;
@@ -370,40 +446,69 @@ const senderValue = ref("");
 const showHeaderFlog = ref(false);
 const listData = reactive<ListData[]>([]);
 const translateForm = reactive<TranslateForm>({
-  file:null,
+  file: null,
   type: "",
   content: "",
-  languages:''
+  languages: "",
 });
-const ruleFormRef = ref<FormInstance>()
-console.log(ruleFormRef,'09909090909090909090909090')
+const ruleFormRef = ref<FormInstance>();
+const handleStop = () => {};
+const stopFunction = (id) => {
+  request
+    .post(stopApi + id + "/stop")
+    .then((response) => {
+      console.log("响应数据:", response);
+      const {
+        code,
+        data: { select_one },
+      } = response;
+      if (code == 200) {
+        specialityList.value = select_one;
+      }
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+      if (error == "未登录，请先登录") {
+        console.log(router, "routerrouterrouterrouterrouter");
+        router.push("/login");
+      }
+      const { code, message } = error.response.data;
+      if (code == 409) {
+        ElMessage({
+          message: message,
+          type: "error",
+        });
+      } else {
+        ElMessage({
+          message: error.response.data,
+          type: "error",
+        });
+      }
+    });
+};
+console.log(ruleFormRef, "09909090909090909090909090");
 const rules = reactive<FormRules<TranslateForm>>({
- file: [
+  file: [
     {
       required: true,
       message: "请上传文件",
       trigger: "blur",
     },
-
   ],
-  type: [
-    { required: true, message: "请选择要翻译的类型", trigger: "blur" },
-  ],
-  content: [
-    { required: true, message: "请输入要翻译的内容", trigger: "blur" },
-  ],
+  type: [{ required: true, message: "请选择要翻译的类型", trigger: "blur" }],
+  content: [{ required: true, message: "请输入要翻译的内容", trigger: "blur" }],
   languages: [
     { required: true, message: "请选择要翻译的语种", trigger: "blur" },
   ],
-})
+});
 
 const list = reactive<List[]>([
   {
-    content: "💖 感谢使用 Element Plus X ! 你的支持，是我们开源的最强动力 ~",
+    content: "💖 感谢使用 吉斗云AI ! 你的支持，是我们最强动力 ~",
     role: "ai",
     placement: "start",
     avatar:
-      "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      "/public/image/logo.png",
     avatarSize: "24px",
   },
 ]);
@@ -470,17 +575,50 @@ const handleDelet = (id: string) => {
 // 开启老的对话
 const handleOpenConstion = () => {};
 // 输入内容提交
-const handleSubmit = async (formEl: FormInstance | undefined) => {
-  if (isShowDialog.value == true) {
-    if (!ruleFormRef.value) return;
-    await ruleFormRef.value.validate((valid: boolean) => {
-      if (valid) {}else{
-        return false;
-      }
-    })
-  }
-  console.log(senderValue.value);
+const handleSubmit = (formEl: FormInstance | undefined) => {
+  console.log(senderValue.value, "=-=-=-=-=-=-=-=-=");
+  isShowScene.value = false;
   isShowList.value = true;
+  if (!sqlType.value) {
+    ElMessage({
+      message: "请选择数据库类型",
+      type: "error",
+    });
+    return;
+  }
+  if (!senderValue.value) {
+    ElMessage({
+      message: "请输入要查询的数据",
+      type: "error",
+    });
+    return;
+  }
+  fetchStreamData();
+};
+let abortController: AbortController | null = null;
+// 存储流式响应的文本
+const task_id = ref("");
+const loadingData = ref(true);
+
+const fetchStreamData = () => {
+  const contentData = ref("");
+
+  const rundata = {
+    inputs: {
+      sqlan: senderValue.value,
+      problem: sqlType.value,
+      additionalProp3: "string",
+    },
+    response_mode: "streaming",
+    user: "string",
+  };
+  // 如果之前有请求正在进行，先取消它
+  if (abortController) {
+    abortController.abort();
+  }
+  // 创建新的 AbortController 实例
+  abortController = new AbortController();
+  const signal = abortController.signal;
   list.push({
     content: senderValue.value,
     role: "user",
@@ -489,20 +627,108 @@ const handleSubmit = async (formEl: FormInstance | undefined) => {
     avatarSize: "24px",
   });
   list.push({
-    content: "💖 感谢使用 Element Plus X ! 你的支持，是我们开源的最强动力 ~",
+    content: contentData,
+    // content: aidata.value,
+    loading: loadingData,
     role: "ai",
     placement: "start",
     avatar:
-      "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      "/public/image/logo.png",
     avatarSize: "24px",
   });
-  senderValue.value = "";
+  console.log(contentData, "contentDatacontentDatacontentDatacontentData");
+  fetchEventSource(runApi, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    signal,
+    body: JSON.stringify(rundata),
+    onmessage: (event) => {
+      const jsonData = JSON.parse(event.data);
+      senderValue.value = "";
+      console.log(jsonData.event);
+      if (jsonData.event == "workflow_started") {
+        task_id.value = jsonData.task_id;
+      } else if (jsonData.event == "text_chunk") {
+        contentData.value += jsonData.data.text ? jsonData.data.text : "";
+        loadingData.value = false;
+      } else if (jsonData.event == "workflow_finished") {
+        contentData.value += jsonData.data.text ? jsonData.data.text : "";
+
+        stopFlowFunction();
+        stopSSE();
+      }
+      // receivedMessages.value.push(event.data);
+    },
+    onerror: (err) => {
+      console.error("流式请求错误:", err);
+    },
+  });
+};
+const stopSSE = () => {
+  if (abortController) {
+    abortController.abort();
+    abortController = null;
+  }
+};
+
+const stopFlowFunction = () => {
+  request
+    .post(stopApi + task_id.value + "/stop", {
+      user: "string",
+    })
+    .then((response) => {
+      console.log("响应数据:", response);
+      const { result } = response;
+      if (result == "success") {
+        stopSSE();
+      }
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+    });
 };
 onMounted(() => {
   getUser();
+  searchSpecialityFunction();
   showHeaderFlog.value = true;
   senderRef.value.openHeader();
 });
+const specialityList = ref([]);
+const searchSpecialityFunction = () => {
+  request
+    .get(difyApi)
+    .then((response) => {
+      console.log("响应数据:", response);
+      const {
+        code,
+        data: { select_one },
+      } = response;
+      if (code == 200) {
+        specialityList.value = select_one;
+      }
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+      if (error == "未登录，请先登录") {
+        console.log(router, "routerrouterrouterrouterrouter");
+        router.push("/login");
+      }
+      const { code, message } = error.response.data;
+      if (code == 409) {
+        ElMessage({
+          message: message,
+          type: "error",
+        });
+      } else {
+        ElMessage({
+          message: error.response.data,
+          type: "error",
+        });
+      }
+    });
+};
 function getUser() {
   console.log(router, "routerrouterrouterrouterrouter");
   request
@@ -547,52 +773,19 @@ function closeHeader() {
   showHeaderFlog.value = false;
   senderRef.value.closeHeader();
 }
-
-// 示例调用
-
-// const list: BubbleListProps<listType>['list'] = generateFakeItems(5)
-
-// console.log(list,'list')
-// function generateFakeItems(count: number): listType[] {
-//   const messages: listType[] = [];
-//   for (let i = 0; i < count; i++) {
-//     const role = i % 2 === 0 ? "ai" : "user";
-//     const placement = role === "ai" ? "start" : "end";
-//     const key = i + 1;
-//     const content =
-//       role === "ai"
-//         ? "💖 感谢使用 Element Plus X ! 你的支持，是我们开源的最强动力 ~"
-//         : `哈哈哈，让我试试`;
-//     const loading = false;
-//     const shape = "corner";
-//     const variant = role === "ai" ? "filled" : "outlined";
-//     const isMarkdown = false;
-//     const typing = role === "ai" ? i === count - 1 : false;
-//     const avatar =
-//       role === "ai"
-//         ? "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-//         : "https://avatars.githubusercontent.com/u/76239030?v=4";
-
-//     messages.push({
-//       key,
-//       role,
-//       placement,
-//       content,
-//       loading,
-//       shape,
-//       variant,
-//       isMarkdown,
-//       typing,
-//       avatar,
-//       avatarSize: "24px",
-//     });
-//     console.log(messages);
-//   }
-//   return messages;
-// }
 </script>
 
 <style scoped lang="less">
+pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: "Courier New", Courier, monospace;
+}
 .action-list-self-wrap {
   display: flex;
 }
@@ -626,6 +819,10 @@ function closeHeader() {
   border-radius: 10px;
   width: 150px;
   text-align: center;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* 标准语法 */
 }
 .header-self-wrap {
   display: flex;

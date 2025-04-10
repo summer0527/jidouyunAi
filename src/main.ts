@@ -7,7 +7,11 @@ import { usePermissStore } from './store/permiss';
 import 'element-plus/dist/index.css';
 import './assets/css/icon.css';
 // import 'atropos/css'
-
+// 引入 Ace 核心库
+import 'ace-builds/src-noconflict/ace';
+// 引入 JSON 模式
+import 'ace-builds/src-noconflict/mode-json';
+import './assets/iconfont/iconfont.css'; // 引入 Iconfont 样式
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
