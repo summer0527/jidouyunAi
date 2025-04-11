@@ -144,4 +144,14 @@ i {
   .el-dropdown .el-dropdown__caret-button .el-dropdown__icon{
 	display: none !important;
   }
-  
+  ul.el-upload-list.el-upload-list--text{
+	display: none !important;
+	}
+	.el-typewriter {
+		width: auto !important;
+	}
+	.el-bubble-content-wrapper .el-bubble-content{
+		width: auto !important;
+		max-width: fit-content !important;
+	}
+	

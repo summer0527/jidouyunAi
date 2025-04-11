@@ -1,94 +1,14 @@
 <template>
   <div style="float: left; width: 100%; height: 100%">
     <!--左侧对话列表 -->
-    <transition name="collapse">
-      <div class="openCom" v-if="sidebar.collapse">
-        <div
-          @click="handleOpenC"
-          class="title"
-          style="
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
-            margin-left: 10px;
-            border-radius: 14px;
-            width: fit-content;
-            padding: 0 10px;
-            height: 44px;
-          "
-        >
-          <el-icon style="margin-right: 5px"><ChatSquare /></el-icon>
-          开启新对话
-        </div>
-        <div>
-          <el-divider />
-          <ul>
-            <li
-              v-for="item in listData"
-              :key="item.id"
-              style="
-                list-style: none;
-                line-height: 50px;
-                text-indent: 30px;
-                margin-bottom: 10px;
-                float: left;
-                width: 100%;
-              "
-            >
-              <div>
-                <el-dropdown
-                  split-button
-                  style="width: 100%; float: left"
-                  class="his"
-                >
-                  <span class="el-dropdown-link">
-                    <input
-                      type="text"
-                      v-model="item.names"
-                      v-if="item.isEditHist"
-                      @blur="handleRestNameCom(item)"
-                      style="width: 100%"
-                    />
-                    <span
-                      v-else
-                      style="width: 80%; text-align: left"
-                      @click="handleOpenConstion(item.conversation_id)"
-                      >{{ item.names }}</span
-                    >
-                  </span>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item @click="handleRestName(item)">
-                        <el-icon><EditPen /></el-icon>
-                        <span>重命名</span>
-                      </el-dropdown-item>
-                      <el-dropdown-item
-                        @click="handleDelet(item.conversation_id, item.s_id)"
-                      >
-                        <el-icon><Delete /></el-icon>
-                        <span>删除</span>
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                   <!-- 自定义图标 -->
-      <template #button-content>
-        <i class="fa-solid fa-angle-down" style="margin-left: 5px;"></i>
-      </template>
-                </el-dropdown>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </transition>
+    <v-talkList :listData="listData" @handleOpenC="handleOpenC" @handleRestNameCom="handleRestNameCom" @handleOpenConstion="handleOpenConstion" @handleRestName="handleRestName" @handleDelet="handleDelet"></v-talkList>
+   
     <el-dialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
     <!-- 右侧对话内容 -->
     <div
-      style="width: 88%; float: left; height: 100%; background-color: #ffffff"
+      style="width: 88%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
     >
       <!-- 头部专业选择 -->
       <div>
@@ -125,7 +45,6 @@
       >
         <div style="margin-top: 10px; margin-bottom: 10px">
           <p>
-            <img class="logo mr10" src="../assets/img/logo.png" alt="" />
             <img class="logo mr10" src="/public/image/logo.png" alt="" />
 
             <span style="font-size: 24px; color: #3d3d3d"
@@ -276,39 +195,13 @@
           </el-form>
         </div>
       </div>
-<!-- <v-Bubblist></v-bubblist> -->
+      <!-- <v-Bubblist></v-bubblist> -->
 
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" style="height: 70%">
-        <BubbleList :list="list" max-height="100%" min-width="700px">
-          <!-- 自定义气泡内容 -->
-          <template #content="{ item }">
-            <el-card id="editor-container">
-              <template #header> </template>
-              <pre><code class="language-typescript">{{ item.content }}</code></pre>
-            </el-card>
-          </template>
-          <!-- 自定义底部 -->
-          <template #footer="{ item }">
-            <div class="footer-wrapper" v-if="item.israte">
-              <div class="footer-container">
-                <el-button
-                  @click="handleRate(item, 'like', item.content)"
-                  :class="item.rate == 'like' ? 'rateStyle' : ''"
-                >
-                  <i class="fa-solid fa-thumbs-up"></i> 点赞
-                </el-button>
-
-                <el-button
-                  @click="handleRate(item, 'dislike', item.content)"
-                  :class="item.rate == 'dislike' ? 'rateStyle' : ''"
-                >
-                  <i class="fa-solid fa-thumbs-down"></i> 点踩
-                </el-button>
-              </div>
-            </div>
-          </template>
-        </BubbleList>
+      <div class="list" v-if="isShowList" style="height: 100%">
+       
+        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
+		<el-divider />
 
       </div>
       <!-- 选择数据库类型 -->
@@ -418,7 +311,7 @@
               <el-tooltip content="终止" placement="top">
                 <el-button
                   circle
-                  style="rotate: -45deg"
+                  style="margin-left: 5px"
                   @click="stopFlowFunction"
                 >
                   <el-icon><VideoPlay /></el-icon>
@@ -455,7 +348,6 @@ import type {
   BubbleListItemProps,
   BubbleListProps,
 } from "element-plus-x/bubbleList/types";
-import { useSidebarStore } from "@/store/sidebar";
 import type {
   UploadProps,
   FormInstance,
@@ -480,14 +372,14 @@ import axios, { AxiosResponse } from "axios";
 import { useXStream } from "vue-element-plus-x";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { b } from "vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P";
-// import vBubblist from '../../components/bubblist.vue';
+import vBubList from "../../components/bubList.vue";
+import vTalkList from "../../components/talkList.vue";
 
 const mode = ref("javascript");
 const theme = ref("monokai");
 const activeName = ref("enter");
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
-const sidebar = useSidebarStore();
 const imageUrl = ref("");
 const router = useRouter();
 const isShowScene = ref(true);
@@ -547,11 +439,11 @@ const translateForm = reactive<TranslateForm>({
 });
 
 // 重命名接口
-const handleRestName = (item) => {
+const handleRestName = (item:any) => {
   item.isEditHist = true;
 };
-// 编辑完毕
-const handleRestNameCom = (item) => {
+// 重命名-编辑完毕
+const handleRestNameCom = (item:any) => {
   item.isEditHist = false;
 
   request
@@ -625,27 +517,31 @@ const historyListFunction = async () => {
 const message_id = ref("");
 const rate = ref(false);
 const disrate = ref(false);
-const handleRate = (item, type, data) => {
-  console.log(item, "itemitemitem");
-  if (type == item.rate) {
-    type = "null";
+interface MyAxiosResponse {
+  result: any; // 根据实际情况确定具体类型
+  // 其他可能存在的属性
+}
+const handleRate = (dataS: any) => {
+  console.log(dataS.item, "itemitemitem");
+  if (dataS.type == dataS.item.rate) {
+    dataS.type = "null";
   }
   request
     .post(rateMemoryApi + message_id.value + "/feedbacks", {
       user: localStorage.getItem("s_name"),
-      rating: type,
-      content: data,
+      rating: dataS.type,
+      content: dataS.data,
     })
-    .then((response) => {
+    .then((response: AxiosResponse<any, any>) => {
       console.log("响应数据:", response);
-
-      if (response.result == "success") {
-        if (type == "like") {
-          item.rate = "like";
-        } else if (type == "dislike") {
-          item.rate = "dislike";
+      const result = (response as any).result;
+      if (result == "success") {
+        if (dataS.type == "like") {
+          dataS.item.rate = "like";
+        } else if (dataS.type == "dislike") {
+          dataS.item.rate = "dislike";
         } else {
-          item.rate = "null";
+          dataS.item.rate = "null";
         }
       }
     })
@@ -671,7 +567,8 @@ const handleRate = (item, type, data) => {
 };
 const ruleFormRef = ref<FormInstance>();
 const handleStop = () => {};
-const stopFunction = (id) => {
+
+const stopFunction = (id:any) => {
   request
     .post(stopMemoryApi + id + "/stop?user=" + localStorage.getItem("s_name"), {
       user: localStorage.getItem("s_name"),
@@ -770,28 +667,18 @@ const handleOpenC = () => {
   list.value = [];
 };
 // 删除对话
-const handleDelet = (id: string, s_id: number) => {
+const handleDelet = (pa) => {
   ElMessageBox.confirm("是否确定删除此条对话?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "success",
   })
     .then(() => {
-      // listData.value.forEach((item, index) => {
-      //   if (item.id == id) {
-      //     listData.value.splice(index, 1);
-      //   }
-      // });
-
-      // ElMessage({
-      //   message: "删除成功",
-      //   type: "success",
-      // });
       const dy = {
-        conversation_id: id,
+        conversation_id: pa.id,
       };
       request
-        .delete(deleMemoryApi + id + "/" + s_id, {
+        .delete(deleMemoryApi + pa.id + "/" + pa.s_id, {
           data: { user: localStorage.getItem("s_name") },
         })
         .then((response) => {
@@ -827,7 +714,7 @@ const handleDelet = (id: string, s_id: number) => {
       });
     });
 };
-// 开启老的对话
+// 开启历史的对话
 const handleOpenConstion = (id) => {
   const hisOpParams = {
     conversation_id: id,
@@ -843,10 +730,11 @@ const handleOpenConstion = (id) => {
       isShowList.value = true;
       isShowScene.value = false;
       list.value = [];
+      sqlType.value = data[0].inputs.type;
       data.forEach((ele) => {
         list.value.push({
           conversation_id: ele.conversation_id,
-          content: ele.query,
+          content: ele.names,
           role: "user",
           placement: "end",
           avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
@@ -1040,11 +928,11 @@ const fetchStreamData = () => {
   });
 };
 const addMessageFunction = async (
-  rundata,
-  contentData,
-  name,
-  inputs,
-  conversation_id
+  rundata:any,
+  contentData:any,
+  name:string,
+  inputs:any,
+  conversation_id:string
 ) => {
   await request
     .post(addMemoryApi, {
@@ -1325,5 +1213,11 @@ code {
   color: #409eff;
   border-color: #409eff;
   background-color: rgb(235.9, 245.3, 255);
+}
+.action-list-self-wrap {
+  display: flex !important
+;
+  justify-content: center !important;
+  align-items: center !important;
 }
 </style>

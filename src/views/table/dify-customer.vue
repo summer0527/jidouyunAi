@@ -32,7 +32,7 @@
     </el-dialog>
     <!-- 右侧对话内容 -->
     <div
-      style="width: 88%; float: left; height: 100%; background-color: #ffffff"
+      style="width: 100%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
     >
       <!-- 头部专业选择 -->
       <div>
@@ -69,7 +69,7 @@
       >
         <div style="margin-top: 10px; margin-bottom: 10px">
           <p>
-            <img class="logo mr10" src="../assets/img/logo.png" alt="" />
+            <img class="logo mr10" src="../../../public/image/logo.png" alt="" />
             <span style="font-size: 24px; color: #3d3d3d"
               >Hello,我是吉斗云AI</span
             >
@@ -219,22 +219,18 @@
         </div>
       </div>
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" style="height: 70%">
-        <BubbleList :list="list" max-height="100%">
-          <!-- 自定义气泡内容 -->
+      <div class="list" v-if="isShowList" style="height: 100%">
+        <!-- <BubbleList :list="list" max-height="100%">
           <template #content="{ item }">
-            <el-card id="editor-container">
+            <el-card id="editor-container" style="width: auto;">
               <template #header> </template>
               <pre><code class="language-typescript">{{ item.content }}</code></pre>
-              <!-- <v-ace-editor
-                v-model:value="item.code"
-				:lang="item.mode"
-                theme="chrome"
-                style="min-height: 200px"
-              /> -->
+            
             </el-card>
           </template>
-        </BubbleList>
+        </BubbleList> -->
+        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
+        <el-divider />
 
         <!-- <Typewriter :content="contentData" /> -->
       </div>
@@ -375,6 +371,7 @@ import {
   customerApi,
   stopCustomerApi,
   stopCodeFlowApi,
+  rateMemoryApi
 } from "../../api/index";
 import request from "../../utils/request";
 import type { ElForm } from "element-plus";
@@ -385,6 +382,8 @@ import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { VAceEditor } from "vue3-ace-editor";
 import "ace-builds/src-noconflict/mode-json"; // Load the language definition file used below
 import "ace-builds/src-noconflict/theme-chrome"; // Load the theme definition file used below
+import vBubList from '../../components/bubList.vue';
+
 const mode = ref("javascript");
 const theme = ref("monokai");
 const activeName = ref("enter");
@@ -409,11 +408,16 @@ interface ListData {
   title: string;
 }
 interface List {
+  
+
+  conversation_id: string;
   content: string;
   role: string;
   placement: string;
   avatar: string;
   avatarSize: string;
+  israte: boolean;
+  rate: string;
 }
 interface TranslateForm {
   file: File | null;
@@ -441,6 +445,58 @@ const translateForm = reactive<TranslateForm>({
 });
 
 const ruleFormRef = ref<FormInstance>();
+  const message_id = ref("");
+
+  const rate = ref(false);
+const disrate = ref(false);
+interface MyAxiosResponse {
+  result: any; // 根据实际情况确定具体类型
+  // 其他可能存在的属性
+}
+const handleRate = (dataS:any) => {
+  console.log(dataS.item, "itemitemitem");
+  if (dataS.type == dataS.item.rate) {
+    dataS.type = "null";
+  }
+  request
+    .post(rateMemoryApi + message_id.value + "/feedbacks", {
+      user: localStorage.getItem("s_name"),
+      rating: dataS.type,
+      content: dataS.data,
+    })
+    .then((response: AxiosResponse<any, any>) => {
+      console.log("响应数据:", response);
+      const result = (response as any).result;
+      if (result == "success") {
+        if (dataS.type == "like") {
+          dataS.item.rate = "like";
+        } else if (dataS.type == "dislike") {
+          dataS.item.rate = "dislike";
+        } else {
+          dataS.item.rate = "null";
+        }
+      }
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+      if (error == "未登录，请先登录") {
+        console.log(router, "routerrouterrouterrouterrouter");
+        router.push("/login");
+      }
+      const { code, message } = error.response.data;
+      if (code == 409) {
+        ElMessage({
+          message: message,
+          type: "error",
+        });
+      } else {
+        ElMessage({
+          message: error.response.data,
+          type: "error",
+        });
+      }
+    });
+};
 const handleStop = () => {};
 const stopFunction = (id) => {
   request
@@ -601,6 +657,8 @@ const extractCode = (content) => {
 };
 
 const fetchStreamData = () => {
+  const rateData = ref(false);
+
   const contentData = ref("");
   const codeContent = ref("");
   const codemode = ref("");
@@ -627,6 +685,8 @@ const fetchStreamData = () => {
     placement: "end",
     avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
   });
   list.push({
     content: contentData,
@@ -638,6 +698,8 @@ const fetchStreamData = () => {
     placement: "start",
     avatar: "/public/image/logo.png",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
   });
   console.log(contentData, "contentDatacontentDatacontentDatacontentData");
   fetchEventSource(customerApi, {
@@ -666,6 +728,7 @@ const fetchStreamData = () => {
           codemode.value = result.mode;
         }
         loadingData.value = false;
+        rateData.value = true;
       } else if (jsonData.event == "workflow_finished") {
         contentData.value += jsonData.data.text ? jsonData.data.text : "";
 
@@ -918,9 +981,7 @@ code {
   border: 1px solid blue;
   line-height: 50px;
 }
-ul.el-upload-list.el-upload-list--text{
-display: none !important;
-}
+
 .action-list-self-wrap{
   display: flex !important
 ;

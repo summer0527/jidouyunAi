@@ -1,38 +1,12 @@
 <template>
   <div style="float: left; width: 100%; height: 100%">
-    <!--左侧对话列表 -->
-    <!-- <transition name="collapse">
-		<div class="openCom" v-if="sidebar.collapse">
-		  <div @click="handleOpenC" class="title">
-			<el-icon><ChatSquare /></el-icon>
-			开启新对话
-		  </div>
-		  <div>
-			<ul>
-			  <li
-				v-for="item in listData"
-				:key="item.id"
-				style="list-style: none; line-height: 50px; text-indent: 30px"
-				@click="handleOpenConstion"
-			  >
-				{{ item.title }}
-				<el-button
-				  :icon="Delete"
-				  size="small"
-				  style="margin-left: 10px"
-				  @click="handleDelet(item.id)"
-				/>
-			  </li>
-			</ul>
-		  </div>
-		</div>
-	  </transition> -->
+   
     <el-dialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
     <!-- 右侧对话内容 -->
     <div
-      style="width: 88%; float: left; height: 100%; background-color: #ffffff"
+      style="width: 100%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
     >
       <!-- 头部专业选择 -->
       <div>
@@ -69,7 +43,7 @@
       >
         <div style="margin-top: 10px; margin-bottom: 10px">
           <p>
-            <img class="logo mr10" src="../assets/img/logo.png" alt="" />
+            <img class="logo mr10" src="../../../public/image/logo.png" alt="" />
             <span style="font-size: 24px; color: #3d3d3d"
               >Hello,我是吉斗云AI</span
             >
@@ -219,9 +193,8 @@
         </div>
       </div>
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" style="height: 70%">
-        <BubbleList :list="list" max-height="100%">
-          <!-- 自定义气泡内容 -->
+      <div class="list" v-if="isShowList" style="height: 100%">
+        <!-- <BubbleList :list="list" max-height="100%">
           <template #content="{ item }">
             <el-card id="editor-container">
               <template #header> </template>
@@ -234,7 +207,9 @@
               />
             </el-card>
           </template>
-        </BubbleList>
+        </BubbleList> -->
+        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
+        <el-divider />
 
         <!-- <Typewriter :content="contentData" /> -->
       </div>
@@ -403,6 +378,8 @@ import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { VAceEditor } from "vue3-ace-editor";
 import "ace-builds/src-noconflict/mode-json"; // Load the language definition file used below
 import "ace-builds/src-noconflict/theme-chrome"; // Load the theme definition file used below
+import vBubList from '../../components/bubList.vue';
+
 const mode = ref("javascript");
 const theme = ref("monokai");
 const activeName = ref("enter");
@@ -425,11 +402,20 @@ interface ListData {
   title: string;
 }
 interface List {
+  // content: string;
+  // role: string;
+  // placement: string;
+  // avatar: string;
+  // avatarSize: string;
+
+  conversation_id: string;
   content: string;
   role: string;
   placement: string;
   avatar: string;
   avatarSize: string;
+  israte: boolean;
+  rate: string;
 }
 interface TranslateForm {
   file: File | null;
@@ -457,6 +443,9 @@ const translateForm = reactive<TranslateForm>({
 });
 
 const ruleFormRef = ref<FormInstance>();
+const handleRate=()=>{
+
+}
 const handleStop = () => {};
 const stopFunction = (id) => {
   request
@@ -507,7 +496,7 @@ const rules = reactive<FormRules<TranslateForm>>({
   ],
 });
 
-const list = reactive<List[]>([
+const list = ref<List[]>([
   {
     content: "💖 感谢使用 吉斗云AI ! 你的支持，是我们最强动力 ~",
     role: "ai",
@@ -638,14 +627,16 @@ const fetchStreamData = () => {
   // 创建新的 AbortController 实例
   abortController = new AbortController();
   const signal = abortController.signal;
-  list.push({
+  list.value.push({
     content: senderValue.value,
     role: "user",
     placement: "end",
     avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
   });
-  list.push({
+  list.value.push({
     content: contentData,
     code: codeContent,
     mode: codemode,
@@ -656,6 +647,8 @@ const fetchStreamData = () => {
     avatar:
       "/public/image/logo.png",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
   });
   console.log(contentData, "contentDatacontentDatacontentDatacontentData");
   fetchEventSource(runCodeApi, {

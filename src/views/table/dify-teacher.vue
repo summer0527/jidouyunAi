@@ -32,7 +32,7 @@
     </el-dialog>
     <!-- 右侧对话内容 -->
     <div
-      style="width: 88%; float: left; height: 100%; background-color: #ffffff"
+      style="width: 100%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
     >
       <!-- 头部专业选择 -->
       <div>
@@ -69,7 +69,7 @@
       >
         <div style="margin-top: 10px; margin-bottom: 10px">
           <p>
-            <img class="logo mr10" src="../assets/img/logo.png" alt="" />
+            <img class="logo mr10" src="../../../public/image/logo.png" alt="" />
             <span style="font-size: 24px; color: #3d3d3d"
               >Hello,我是吉斗云AI</span
             >
@@ -219,22 +219,17 @@
         </div>
       </div>
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" style="height: 70%">
-        <BubbleList :list="list" max-height="100%">
-          <!-- 自定义气泡内容 -->
+      <div class="list" v-if="isShowList" style="height: 100%">
+        <!-- <BubbleList :list="list" max-height="100%">
           <template #content="{ item }">
             <el-card id="editor-container">
               <template #header> </template>
               <pre><code class="language-typescript">{{ item.content }}</code></pre>
-              <!-- <v-ace-editor
-                v-model:value="item.code"
-				:lang="item.mode"
-                theme="chrome"
-                style="min-height: 200px"
-              /> -->
             </el-card>
           </template>
-        </BubbleList>
+        </BubbleList> -->
+        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
+        <el-divider />
 
         <!-- <Typewriter :content="contentData" /> -->
       </div>
@@ -403,6 +398,8 @@ import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { VAceEditor } from "vue3-ace-editor";
 import "ace-builds/src-noconflict/mode-json"; // Load the language definition file used below
 import "ace-builds/src-noconflict/theme-chrome"; // Load the theme definition file used below
+import vBubList from "../../components/bubList.vue";
+
 const mode = ref("javascript");
 const theme = ref("monokai");
 const activeName = ref("enter");
@@ -427,11 +424,15 @@ interface ListData {
   title: string;
 }
 interface List {
+  conversation_id: string;
   content: string;
   role: string;
   placement: string;
   avatar: string;
   avatarSize: string;
+  israte: boolean;
+  rate: string;
+  loading: boolean;
 }
 interface TranslateForm {
   file: File | null;
@@ -457,6 +458,7 @@ const translateForm = reactive<TranslateForm>({
   content: "",
   languages: "",
 });
+const handleRate = () => {};
 
 const ruleFormRef = ref<FormInstance>();
 const handleStop = () => {};
@@ -605,7 +607,6 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 let abortController: AbortController | null = null;
 // 存储流式响应的文本
 const task_id = ref("");
-const loadingData = ref(true);
 // 提取代码块
 const extractCode = (content) => {
   const codeRegex = /```(\w+)\s*([\s\S]*?)```/;
@@ -623,6 +624,7 @@ const fetchStreamData = () => {
   const contentData = ref("");
   const codeContent = ref("");
   const codemode = ref("");
+  const loadingData = ref(true);
 
   const rundata = {
     inputs: {
@@ -646,6 +648,9 @@ const fetchStreamData = () => {
     placement: "end",
     avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
+    loading: false,
   });
   list.push({
     content: contentData,
@@ -658,6 +663,8 @@ const fetchStreamData = () => {
     avatar:
       "/public/image/logo.png",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
   });
   console.log(contentData, "contentDatacontentDatacontentDatacontentData");
   fetchEventSource(teachingApi, {

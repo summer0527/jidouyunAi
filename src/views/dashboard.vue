@@ -1,38 +1,12 @@
 <template>
   <div style="float: left; width: 100%; height: 100%">
-    <!--左侧对话列表 -->
-    <transition name="collapse">
-      <div class="openCom" v-if="sidebar.collapse">
-        <div @click="handleOpenC" class="title">
-          <el-icon><ChatSquare /></el-icon>
-          开启新对话
-        </div>
-        <div>
-          <ul>
-            <li
-              v-for="item in listData"
-              :key="item.id"
-              style="list-style: none; line-height: 50px; text-indent: 30px"
-              @click="handleOpenConstion"
-            >
-              {{ item.title }}
-              <el-button
-                :icon="Delete"
-                size="small"
-                style="margin-left: 10px"
-                @click="handleDelet(item.id)"
-              />
-            </li>
-          </ul>
-        </div>
-      </div>
-    </transition>
+   
     <el-dialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
     <!-- 右侧对话内容 -->
     <div
-      style="width: 88%; float: left; height: 100%; background-color: #ffffff"
+      style="width: 100%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
     >
       <!-- 头部专业选择 -->
       <div>
@@ -219,18 +193,19 @@
         </div>
       </div>
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" style="height: 70%">
-        <BubbleList :list="list" max-height="100%">
-          <!-- 自定义气泡内容 -->
-          <!-- <template #content="{ item  }">
+      <div class="list" v-if="isShowList" style="height: 100%">
+        <!-- <BubbleList :list="list" max-height="100%">
+          <template #content="{ item  }">
             <el-card v-if="item.role === 'ai'">
               <template #header>
                 <span>代码块展示</span>
               </template>
               <pre><code class="language-typescript">{{ item.content }}</code></pre>
             </el-card>
-          </template> -->
-        </BubbleList>
+          </template>
+        </BubbleList> -->
+        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
+        <el-divider />
 
         <!-- <Typewriter :content="contentData" /> -->
       </div>
@@ -402,6 +377,8 @@ import type { ElForm } from "element-plus";
 import axios, { AxiosResponse } from "axios";
 import { useXStream } from "vue-element-plus-x";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
+import vBubList from "../components/bubList.vue";
+
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 const sidebar = useSidebarStore();
@@ -421,11 +398,15 @@ interface ListData {
   title: string;
 }
 interface List {
+  conversation_id: string;
   content: string;
   role: string;
   placement: string;
   avatar: string;
   avatarSize: string;
+  israte: boolean;
+  rate: string;
+  loading: boolean;
 }
 interface TranslateForm {
   file: File | null;
@@ -440,6 +421,8 @@ type listType = BubbleListItemProps & {
   key: number;
   role: "user" | "ai";
 };
+const handleRate = () => {};
+
 const content = ref("hello world !");
 const senderRef = ref();
 const senderValue = ref("");
@@ -598,10 +581,10 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 let abortController: AbortController | null = null;
 // 存储流式响应的文本
 const task_id = ref("");
-const loadingData = ref(true);
 
 const fetchStreamData = () => {
   const contentData = ref("");
+  const loadingData = ref(true);
 
   const rundata = {
     inputs: {
@@ -625,6 +608,8 @@ const fetchStreamData = () => {
     placement: "end",
     avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
   });
   list.push({
     content: contentData,
@@ -635,6 +620,8 @@ const fetchStreamData = () => {
     avatar:
       "/public/image/logo.png",
     avatarSize: "24px",
+    israte: false,
+    rate: "null",
   });
   console.log(contentData, "contentDatacontentDatacontentDatacontentData");
   fetchEventSource(runApi, {

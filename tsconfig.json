@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
@@ -13,6 +14,7 @@
     "paths": {
       "ant-design-x-vue": ["src/index.ts"],
       "ant-design-x-vue/*": ["src/*"],
+      "@/*": ["src/*"]
     }
 
     
