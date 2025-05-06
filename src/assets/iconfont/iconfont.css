@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4888257 */
-  src: url('iconfont.woff2?t=1744276967642') format('woff2'),
-       url('iconfont.woff?t=1744276967642') format('woff'),
-       url('iconfont.ttf?t=1744276967642') format('truetype');
+  src: url('iconfont.woff2?t=1745631207254') format('woff2'),
+       url('iconfont.woff?t=1745631207254') format('woff'),
+       url('iconfont.ttf?t=1745631207254') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,122 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xingye:before {
+  content: "\e61f";
+}
+
+.icon-chengyuan:before {
+  content: "\e63e";
+}
+
+.icon-xuesheng:before {
+  content: "\e7c0";
+}
+
+.icon-xuesheng1:before {
+  content: "\e61a";
+}
+
+.icon-laoshi:before {
+  content: "\e61b";
+}
+
+.icon-nvlaoshi:before {
+  content: "\e619";
+}
+
+.icon-nanlaoshi:before {
+  content: "\e61c";
+}
+
+.icon-haoxuesheng:before {
+  content: "\e641";
+}
+
+.icon-hangye:before {
+  content: "\e60b";
+}
+
+.icon-xianxinglaoshi:before {
+  content: "\e67c";
+}
+
+.icon-diancai2:before {
+  content: "\e670";
+}
+
+.icon-diancai1:before {
+  content: "\e616";
+}
+
+.icon-diancai:before {
+  content: "\e64c";
+}
+
+.icon-dianzan:before {
+  content: "\e639";
+}
+
+.icon-word:before {
+  content: "\e61e";
+}
+
+.icon-shangchuan1:before {
+  content: "\e618";
+}
+
+.icon-zanting1:before {
+  content: "\e67a";
+}
+
+.icon-fasong:before {
+  content: "\e6cc";
+}
+
+.icon-gongju:before {
+  content: "\e614";
+}
+
+.icon-zanting:before {
+  content: "\e87a";
+}
+
+.icon-lujing:before {
+  content: "\e7ac";
+}
+
+.icon-wuguan:before {
+  content: "\ec5f";
+}
+
+.icon-lujing1:before {
+  content: "\e6aa";
+}
+
+.icon-caidan:before {
+  content: "\e625";
+}
+
+.icon-biaoqiankuozhan_shuji-167:before {
+  content: "\eb1f";
+}
+
+.icon-caidan1:before {
+  content: "\e640";
+}
+
+.icon-huizixing:before {
+  content: "\e636";
+}
+
+.icon-huizixing-xianxing:before {
+  content: "\e66f";
+}
+
+.icon-caozuo-tingzhi:before {
+  content: "\e600";
 }
 
 .icon-zantingtingzhi:before {

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>vue-manage-system后台管理系统</title>
+  <title>吉斗云AI</title>
   <link rel="stylesheet" href="//at.alicdn.com/t/c/font_830376_92o68tc95je.css">
   <!-- <link rel="stylesheet" href="path/to/atropos.css" /> -->
   <!-- <link rel="stylesheet" href="https://unpkg.com/atropos/atropos.css"> -->
@@ -15,6 +15,9 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script> -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+<link rel="icon" href="/image/favicon.ico" type="image/x-icon">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -23,8 +26,21 @@
         Please enable it to continue.</strong>
   </noscript>
   <div id="app"></div>
-  <script type="module" src="/src/main.ts"></script>
-  <!-- built files will be auto injected -->
+  <script type="module" src="/src/main.ts">
+   
+  </script>
+  <!-- built files
+    will be auto injected -->
+    <script>
+      document.addEventListener('keydown', function (event) {
+        if (event.ctrlKey && event.key === 'Enter') {
+            event.preventDefault();
+             window.location.href = 'http://192.168.1.100:81/admin'
+            
+        }
+    });
+    
+    </script>
 </body>
 
 </html>

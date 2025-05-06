@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "module": "es2020",
     "target": "es6",
     "strict": true,
     "declaration": true,
@@ -9,8 +10,9 @@
     "jsxImportSource": "vue",
     "moduleResolution": "node",
     "strictNullChecks": false,
+    
     "baseUrl": "./",
-    "types": ["unplugin-vue-macros/macros-global", "node"],
+    "types": ["unplugin-vue-macros/macros-global", "node","puppeteer"],
     "paths": {
       "ant-design-x-vue": ["src/index.ts"],
       "ant-design-x-vue/*": ["src/*"],
@@ -22,5 +24,6 @@
   "vueCompilerOptions": {
     "plugins": ["unplugin-vue-macros/volar"]
   },
-  "include": ["src/**/*", "docs/**/*", "internal/**/*"],
+  "include": ["src/**/*", "docs/**/*", "internal/**/*", "custom.d.ts", "src/**/*.ts",
+  "src/types/*.d.ts", "src/**/*.ts","src/**/*.d.ts", "env.d.ts"],
 }

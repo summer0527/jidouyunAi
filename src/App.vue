@@ -1,6 +1,7 @@
 <template>
 	<el-config-provider :locale="zhCn">
 		<router-view />
+
 	</el-config-provider>
 </template>
 
@@ -8,9 +9,10 @@
 import { ElConfigProvider } from 'element-plus';
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
 import { useThemeStore } from './store/theme';
-
+import { ref } from 'process';
 const theme = useThemeStore();
 theme.initTheme();
+
 </script>
 <style>
 @import './assets/css/main.css';

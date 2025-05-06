@@ -4,8 +4,6 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
-import Vue from '@vitejs/plugin-vue';
-
 export default defineConfig({
 	base: './',
 	plugins: [
@@ -23,55 +21,119 @@ export default defineConfig({
 		hmr: true, // 确保热更新开启
 		host: '0.0.0.0',
 		proxy: {
+			'/api': {
+				target: process.env.VITE_API_BASE_URL || '127.0.0.1:1819',
+				changeOrigin: true,
+			},
 			'/regedit_login': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
-			'/login':{
-				target: 'http://192.168.1.6:1818',
-				changeOrigin: true,
-			},
+			
 			'/speciality': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
 			'/dify_data': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
 			'/dify_code': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
 			'/dify_aq': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
 			'/dify_memory': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
 			'/dify_teaching': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
 			'/dify_language': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
 			},
 			'/dify_customer': {
-				target: 'http://192.168.1.6:1818',
+				target: '192.168.1.18:1819',
 				changeOrigin: true,
 		
-			}
+			},
+			'/dify_knowledge':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/newlanguage':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_class':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_lean':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_gang':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_sub':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_man':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_excel':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_doctor':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_physical':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_health':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_treatment':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_car':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/dify_virtuallearning':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			'/specialityss':{
+				target: '192.168.1.18:1819',
+				changeOrigin: true,
+			},
+			
+			
+			
 			
 			
 			
@@ -86,9 +148,19 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': '/src',
+			'~': '/src/assets',
 		}
 	},
 	define: {
 		__VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "true",
 	},
+	root: './', // 项目根目录
+    build: {
+        rollupOptions: {
+            input: [
+                'C:/Users/school-windows-web/jiAi/jidouyunAi/index.html',
+                'C:/Users/school-windows-web/jiAi/jidouyunAi/src/assets/iconfont/demo_index.html'
+            ]
+        }
+    }
 });

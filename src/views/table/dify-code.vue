@@ -1,217 +1,37 @@
 <template>
   <div style="float: left; width: 100%; height: 100%">
-   
+    <!--左侧对话列表 -->
+    <v-talkList
+      :listData="listData"
+      @handleOpenC="handleOpenC"
+      @handleRestNameCom="handleRestNameCom"
+      @handleOpenConstion="handleOpenConstion"
+      @handleRestName="handleRestName"
+      @handleDelet="handleDelet"
+    ></v-talkList>
+
     <el-dialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
     <!-- 右侧对话内容 -->
+
     <div
-      style="width: 100%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
+      style="
+        width: 89%;
+        float: left;
+        height: 100%;
+        background-color: #ffffff;
+        padding: 10px 0;
+        box-sizing: border-box;
+      "
     >
       <!-- 头部专业选择 -->
-      <div>
-        <el-dropdown v-for="(item, index) in specialityList" :key="index">
-          <el-button
-            style="margin-right: 10px; margin-left: 10px; margin-top: 10px"
-          >
-            {{ item }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </el-button>
-
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Action 1</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
-              <el-dropdown-item disabled>Action 4</el-dropdown-item>
-              <el-dropdown-item divided>Action 5</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-      <!-- 专业选择结束 -->
+      <!-- <v-speciality></v-speciality> -->
       <!-- 7种场景展示 -->
-      <div
-        style="
-          width: 100%;
-          height: 93%;
-          float: left;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        "
-        v-show="isShowScene"
-      >
-        <div style="margin-top: 10px; margin-bottom: 10px">
-          <p>
-            <img class="logo mr10" src="../../../public/image/logo.png" alt="" />
-            <span style="font-size: 24px; color: #3d3d3d"
-              >Hello,我是吉斗云AI</span
-            >
-            <span
-              style="
-                color: cornflowerblue;
-                font-size: 16px;
-                display: block;
-                text-indent: 10px;
-                margin-top: 20px;
-                margin-bottom: 20px;
-              "
-              >请选择你需要的场景</span
-            >
-          </p>
-          <p
-            style="
-              float: left;
-              width: 45%;
-              height: 300px;
-              border: 1px solid #bbbcc5;
-              margin-right: 5%;
-              border-radius: 10px;
-            "
-          >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              @click="handleTranslate"
-              >翻译</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >教案生成</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >代码生成器</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >研发问答器</el-button
-            >
-          </p>
-          <p
-            style="
-              float: left;
-              width: 45%;
-              height: 300px;
-              border: 1px solid #bbbcc5;
-              border-radius: 10px;
-            "
-          >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >数据表字段编辑器</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >知识库问答器</el-button
-            >
-
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >智能客服</el-button
-            >
-          </p>
-        </div>
-      </div>
-      <!-- 翻译场景选择 -->
-      <div
-        style="
-          width: 100%;
-          height: 93%;
-          float: left;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        "
-        v-show="isShowDialog"
-      >
-        <div
-          style="
-            margin-top: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #bbbcc5;
-            border-radius: 10px;
-            padding: 50px 20px;
-          "
-        >
-          <el-form
-            :model="translateForm"
-            label-width="auto"
-            style="min-width: 800px"
-            :rules="rules"
-            ref="ruleFormRef"
-          >
-            <el-form-item label="请上传文件" prop="file">
-              <el-upload
-                :limit="1"
-                class="upload-demo"
-                action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-              >
-                <el-button type="primary">点击上传文件</el-button>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="翻译语种" prop="languages">
-              <el-select
-                v-model="translateForm.languages"
-                placeholder="请选择您要翻译的语言"
-              >
-                <el-option label="英文" value="shanghai" />
-                <el-option label="韩语" value="beijing" />
-              </el-select>
-            </el-form-item>
-
-            <el-form-item label="输入你要翻译的文字" prop="content">
-              <el-input
-                v-model="translateForm.content"
-                type="textarea"
-                :rows="5"
-              />
-            </el-form-item>
-            <el-form-item label="翻译的类型" prop="type">
-              <el-select
-                v-model="translateForm.type"
-                placeholder="请选择您要翻译的类型"
-              >
-                <el-option label="口语" value="shanghai" />
-                <el-option label="书面" value="beijing" />
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" style="height: 100%">
-        <!-- <BubbleList :list="list" max-height="100%">
-          <template #content="{ item }">
-            <el-card id="editor-container">
-              <template #header> </template>
-              <pre><code class="language-typescript">{{ item.content }}</code></pre>
-              <v-ace-editor
-                v-model:value="item.code"
-				:lang="item.mode"
-                theme="chrome"
-                style="min-height: 200px"
-              />
-            </el-card>
-          </template>
-        </BubbleList> -->
+      <div class="list" v-if="isShowList" :style="computedHeightStyle">
         <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
         <el-divider />
-
-        <!-- <Typewriter :content="contentData" /> -->
       </div>
       <!-- 选择数据库类型 -->
       <div
@@ -222,7 +42,7 @@
           align-items: center;
         "
       >
-        <div style="position: fixed; bottom: 110px; width: 60%">
+        <div style="position: fixed; bottom: 60px; width: 60%">
           <el-form :inline="true" class="demo-form-inline">
             <el-form-item label="类型" class="is-required">
               <el-select
@@ -255,39 +75,57 @@
         <Sender
           ref="senderRef"
           v-model="senderValue"
-           submit-type="enter" 
+          style="position: fixed; bottom: 10px; width: 60%"
+          submit-type="enter"
           @submit="handleSubmit"
-          style="position: fixed; bottom: 30px; width: 60%"
         >
-          <template #prefix>
-            <div class="prefix-self-wrap">
+          <template #header>
+            <div class="header-self-wrap">
               <ul style="margin-left: 5px">
                 <li
                   v-for="(item, index) in imageList"
                   :key="index"
                   style="
                     position: relative;
-                    width: 100px;
-                    height: 100px;
+                    width: 150px;
+                    height: 50px;
                     float: left;
-                    border: 1px solid #bbbcc5;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    margin-right: 5px;
+                    margin-right: 10px;
+                    background: #f5f5f5;
+                    border: none;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
                   "
                 >
-                  <el-icon
-                    style="position: absolute; top: 0; right: 0"
-                    @click="handleDeletimg(index)"
-                    ><Close
-                  /></el-icon>
-                  <img
-                    :src="item.imageUrl"
-                    class="avatar"
-                    style="max-width: 100%"
-                    @click="handleClickImg(item.imageUrl)"
-                  />
+                  <el-button type="text" @click="handleDeletimg(index)">
+                    <el-icon style="position: absolute; top: 5px; right: 5px"
+                      ><Close
+                    /></el-icon>
+                  </el-button>
+                  <div
+                    style="
+                      width: 100%;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      flex-direction: row;
+                    "
+                  >
+                    <el-icon>
+                      <i
+                        class="iconfont icon-word"
+                        style="
+                          font-size: 26px;
+                          color: #1570c4;
+                          margin-right: 5px;
+                        "
+                      ></i>
+                    </el-icon>
+                    <span style="margin-left: 5px">{{ item.name }}</span>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -295,35 +133,49 @@
 
           <template #action-list>
             <div class="action-list-self-wrap">
-              <el-tooltip content="添加图片" placement="top">
+              <!-- <el-tooltip content="上传文件" placement="top">
                 <el-upload
                   class="upload-demo"
-                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  @change="handleFileChange"
                   :on-success="handlesuccess"
                   :on-error="handleError"
+                  :before-upload="beforeUpload"
                 >
                   <el-button circle>
-                    <el-icon><Link /></el-icon>
+                    <el-icon>
+                      <i
+                        class="iconfont icon-shangchuan"
+                        style="font-size: 24px;color: #1570c4"
+                      ></i>
+                    </el-icon>
                   </el-button>
                 </el-upload>
-              </el-tooltip>
+              </el-tooltip> -->
               <el-tooltip content="发送" placement="top">
                 <el-button
-                  type="primary"
                   circle
-                  style="rotate: -45deg"
                   @click="handleSubmit"
                 >
-                  <el-icon><Position /></el-icon>
+                  <el-icon>
+                    <i
+                      class="iconfont icon-fasong"
+                      style="font-size: 14px; color: #1570c4"
+                    ></i>
+                  </el-icon>
                 </el-button>
               </el-tooltip>
               <el-tooltip content="终止" placement="top">
                 <el-button
                   circle
-                  style="rotate: -45deg"
+                  style="margin-left: 5px; font-size: 16px"
                   @click="stopFlowFunction"
                 >
-                  <el-icon><VideoPlay /></el-icon>
+                  <el-icon>
+                    <i
+                      class="iconfont icon-zanting"
+                      style="font-size: 12px; color: #1570c4"
+                    ></i>
+                  </el-icon>
                 </el-button>
               </el-tooltip>
             </div>
@@ -338,7 +190,7 @@
 // 示例代码
 
 const contentT = ref(JSON.stringify({ message: "Hello Ace" }));
-import { ref, reactive, onMounted, Ref, watch } from "vue";
+import { ref, reactive, onMounted, Ref, watch,computed } from "vue";
 import { Bubble, Sender, Typewriter } from "vue-element-plus-x";
 import { BubbleList } from "vue-element-plus-x";
 import { useRouter } from "vue-router";
@@ -349,13 +201,18 @@ import {
   Download,
   Plus,
   ZoomIn,
+  ArrowDown,
+  EditPen,
 } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox } from "element-plus";
+// import type {
+//   BubbleListItemProps,
+//   BubbleListProps,
+// } from "element-plus-x/bubbleList/types";
 import type {
   BubbleListItemProps,
   BubbleListProps,
-} from "element-plus-x/bubbleList/types";
-import { useSidebarStore } from "@/store/sidebar";
+} from "vue-element-plus-x/types/components/BubbleList/types";
 import type {
   UploadProps,
   FormInstance,
@@ -366,33 +223,48 @@ import {
   loginUserApi,
   difyApi,
   runCodeApi,
+  // newrunCodeApi,
   stopCodeApi,
-  stopCodeFlowApi,
+  feedbacksCodeApi,
+  getListCodeApi,
+  deleCodeApi,
+  historyCodeApi,
+  resetCodeApi,
+  addCodeApi,
 } from "../../api/index";
+
+// 对话存储接口
+// 发送对话接口
+
+// 消息反馈接口
+// 获取会话列表接口
+// 删除会话接口
+// 重命名接口
+// 获取会话历史消息接口
 import request from "../../utils/request";
 import type { ElForm } from "element-plus";
 import axios, { AxiosResponse } from "axios";
 import { useXStream } from "vue-element-plus-x";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
-
-import { VAceEditor } from "vue3-ace-editor";
-import "ace-builds/src-noconflict/mode-json"; // Load the language definition file used below
-import "ace-builds/src-noconflict/theme-chrome"; // Load the theme definition file used below
-import vBubList from '../../components/bubList.vue';
+// import { b } from "vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P";
+import vBubList from "../../components/bubList.vue";
+import vTalkList from "../../components/talkList.vue";
+import { tr } from "element-plus/es/locale";
+import vScence from "../../components/scence.vue";
+import vSpeciality from "../../components/speciality.vue";
 
 const mode = ref("javascript");
 const theme = ref("monokai");
 const activeName = ref("enter");
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
-const sidebar = useSidebarStore();
 const imageUrl = ref("");
 const router = useRouter();
 const isShowScene = ref(true);
-const isShowDialog = ref(false);
+
 const sqlType = ref("Fastapi");
 const sqlTypeOptions = ref([
-  { label: "Fastapi", value: "Fastapi" },
+{ label: "Fastapi", value: "Fastapi" },
   { label: "SpringBoot", value: "SpringBoot" },
   { label: "Gin", value: "Gin" },
 ]);
@@ -400,31 +272,34 @@ const sqlTypeOptions = ref([
 interface ListData {
   id: string;
   title: string;
+  names: string;
+  introduction: string;
+  inputs: object;
+  status: string;
+  isEditHist?: boolean;
+  conversation_id: string;
 }
 interface List {
-  // content: string;
-  // role: string;
-  // placement: string;
-  // avatar: string;
-  // avatarSize: string;
-
-  conversation_id: string;
-  content: string;
-  role: string;
-  placement: string;
+  conversation_id?: string;
+  content?: string;
+  role?: string;
+  placement?: string;
   avatar: string;
-  avatarSize: string;
-  israte: boolean;
-  rate: string;
+  avatarSize?: string;
+  israte?: boolean;
+  rate?: string;
+  message_id?: string;
+  loading?: boolean;
 }
 interface TranslateForm {
-  file: File | null;
-  type: string;
-  content: string;
-  languages: string;
+  target_language: string;
+  source_str: string;
+  style: string;
 }
 interface imgList {
   imageUrl: string;
+  name: string;
+  file: File | null;
 }
 type listType = BubbleListItemProps & {
   key: number;
@@ -434,30 +309,164 @@ const content = ref("hello world !");
 const senderRef = ref();
 const senderValue = ref("");
 const showHeaderFlog = ref(false);
-const listData = reactive<ListData[]>([]);
-const translateForm = reactive<TranslateForm>({
-  file: null,
-  type: "",
-  content: "",
-  languages: "",
+const listData = ref<ListData[]>([]);
+const translateForm = ref<TranslateForm>({
+  target_language: "",
+  source_str: "",
+  style: "",
 });
+const computedHeightStyle = computed(()=>{
+  return {
+    height: showHeaderFlog.value ? '75%' : '90%'
+  };
+})
+// 重命名接口
+const handleRestName = (item: any) => {
+  item.isEditHist = true;
+};
+// 重命名-编辑完毕
+const handleRestNameCom = (item: any) => {
+  item.isEditHist = false;
 
-const ruleFormRef = ref<FormInstance>();
-const handleRate=()=>{
-
-}
-const handleStop = () => {};
-const stopFunction = (id) => {
   request
-    .post(stopCodeApi + id + "/stop")
+    .put(resetCodeApi + item.conversation_id + "/name/", {
+      names: item.names,
+      conversation_id: item.conversation_id,
+      users: localStorage.getItem("s_name"),
+    })
+    .then((response) => {
+      console.log("响应数据:", response);
+      historyListFunction();
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+      if (error == "未登录，请先登录") {
+        console.log(router, "routerrouterrouterrouterrouter");
+        router.push("/login");
+      }
+      const { code, message } = error.response.data;
+      if (code == 409) {
+        ElMessage({
+          message: message,
+          type: "error",
+        });
+      } else {
+        ElMessage({
+          message: error.response.data,
+          type: "error",
+        });
+      }
+    });
+};
+// 会话历史列表
+const historyListFunction = async () => {
+  const historyData = {
+    users: localStorage.getItem("s_name"),
+    limit: 100,
+  };
+  listData.value = [];
+  await request
+    .get(getListCodeApi, {
+      params: historyData,
+    })
+    .then((response) => {
+      console.log("响应数据:", response);
+      // listData.push({ id: length, title: titleC });
+      // const { conversations } = response.data;
+      listData.value = [...listData.value, ...response.data];
+      // console.log()
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+      if (error == "未登录，请先登录") {
+        console.log(router, "routerrouterrouterrouterrouter");
+        router.push("/login");
+      }
+      const { code, message } = error.response.data;
+      if (code == 409) {
+        ElMessage({
+          message: message,
+          type: "error",
+        });
+      } else {
+        ElMessage({
+          message: error.response.data,
+          type: "error",
+        });
+      }
+    });
+};
+// 点赞
+const message_id = ref("");
+const rate = ref(false);
+const disrate = ref(false);
+interface MyAxiosResponse {
+  result: any; // 根据实际情况确定具体类型
+  // 其他可能存在的属性
+}
+const handleRate = (dataS: any) => {
+  console.log(dataS.item, "itemitemitem");
+  if (dataS.type == dataS.item.rate) {
+    dataS.type = "null";
+  }
+  request
+    .post(feedbacksCodeApi + dataS.message_id + "/feedbacks", {
+      user: localStorage.getItem("s_name"),
+      rating: dataS.type,
+      content: dataS.data,
+    })
+    .then((response) => {
+      console.log("响应数据:", response);
+      const { result } = response.data;
+      if (result == "success") {
+        if (dataS.type == "like") {
+          dataS.item.rate = "like";
+        } else if (dataS.type == "dislike") {
+          dataS.item.rate = "dislike";
+        } else {
+          dataS.item.rate = "null";
+        }
+      }
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+      if (error == "未登录，请先登录") {
+        console.log(router, "routerrouterrouterrouterrouter");
+        router.push("/login");
+      }
+      const { code, message } = error.response.data;
+      if (code == 409) {
+        ElMessage({
+          message: message,
+          type: "error",
+        });
+      } else {
+        ElMessage({
+          message: error.response.data,
+          type: "error",
+        });
+      }
+    });
+};
+const ruleFormRef = ref<FormInstance>();
+const handleStop = () => {};
+
+const stopFunction = (id: any) => {
+  request
+    .post(
+      stopCodeApi + id + "/stop?user=" + localStorage.getItem("s_name"),
+      {
+        user: localStorage.getItem("s_name"),
+        task_id: task_id.value,
+      }
+    )
     .then((response) => {
       console.log("响应数据:", response);
       const {
         code,
         data: { select_one },
-      } = response;
+      } = response.data;
       if (code == 200) {
-        specialityList.value = select_one;
       }
     })
     .catch((error) => {
@@ -482,36 +491,23 @@ const stopFunction = (id) => {
 };
 console.log(ruleFormRef, "09909090909090909090909090");
 const rules = reactive<FormRules<TranslateForm>>({
-  file: [
-    {
-      required: true,
-      message: "请上传文件",
-      trigger: "blur",
-    },
+  target_language: [
+    { required: true, message: "请选择要翻译的类型", trigger: "blur" },
   ],
-  type: [{ required: true, message: "请选择要翻译的类型", trigger: "blur" }],
-  content: [{ required: true, message: "请输入要翻译的内容", trigger: "blur" }],
-  languages: [
-    { required: true, message: "请选择要翻译的语种", trigger: "blur" },
+  source_str: [
+    { required: true, message: "请输入要翻译的内容", trigger: "blur" },
   ],
+  style: [{ required: true, message: "请选择要翻译的语种", trigger: "blur" }],
 });
 
 const list = ref<List[]>([
-  {
-    content: "💖 感谢使用 吉斗云AI ! 你的支持，是我们最强动力 ~",
-    role: "ai",
-    placement: "start",
-    avatar:
-      "/public/image/logo.png",
-    avatarSize: "24px",
-  },
+  
 ]);
-const imageList = reactive<imgList[]>([]);
+const imageList = ref<imgList[]>([]);
 const isShowList = ref(false);
 // 点击翻译场景
 const handleTranslate = () => {
   isShowScene.value = false;
-  isShowDialog.value = true;
 };
 // 点击放大
 const handleClickImg = (url: string) => {
@@ -519,7 +515,7 @@ const handleClickImg = (url: string) => {
   dialogVisible.value = true;
 };
 const handleDeletimg = (index: number) => {
-  imageList.splice(index, 1);
+  imageList.value.splice(index, 1);
 };
 const handlesuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
   console.log("ssjsjsjsj");
@@ -530,34 +526,85 @@ const handleError: UploadProps["onError"] = (response, uploadFile) => {
   console.log("ssjsjsjsj");
   console.log(response);
   console.log(uploadFile);
+  senderRef.value.openHeader();
+  showHeaderFlog.value = true;
   imageUrl.value = URL.createObjectURL(uploadFile.raw!);
-  imageList.push({ imageUrl: imageUrl.value });
+  imageList.value.push({
+    imageUrl: imageUrl.value,
+    name: uploadFile.raw.name,
+    file: uploadFile.raw,
+  });
+};
+const beforeUpload = (file: any) => {
+  const isDoc = file.type === "doc" || "docx";
+  const isLt2M = file.size / 1024 / 1024 < 15;
+  senderRef.value.openHeader();
+  showHeaderFlog.value = true;
+  if (!isDoc) {
+    ElMessage({
+      message: "上传文件只能是 doc或者docx 格式!",
+      type: "error",
+    });
+  }
+  if (!isLt2M) {
+    ElMessage({
+      message: "上传文件大小不能超过 15MB!",
+      type: "error",
+    });
+  }
+  return isDoc && isLt2M;
 };
 // 新加对话
 const handleOpenC = () => {
   console.log("开启新对话");
-  const length = eval(listData.length + 1);
-  const titleC = "新对话" + length;
-  listData.push({ id: length, title: titleC });
+  isShowList.value = false;
+  isShowScene.value = true;
+  list.value = [];
 };
 // 删除对话
-const handleDelet = (id: string) => {
+const handleDelet = (pa: any) => {
   ElMessageBox.confirm("是否确定删除此条对话?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "success",
   })
     .then(() => {
-      listData.forEach((item, index) => {
-        if (item.id == id) {
-          listData.splice(index, 1);
-        }
-      });
-
-      ElMessage({
-        message: "删除成功",
-        type: "success",
-      });
+      const dy = {
+        conversation_id: pa.conversation_id,
+      };
+      request
+        .get(deleCodeApi + pa.s_id)
+        .then((response) => {
+          console.log("响应数据:", response);
+          ElMessage({
+            message: "删除成功",
+            type: "success",
+            onClose: function () {
+              historyListFunction();
+              if (list.value.length>0){
+                if (pa.conversation_id == list.value[0].conversation_id) {
+                handleOpenC();
+              }
+              }
+             
+            },
+          });
+        })
+        .catch((error) => {
+          console.log("请求出错:", error);
+          const { message, code } = error.response.data;
+          if (code == 409) {
+            ElMessage({
+              message: message,
+              type: "error",
+            });
+          } else {
+            ElMessage({
+              message: error.response.data,
+              type: "error",
+            });
+          }
+        });
     })
     .catch(() => {
       ElMessage({
@@ -566,8 +613,68 @@ const handleDelet = (id: string) => {
       });
     });
 };
-// 开启老的对话
-const handleOpenConstion = () => {};
+// 开启历史的对话
+const handleOpenConstion = (id: any) => {
+  const hisOpParams = {
+    conversation_id: id,
+    user: localStorage.getItem("s_name"),
+  };
+  request
+    .get(historyCodeApi, {
+      params: hisOpParams,
+    })
+    .then((response) => {
+      console.log("响应数据:", response);
+      const { data } = response.data;
+      isShowList.value = true;
+      isShowScene.value = false;
+      list.value = [];
+      sqlType.value = data[0].inputs.type;
+      data.forEach((ele: any) => {
+        list.value.push({
+          conversation_id: ele.conversation_id,
+          content: ele.names,
+          role: "user",
+          placement: "end",
+          avatar: "/image/avtor.jpg",
+          avatarSize: "50px",
+          israte: false,
+          rate: "null",
+        });
+        list.value.push({
+          conversation_id: ele.conversation_id,
+          content: ele.answer,
+          loading: false,
+          role: "ai",
+          placement: "start",
+          avatar: "/image/logono.png",
+          avatarSize: "50px",
+          israte: true,
+          rate: "null",
+          message_id: ele.message_id,
+        });
+      });
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+      if (error == "未登录，请先登录") {
+        console.log(router, "routerrouterrouterrouterrouter");
+        router.push("/login");
+      }
+      const { code, message } = error.response.data;
+      if (code == 409) {
+        ElMessage({
+          message: message,
+          type: "error",
+        });
+      } else {
+        ElMessage({
+          message: error.response.data,
+          type: "error",
+        });
+      }
+    });
+};
 // 输入内容提交
 const handleSubmit = (formEl: FormInstance | undefined) => {
   console.log(senderValue.value, "=-=-=-=-=-=-=-=-=");
@@ -575,7 +682,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
   isShowList.value = true;
   if (!sqlType.value) {
     ElMessage({
-      message: "请选择数据库类型",
+      message: "请选择类型",
       type: "error",
     });
     return;
@@ -592,9 +699,10 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 let abortController: AbortController | null = null;
 // 存储流式响应的文本
 const task_id = ref("");
-const loadingData = ref(true);
+const conversation_id = ref("");
+
 // 提取代码块
-const extractCode = (content) => {
+const extractCode = (content: any) => {
   const codeRegex = /```(\w+)\s*([\s\S]*?)```/;
   const match = content.match(codeRegex);
   if (match) {
@@ -605,20 +713,49 @@ const extractCode = (content) => {
   }
   return null;
 };
-
+const handleFileChange = (file:any) => {
+  // translateForm.value.file = file;
+  console.log("选择的文件:", file);
+};
+const restSender=()=>{
+  // 重置输入框
+  senderValue.value = "";
+  imageList.value=[];
+  closeHeader()
+}
+const messageCount = ref(0);
 const fetchStreamData = () => {
+  const rateData = ref(false);
+  const loadingData = ref(true);
+
   const contentData = ref("");
   const codeContent = ref("");
   const codemode = ref("");
+  const s_name = localStorage.getItem("s_name");
+  // translateForm.value.text1=translateForm.value.file.raw
 
+  translateForm.value.source_str = senderValue.value;
+  console.log(
+    translateForm.value,
+    "translateFormtranslateFormtranslateFormtranslateForm"
+  );
   const rundata = {
+    query: senderValue.value,
     inputs: {
       question: senderValue.value,
       frame_name: sqlType.value,
       additionalProp3: "string",
     },
+    conversation_id:
+      list.value.length > 0
+        ? list.value[0].conversation_id
+          ? list.value[0].conversation_id
+          : null
+        : null,
     response_mode: "streaming",
-    user: "string",
+    user: s_name,
+    // local_files: imageList.value.length ? imageList.value[0].file : "",
+    auto_generate_name: true,
   };
   // 如果之前有请求正在进行，先取消它
   if (abortController) {
@@ -626,31 +763,58 @@ const fetchStreamData = () => {
   }
   // 创建新的 AbortController 实例
   abortController = new AbortController();
+  isShowList.value = true;
   const signal = abortController.signal;
   list.value.push({
+    conversation_id: "",
     content: senderValue.value,
     role: "user",
     placement: "end",
-    avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
-    avatarSize: "24px",
+    avatar: "/image/avtor.jpg",
+    avatarSize: "50px",
     israte: false,
     rate: "null",
   });
   list.value.push({
-    content: contentData,
-    code: codeContent,
-    mode: codemode,
-    // content: aidata.value,
-    loading: loadingData,
+    conversation_id: "",
+    content: "",
+    
+    loading: loadingData.value,
     role: "ai",
     placement: "start",
-    avatar:
-      "/public/image/logo.png",
-    avatarSize: "24px",
+    avatar: "/image/logo.png",
+    avatarSize: "50px",
     israte: false,
     rate: "null",
+    message_id: "",
   });
   console.log(contentData, "contentDatacontentDatacontentDatacontentData");
+  // 创建 FormData 对象
+  // const formData = new FormData();
+
+  // formData.append("query", senderValue.value);
+  // formData.append(
+  //   "conversation_id",
+  //   list.value.length > 0
+  //     ? list.value[0].conversation_id
+  //       ? list.value[0].conversation_id
+  //       : null
+  //     : null
+  // );
+  // formData.append("response_mode", "streaming");
+  // formData.append("user", s_name);
+  // formData.append('local_files', imageList.length?imageList[0].file:'');
+  // formData.append("auto_generate_name", "true");
+  // formData.append(
+  //   "inputs[target_language]",
+  //   translateForm.value.target_language
+  // );
+  // formData.append("inputs[source_str]", translateForm.value.source_str);
+  // formData.append("inputs[style]", translateForm.value.style);
+
+  const name = senderValue.value;
+  restSender()
+  let flag = true
   fetchEventSource(runCodeApi, {
     method: "POST",
     headers: {
@@ -658,89 +822,111 @@ const fetchStreamData = () => {
     },
     signal,
     body: JSON.stringify(rundata),
+    onopen: async (response) => {
+      if (response.ok) {
+        const contentType = response.headers.get("Content-Type");
+        console.log(
+          contentType,
+          "contentTypecontentTypecontentTypecontentType"
+        );
+        if (contentType === "text/event-stream") {
+        }
+      } else {
+      }
+    },
     onmessage: (event) => {
+      messageCount.value++;
+      console.log(`接收到第 ${messageCount.value} 个 SSE 事件:`, event.data);
       const jsonData = JSON.parse(event.data);
-      senderValue.value = "";
       console.log(jsonData.event);
+      console.log(jsonData.answer);
+
       if (jsonData.event == "workflow_started") {
         task_id.value = jsonData.task_id;
-      } else if (jsonData.event == "text_chunk") {
-        console.log(jsonData.data.text, "jsonData.data.text");
+        message_id.value = jsonData.message_id;
+        conversation_id.value = jsonData.conversation_id;
+        list.value[list.value.length - 1].message_id = jsonData.message_id;
+        list.value[list.value.length - 1].conversation_id =
+          jsonData.conversation_id;
+        list.value[list.value.length - 2].conversation_id =
+          jsonData.conversation_id;
+
+        list.value[0].conversation_id = jsonData.conversation_id;
+        list.value[1].conversation_id = jsonData.conversation_id;
+      } else if (jsonData.event == "message") {
         const n = 0;
-        if (jsonData.data.text == "```") {
-        //   const newElement = document.createElement("p");
-        //   newElement.textContent = "这是新添加的元素内容=================================================================";
-        //   const parent = document.getElementById("editor-container");
-        //   parent.appendChild(newElement);
-        }
-        contentData.value += jsonData.data.text ? jsonData.data.text : "";
+        if (jsonData.answer=='<think>') {
+          flag=false
+        } else if (jsonData.answer=='</think>') {
+          flag=true
 
-        const result = extractCode(contentData.value);
-        if (result) {
-          codeContent.value = result.code;
-          codemode.value = result.mode;
         }
+        if (flag&&jsonData.answer!='</think>') {
+          list.value[list.value.length - 1].content += jsonData.answer
+          ? jsonData.answer
+          : "";
+
+        console.log(
+          list.value[list.value.length - 1].content,
+          "list.value[list.value.length-1].content"
+        );
+
         loadingData.value = false;
+
+        list.value[list.value.length - 1].loading = false;
+        list.value[list.value.length - 1].israte = true;
+        }
+        
       } else if (jsonData.event == "workflow_finished") {
-        contentData.value += jsonData.data.text ? jsonData.data.text : "";
+        list.value[list.value.length - 1].content += jsonData.answer
+          ? jsonData.answer
+          : "";
 
-        const result = extractCode(contentData.value);
-        if (result) {
-          codeContent.value = result.code;
-          codemode.value = result.mode;
-        }
-        loadingData.value = false;
+
+        addMessageFunction(
+          rundata,
+
+          list.value[list.value.length - 1].content,
+          name,
+          sqlType.value,
+          conversation_id.value,
+          message_id.value
+        );
+
         stopFlowFunction();
         stopSSE();
       }
-      // receivedMessages.value.push(event.data);
     },
+
     onerror: (err) => {
       console.error("流式请求错误:", err);
     },
   });
 };
-const stopSSE = () => {
-  if (abortController) {
-    abortController.abort();
-    abortController = null;
-  }
-};
-
-const stopFlowFunction = () => {
-  request
-    .post(stopCodeApi + task_id.value + "/stop", {
-      user: "string",
+const addMessageFunction = async (
+  rundata: any,
+  contentData: any,
+  name: string,
+  inputs: any,
+  conversation_id: string,
+  message_id: string
+) => {
+  await request
+    .post(addCodeApi, {
+      users: localStorage.getItem("s_name"),
+      names: name,
+      inputs: {
+        type: inputs,
+      },
+      introduction: contentData,
+      conversation_id: conversation_id,
+      message_id: message_id,
     })
     .then((response) => {
       console.log("响应数据:", response);
-      const { result } = response;
-      if (result == "success") {
-        stopSSE();
-      }
-    })
-    .catch((error) => {
-      console.log("请求出错:", error);
-    });
-};
-onMounted(() => {
-  getUser();
-  searchSpecialityFunction();
-  showHeaderFlog.value = true;
-  senderRef.value.openHeader();
-});
-const specialityList = ref([]);
-const searchSpecialityFunction = () => {
-  request
-    .get(difyApi)
-    .then((response) => {
-      console.log("响应数据:", response);
-      const {
-        code,
-        data: { select_one },
-      } = response;
-      if (code == 200) {
-        specialityList.value = select_one;
+      // 如果没有conversation_id就是新的对话放到历史列表当中
+      if (!rundata.conversation_id) {
+        historyListFunction();
       }
     })
     .catch((error) => {
@@ -763,21 +949,56 @@ const searchSpecialityFunction = () => {
       }
     });
 };
+const stopSSE = () => {
+  if (abortController) {
+    abortController.abort();
+    abortController = null;
+  }
+};
+
+const stopFlowFunction = () => {
+  request
+    .post(
+      stopCodeApi +
+        task_id.value +
+        "/stop?user=" +
+        localStorage.getItem("s_name"),
+      {
+        user: localStorage.getItem("s_name"),
+        task_id: task_id.value,
+      }
+    )
+    .then((response) => {
+      console.log("响应数据:", response);
+      const { result } = response.data;
+      if (result == "success") {
+        stopSSE();
+      }
+    })
+    .catch((error) => {
+      console.log("请求出错:", error);
+    });
+};
+onMounted(() => {
+  getUser();
+  historyListFunction();
+  showHeaderFlog.value = false;
+  senderRef.value.closeHeader();
+});
+
 function getUser() {
-  console.log(router, "routerrouterrouterrouterrouter");
   request
     .get(loginUserApi)
     .then((response) => {
       console.log("响应数据:", response);
-      const { code } = response;
+      const { code } = response.data;
       if (code == 200) {
-        localStorage.setItem("userData", response);
+        localStorage.setItem("userData", response.data);
       }
     })
     .catch((error) => {
       console.log("请求出错:", error);
       if (error == "未登录，请先登录") {
-        console.log(router, "routerrouterrouterrouterrouter");
         router.push("/login");
       }
       const { code, message } = error.response.data;
@@ -842,11 +1063,11 @@ code {
   width: 10%;
   height: 100%;
   float: left;
-  background: #fafafa;
+  background: #f9fbff;
   padding: 10px;
 }
 .openCom .title {
-  line-height: 50px;
+  // line-height: 40px;
   color: #4d6bfe;
   background: #dbeafe;
   border: 1px solid #dbeafe;
@@ -932,5 +1153,26 @@ code {
   border-radius: 20px;
   border: 1px solid blue;
   line-height: 50px;
+}
+.rateStyle {
+  color: #409eff;
+  border-color: #409eff;
+  background-color: rgb(235.9, 245.3, 255);
+}
+.action-list-self-wrap {
+  display: flex !important
+;
+  justify-content: center !important;
+  align-items: center !important;
+}
+.fixesS {
+  position: fixed;
+  bottom: 60px;
+  width: 60%;
+}
+.fixedT {
+  position: fixed;
+  bottom: 340px;
+  width: 60%;
 }
 </style>
