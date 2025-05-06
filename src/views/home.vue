@@ -2,18 +2,25 @@
     <div class="wrapper">
         <v-header />
         <!-- <v-sidebar /> -->
+
         <div class="content-box" >
             <!-- <v-tabs></v-tabs> -->
-            <div class="content">
+            <el-watermark content="吉斗云教育AI业态大模型" fill-style="hsla(240, 100%, 50%, 0.3)" style="width:100%;height: 100%;float: left;" :gap="[300, 300]" zIndex="5">
+
+            <div class="content" zIndex="20">
                 <router-view v-slot="{ Component }">
                     <transition name="move" mode="out-in">
                         <keep-alive :include="tabs.nameList">
-                            <component :is="Component"></component>
+        <component :is="Component"></component>
+
                         </keep-alive>
                     </transition>
                 </router-view>
             </div>
+        </el-watermark>
+
         </div>
+
     </div>
 </template>
 <script setup lang="ts">
@@ -38,18 +45,19 @@ const tabs = useTabsStore();
     right: 0;
     top: 70px;
     bottom: 0;
-    padding-bottom: 30px;
+    /* padding-bottom: 30px; */
     -webkit-transition: left 0.3s ease-in-out;
     transition: left 0.3s ease-in-out;
     background: #FFFFFF;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .content {
     width: auto;
     height: 100%;
     /* padding: 20px; */
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     box-sizing: border-box;
 }
 

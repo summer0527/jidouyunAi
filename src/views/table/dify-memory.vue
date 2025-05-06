@@ -7,128 +7,18 @@
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
     <!-- 右侧对话内容 -->
+     
     <div
-      style="width: 88%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
+      style="width: 89%; float: left; height: 100%; background-color: #ffffff;padding: 10px 0;box-sizing: border-box;"
     >
       <!-- 头部专业选择 -->
-      <div>
-        <el-dropdown v-for="(item, index) in specialityList" :key="index">
-          <el-button
-            style="margin-right: 10px; margin-left: 10px; margin-top: 10px"
-          >
-            {{ item }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </el-button>
+      
+      <!-- <v-speciality></v-speciality> -->
 
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Action 1</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
-              <el-dropdown-item disabled>Action 4</el-dropdown-item>
-              <el-dropdown-item divided>Action 5</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
       <!-- 专业选择结束 -->
       <!-- 7种场景展示 -->
-      <div
-        style="
-          width: 100%;
-          height: 93%;
-          float: left;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        "
-        v-show="isShowScene"
-      >
-        <div style="margin-top: 10px; margin-bottom: 10px">
-          <p>
-            <img class="logo mr10" src="/public/image/logo.png" alt="" />
+     
 
-            <span style="font-size: 24px; color: #3d3d3d"
-              >Hello,我是吉斗云AI</span
-            >
-            <span
-              style="
-                color: cornflowerblue;
-                font-size: 16px;
-                display: block;
-                text-indent: 10px;
-                margin-top: 20px;
-                margin-bottom: 20px;
-              "
-              >请选择你需要的场景</span
-            >
-          </p>
-          <p
-            style="
-              float: left;
-              width: 45%;
-              height: 300px;
-              border: 1px solid #bbbcc5;
-              margin-right: 5%;
-              border-radius: 10px;
-            "
-          >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              @click="handleTranslate"
-              >翻译</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >教案生成</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >代码生成器</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >研发问答器</el-button
-            >
-          </p>
-          <p
-            style="
-              float: left;
-              width: 45%;
-              height: 300px;
-              border: 1px solid #bbbcc5;
-              border-radius: 10px;
-            "
-          >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >数据表字段编辑器</el-button
-            >
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >知识库问答器</el-button
-            >
-
-            <el-button
-              text
-              bg
-              style="width: 90%; margin-left: 5%; margin-top: 20px"
-              >智能客服</el-button
-            >
-          </p>
-        </div>
-      </div>
       <!-- 翻译场景选择 -->
       <div
         style="
@@ -198,7 +88,7 @@
       <!-- <v-Bubblist></v-bubblist> -->
 
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" style="height: 100%">
+      <div class="list" v-if="isShowList" style="height: 85%">
        
         <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
 		<el-divider />
@@ -213,7 +103,7 @@
           align-items: center;
         "
       >
-        <div style="position: fixed; bottom: 110px; width: 60%">
+        <div style="position: fixed; bottom: 60px; width: 60%">
           <el-form :inline="true" class="demo-form-inline">
             <el-form-item label="类型" class="is-required">
               <el-select
@@ -246,7 +136,7 @@
         <Sender
           ref="senderRef"
           v-model="senderValue"
-          style="position: fixed; bottom: 30px; width: 60%"
+          style="position: fixed; bottom: 10px; width: 60%"
           submit-type="enter"
           @submit="handleSubmit"
         >
@@ -286,7 +176,7 @@
 
           <template #action-list>
             <div class="action-list-self-wrap">
-              <el-tooltip content="添加图片" placement="top">
+              <!-- <el-tooltip content="添加图片" placement="top">
                 <el-upload
                   class="upload-demo"
                   action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
@@ -297,24 +187,38 @@
                     <el-icon><Link /></el-icon>
                   </el-button>
                 </el-upload>
-              </el-tooltip>
+              </el-tooltip> -->
               <el-tooltip content="发送" placement="top">
                 <el-button
-                  type="primary"
                   circle
-                  style="rotate: -45deg"
                   @click="handleSubmit"
                 >
-                  <el-icon><Position /></el-icon>
+                <!-- style="rotate: -45deg" -->
+                
+                <el-icon>
+                    <i
+                      class="iconfont icon-fasong"
+                      style="font-size: 14px; color: #1570C4"
+                    ></i>
+                  </el-icon>
+                  <!-- <el-icon><Position /></el-icon> -->
                 </el-button>
               </el-tooltip>
               <el-tooltip content="终止" placement="top">
                 <el-button
                   circle
-                  style="margin-left: 5px"
+
+                  style="margin-left: 5px;font-size: 16px;"
                   @click="stopFlowFunction"
                 >
-                  <el-icon><VideoPlay /></el-icon>
+                
+                <el-icon>
+                      <i
+                        class="iconfont icon-zanting"
+                        style="font-size: 12px;color: #1570C4;"
+                      ></i>
+                    </el-icon>
+                  <!-- <el-icon><VideoPlay /></el-icon> -->
                 </el-button>
               </el-tooltip>
             </div>
@@ -344,10 +248,14 @@ import {
   EditPen,
 } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox } from "element-plus";
+// import type {
+//   BubbleListItemProps,
+//   BubbleListProps,
+// } from "element-plus-x/bubbleList/types";
 import type {
   BubbleListItemProps,
   BubbleListProps,
-} from "element-plus-x/bubbleList/types";
+} from "vue-element-plus-x/types/components/BubbleList/types";
 import type {
   UploadProps,
   FormInstance,
@@ -374,6 +282,8 @@ import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { b } from "vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P";
 import vBubList from "../../components/bubList.vue";
 import vTalkList from "../../components/talkList.vue";
+import vScence from "../../components/scence.vue";
+import vSpeciality from "../../components/speciality.vue";
 
 const mode = ref("javascript");
 const theme = ref("monokai");
@@ -404,14 +314,16 @@ interface ListData {
   conversation_id: string;
 }
 interface List {
-  conversation_id: string;
-  content: string;
-  role: string;
-  placement: string;
+  conversation_id?: string;
+  content?: string;
+  role?: string;
+  placement?: string;
   avatar: string;
-  avatarSize: string;
-  israte: boolean;
-  rate: string;
+  avatarSize?: string;
+  israte?: boolean;
+  rate?: string;
+  message_id?:string;
+  loading?:boolean
 }
 interface TranslateForm {
   file: File | null;
@@ -490,8 +402,9 @@ const historyListFunction = async () => {
     .then((response) => {
       console.log("响应数据:", response);
       // listData.push({ id: length, title: titleC });
-      const { data } = response;
-      listData.value = [...listData.value, ...data];
+      // const { conversations } = response.data;
+      listData.value = [...listData.value, ... response.data];
+      // console.log()
     })
     .catch((error) => {
       console.log("请求出错:", error);
@@ -527,14 +440,14 @@ const handleRate = (dataS: any) => {
     dataS.type = "null";
   }
   request
-    .post(rateMemoryApi + message_id.value + "/feedbacks", {
+    .post(rateMemoryApi + dataS.message_id + "/feedbacks", {
       user: localStorage.getItem("s_name"),
       rating: dataS.type,
       content: dataS.data,
     })
-    .then((response: AxiosResponse<any, any>) => {
+    .then((response) => {
       console.log("响应数据:", response);
-      const result = (response as any).result;
+      const {result} = response.data
       if (result == "success") {
         if (dataS.type == "like") {
           dataS.item.rate = "like";
@@ -579,9 +492,8 @@ const stopFunction = (id:any) => {
       const {
         code,
         data: { select_one },
-      } = response;
+      } = response.data;
       if (code == 200) {
-        specialityList.value = select_one;
       }
     })
     .catch((error) => {
@@ -621,16 +533,7 @@ const rules = reactive<FormRules<TranslateForm>>({
 });
 
 const list = ref<List[]>([
-  {
-    conversation_id: "",
-    content: "💖 感谢使用 吉斗云AI ! 你的支持，是我们最强动力 ~",
-    role: "ai",
-    placement: "start",
-    avatar: "/public/image/logo.png",
-    avatarSize: "24px",
-    israte: false,
-    rate: "null",
-  },
+ 
 ]);
 const imageList = reactive<imgList[]>([]);
 const isShowList = ref(false);
@@ -667,7 +570,7 @@ const handleOpenC = () => {
   list.value = [];
 };
 // 删除对话
-const handleDelet = (pa) => {
+const handleDelet = (pa:any) => {
   ElMessageBox.confirm("是否确定删除此条对话?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
@@ -675,12 +578,10 @@ const handleDelet = (pa) => {
   })
     .then(() => {
       const dy = {
-        conversation_id: pa.id,
+        conversation_id: pa.conversation_id,
       };
       request
-        .delete(deleMemoryApi + pa.id + "/" + pa.s_id, {
-          data: { user: localStorage.getItem("s_name") },
-        })
+        .get(deleMemoryApi  + pa.s_id)
         .then((response) => {
           console.log("响应数据:", response);
           ElMessage({
@@ -688,6 +589,13 @@ const handleDelet = (pa) => {
             type: "success",
             onClose: function () {
               historyListFunction();
+              if (list.value.length>0){
+                if (pa.conversation_id == list.value[0].conversation_id) {
+                handleOpenC()
+
+              }
+              }
+              
             },
           });
         })
@@ -715,7 +623,7 @@ const handleDelet = (pa) => {
     });
 };
 // 开启历史的对话
-const handleOpenConstion = (id) => {
+const handleOpenConstion = (id:any) => {
   const hisOpParams = {
     conversation_id: id,
     user: localStorage.getItem("s_name"),
@@ -726,19 +634,19 @@ const handleOpenConstion = (id) => {
     })
     .then((response) => {
       console.log("响应数据:", response);
-      const { data } = response;
+      const { data } = response.data;
       isShowList.value = true;
       isShowScene.value = false;
       list.value = [];
       sqlType.value = data[0].inputs.type;
-      data.forEach((ele) => {
+      data.forEach((ele:any) => {
         list.value.push({
           conversation_id: ele.conversation_id,
           content: ele.names,
           role: "user",
           placement: "end",
-          avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
-          avatarSize: "24px",
+          avatar: "/image/avtor.jpg",
+          avatarSize: "50px",
           israte: false,
           rate: "null",
         });
@@ -748,10 +656,11 @@ const handleOpenConstion = (id) => {
           loading: false,
           role: "ai",
           placement: "start",
-          avatar: "/public/image/logo.png",
-          avatarSize: "24px",
+          avatar: "/image/logono.png",
+          avatarSize: "50px",
           israte: true,
           rate: "null",
+          message_id:ele.message_id
         });
       });
     })
@@ -802,7 +711,7 @@ const task_id = ref("");
 const conversation_id = ref("");
 
 // 提取代码块
-const extractCode = (content) => {
+const extractCode = (content:any) => {
   const codeRegex = /```(\w+)\s*([\s\S]*?)```/;
   const match = content.match(codeRegex);
   if (match) {
@@ -827,10 +736,12 @@ const fetchStreamData = () => {
     query: senderValue.value,
     inputs: {
       type: sqlType.value,
+    query: senderValue.value,
+
     },
-    conversation_id: list.value[0].conversation_id
+    conversation_id: list.value.length>0?list.value[0].conversation_id
       ? list.value[0].conversation_id
-      : "",
+      : "":'',
     response_mode: "streaming",
     user: s_name,
     auto_generate_name: true,
@@ -847,29 +758,30 @@ const fetchStreamData = () => {
     content: senderValue.value,
     role: "user",
     placement: "end",
-    avatar: "https://avatars.githubusercontent.com/u/76239030?v=4",
-    avatarSize: "24px",
+    avatar: "/image/avtor.jpg",
+    avatarSize: "50px",
     israte: false,
     rate: "null",
   });
   list.value.push({
     conversation_id: "",
-    content: contentData,
-    code: codeContent,
-    mode: codemode,
+    content: contentData.value,
+    // code: codeContent,
+    // mode: codemode,
     // content: aidata.value,
-    loading: loadingData,
+    loading: loadingData.value,
     role: "ai",
     placement: "start",
-    avatar: "/public/image/logo.png",
-    avatarSize: "24px",
-    israte: rateData,
+    avatar: "/image/logo.png",
+    avatarSize: "50px",
+    israte: rateData.value,
     rate: "null",
+    message_id:''
   });
   console.log(contentData, "contentDatacontentDatacontentDatacontentData");
   const name = senderValue.value;
   senderValue.value = "";
-
+let flag = true
   fetchEventSource(runMemoryApi, {
     method: "POST",
     headers: {
@@ -884,37 +796,66 @@ const fetchStreamData = () => {
         task_id.value = jsonData.task_id;
         message_id.value = jsonData.message_id;
         conversation_id.value = jsonData.conversation_id;
+        list.value[list.value.length-1].message_id = jsonData.message_id;
+        list.value[list.value.length-1].conversation_id = jsonData.conversation_id;
+        list.value[list.value.length-2].conversation_id = jsonData.conversation_id;
+
+
         list.value[0].conversation_id = jsonData.conversation_id;
         list.value[1].conversation_id = jsonData.conversation_id;
       } else if (jsonData.event == "message") {
         console.log(jsonData.answer, "jsonData.data.text");
         const n = 0;
+        if (jsonData.answer=='<think>') {
+          flag=false
+        } else if (jsonData.answer=='</think>') {
+          flag=true
 
-        contentData.value += jsonData.answer ? jsonData.answer : "";
-
-        const result = extractCode(contentData.value);
-        if (result) {
-          codeContent.value = result.code;
-          codemode.value = result.mode;
         }
+        if (flag&&jsonData.answer!='</think>') {
+          contentData.value += jsonData.answer ? jsonData.answer : "";
+        list.value[list.value.length-1].content = contentData.value.replace(/&/g, '&amp;')
+     .replace(/</g, '&lt;')
+     .replace(/>/g, '&gt;');
+
+        // list.value[list.value.length-1].content += jsonData.answer ? jsonData.answer : "";
+        // console.log(list.value[list.value.length-1].content,'22222')
+        // const result = extractCode(contentData.value);
+        // if (result) {
+        //   codeContent.value = result.code;
+        //   codemode.value = result.mode;
+        // }
         loadingData.value = false;
-        rateData.value = true;
+
+        list.value[list.value.length-1].loading=false;
+        list.value[list.value.length-1].israte=true;
+
+
+        // rateData.value = true;
+        }
+      
+        
       } else if (jsonData.event == "workflow_finished") {
         contentData.value += jsonData.answer ? jsonData.answer : "";
+        list.value[list.value.length-1].content = contentData.value.replace(/&/g, '&amp;')
+     .replace(/</g, '&lt;')
+     .replace(/>/g, '&gt;');
+        // list.value[list.value.length-1].content += jsonData.answer ? jsonData.answer : "";
 
-        const result = extractCode(contentData.value);
-        if (result) {
-          codeContent.value = result.code;
-          codemode.value = result.mode;
-        }
-        loadingData.value = false;
+        // const result = extractCode(contentData.value);
+        // if (result) {
+        //   codeContent.value = result.code;
+        //   codemode.value = result.mode;
+        // }
+        // loadingData.value = false;
         addMessageFunction(
           rundata,
 
           contentData.value,
           name,
           sqlType.value,
-          conversation_id.value
+          conversation_id.value,
+          message_id.value
         );
 
         stopFlowFunction();
@@ -932,7 +873,8 @@ const addMessageFunction = async (
   contentData:any,
   name:string,
   inputs:any,
-  conversation_id:string
+  conversation_id:string,
+  message_id:string
 ) => {
   await request
     .post(addMemoryApi, {
@@ -943,6 +885,7 @@ const addMessageFunction = async (
       },
       introduction: contentData,
       conversation_id: conversation_id,
+      message_id:message_id
     })
     .then((response) => {
       console.log("响应数据:", response);
@@ -992,7 +935,7 @@ const stopFlowFunction = () => {
     )
     .then((response) => {
       console.log("响应数据:", response);
-      const { result } = response;
+      const { result } = response.data;
       if (result == "success") {
         stopSSE();
       }
@@ -1003,52 +946,19 @@ const stopFlowFunction = () => {
 };
 onMounted(() => {
   getUser();
-  searchSpecialityFunction();
   historyListFunction();
   showHeaderFlog.value = true;
   senderRef.value.openHeader();
 });
-const specialityList = ref([]);
-const searchSpecialityFunction = () => {
-  request
-    .get(difyApi)
-    .then((response) => {
-      console.log("响应数据:", response);
-      const {
-        code,
-        data: { select_one },
-      } = response;
-      if (code == 200) {
-        specialityList.value = select_one;
-      }
-    })
-    .catch((error) => {
-      console.log("请求出错:", error);
-      if (error == "未登录，请先登录") {
-        router.push("/login");
-      }
-      const { code, message } = error.response.data;
-      if (code == 409) {
-        ElMessage({
-          message: message,
-          type: "error",
-        });
-      } else {
-        ElMessage({
-          message: error.response.data,
-          type: "error",
-        });
-      }
-    });
-};
+
 function getUser() {
   request
     .get(loginUserApi)
     .then((response) => {
       console.log("响应数据:", response);
-      const { code } = response;
+      const { code } = response.data;
       if (code == 200) {
-        localStorage.setItem("userData", response);
+        localStorage.setItem("userData", response.data);
       }
     })
     .catch((error) => {

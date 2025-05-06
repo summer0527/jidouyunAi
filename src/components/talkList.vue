@@ -1,144 +1,160 @@
 <template>
-          <!--左侧对话列表 -->
-    <transition name="collapse">
-      <div class="openCom" v-if="sidebar.collapse">
-        <div
-          @click="handleOpenCZ"
-          class="title"
-          style="
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
-            margin-left: 10px;
-            border-radius: 14px;
-            width: fit-content;
-            padding: 0 10px;
-            height: 44px;
-          "
-        >
-          <el-icon style="margin-right: 5px"><ChatSquare /></el-icon>
-          开启新对话
-        </div>
-        <div>
-          <el-divider />
-          <ul>
-            <li
-              v-for="item in listData"
-              :key="item.id"
-              style="
-                list-style: none;
-                line-height: 50px;
-                text-indent: 30px;
-                margin-bottom: 10px;
-                float: left;
-                width: 100%;
-              "
-            >
-              <div>
-                <el-dropdown
-                  split-button
-                  style="width: 100%; float: left"
-                  class="his"
-                >
-                  <span class="el-dropdown-link">
-                    <input
-                      type="text"
-                      v-model="item.names"
-                      v-if="item.isEditHist"
-                      @blur="handleRestNameComZ(item)"
-                      style="width: 100%"
-                    />
-                    <span
-                      v-else
-                      style="
-                        display: block;
-                        width: 100%;
-                        text-align: left;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                      "
-                      @click="handleOpenConstionZ(item.conversation_id)"
-                      >{{ item.names }}</span
-                    >
-                  </span>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item @click="handleRestNameZ(item)">
-                        <el-icon><EditPen /></el-icon>
-                        <span>重命名</span>
-                      </el-dropdown-item>
-                      <el-dropdown-item
-                        @click="handleDeletZ(item.conversation_id, item.s_id)"
-                      >
-                        <el-icon><Delete /></el-icon>
-                        <span>删除</span>
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                  <!-- 自定义图标 -->
-                  <template #button-content>
-                    <i
-                      class="fa-solid fa-angle-down"
-                      style="margin-left: 5px"
-                    ></i>
-                  </template>
-                </el-dropdown>
-              </div>
-            </li>
-          </ul>
-        </div>
+  <!--左侧对话列表 -->
+  <transition name="collapse">
+    <div class="openCom" v-if="sidebar.collapse" style="z-index: 10;position: relative;">
+      <div
+        @click="handleOpenCZ"
+        class="title"
+        style="
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+          margin-left: 10px;
+          border-radius: 14px;
+          width: fit-content;
+          padding: 0 10px;
+          height: 44px;
+          margin-top:10px
+        "
+      >
+      <!-- <el-icon style="margin-right: 5px;"><Plus /></el-icon> -->
+        <el-icon style="margin-right: 5px;"><ChatSquare /></el-icon>
+        开启新对话
       </div>
-    </transition>
+      <div>
+        <!-- <el-divider /> -->
+        <!-- <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="历史记录" name="1"> -->
+        <ul>
+          <li
+            v-for="item in listData"
+            :key="item.id"
+            style="
+              list-style: none;
+              line-height: 50px;
+              text-indent: 30px;
+              margin-bottom: 10px;
+              float: left;
+              width: 100%;
+            "
+          >
+            <div>
+              <el-dropdown
+                split-button
+                style="width: 100%; float: left"
+                class="his"
+              >
+                <span class="el-dropdown-link">
+                  <input
+                    type="text"
+                    v-model="item.names"
+                    v-if="item.isEditHist"
+                    @blur="handleRestNameComZ(item)"
+                    style="width: 100%"
+                  />
+
+                  <span
+                    v-else
+                    style="
+                      display: block;
+                      width: 120px;
+                      text-align: left;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                    "
+                    @click="handleOpenConstionZ(item.conversation_id)"
+                  >
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="item.names"
+                      placement="top-start"
+                    >
+                      {{ item.names }}
+                    </el-tooltip>
+                  </span>
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item @click="handleRestNameZ(item)">
+                      <el-icon><EditPen /></el-icon>
+                      <span>重命名</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      @click="handleDeletZ(item.conversation_id, item.s_id)"
+                    >
+                      <el-icon><Delete /></el-icon>
+                      <span>删除</span>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+                <!-- 自定义图标 -->
+                <template #button-content>
+                  <i
+                    class="fa-solid fa-angle-down"
+                    style="margin-left: 5px"
+                  ></i>
+                </template>
+              </el-dropdown>
+            </div>
+          </li>
+        </ul>
+      <!-- </el-collapse-item>
+    
+    </el-collapse> -->
+     
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from "vue";
 import { useSidebarStore } from "@/store/sidebar";
-import { defineEmits } from 'vue';
-const emit = defineEmits(['handleOpenC','handleRestNameCom','handleOpenConstion','handleRestName','handleDelet']);
+// import { defineEmits } from 'vue';
+const emit = defineEmits([
+  "handleOpenC",
+  "handleRestNameCom",
+  "handleOpenConstion",
+  "handleRestName",
+  "handleDelet",
+]);
 
 const sidebar = useSidebarStore();
 
 const props = defineProps({
-    listData: {
-        type: Object,
-        required: true,
-    },
-    options: {
-        type: Object,
-        default: () => ({}),
-        required: false,
-    },
+  listData: {
+    type: Object,
+    required: true,
+  },
+  options: {
+    type: Object,
+    default: () => ({}),
+    required: false,
+  },
 });
-
-const handleOpenCZ=(item:object, type:string, data:string)=>{
- 
-  emit('handleOpenC');
-
+const activeNames = ref(['1'])
+const handleChange = (val: string[]) => {
+  console.log(val)
 }
-const handleRestNameComZ=(item)=>{
- 
- emit('handleRestNameCom',item);
-
-}
-const handleOpenConstionZ=(id)=>{
- 
- emit('handleOpenConstion',id);
-
-}
-const handleRestNameZ=(id)=>{
- 
- emit('handleRestName',id);
-
-}
-const handleDeletZ=(conversation_id,s_id)=>{
- emit('handleDelet',{conversation_id:conversation_id,s_id:s_id});
-
-}
-
+const handleOpenCZ = () => {
+  emit("handleOpenC");
+};
+const handleRestNameComZ = (item:any) => {
+  emit("handleRestNameCom", item);
+};
+const handleOpenConstionZ = (id:any) => {
+  emit("handleOpenConstion", id);
+};
+const handleRestNameZ = (id:any) => {
+  emit("handleRestName", id);
+};
+const handleDeletZ = (conversation_id: any, s_id: any) => {
+  emit("handleDelet", { conversation_id: conversation_id, s_id: s_id });
+};
 </script>
 <style scoped lang="less">
 pre {

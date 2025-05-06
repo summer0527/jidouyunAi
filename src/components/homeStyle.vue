@@ -2,11 +2,13 @@
     <div class="homeStyle" style="width: 1300px;height: 100%;float: left;position: relative;display: flex; align-items: center;margin-right: 2%;">
         <div class="login-message-box" style="z-index: 1800">
       <div class="message-left">
-        <p class="message-1 mssageHover">
-          以智能化教育服务为突破口，点燃并激发高校与教育机构对AI技术的深度关注与广泛应用。“智慧数境”在满足高校多学科智能对话需求的基础上，将持续深耕教育场景，开发覆盖教学、学习、科研与管理等全流程的深度工具与服务，全面提升教育效率与质量。通过构建良性循环的智能化服务体系，智慧数境致力于打造一个完整的教育生态闭环，为高校、教师、学生及教育管理者提供全方位、多层次的支持，推动教育数字化转型。
+        <p class="message-1 mssageHover" style="text-indent: 40px;">
+          吉林省吉斗云科技有限公司以智能化教育服务为突破口，点燃并激发高校与教育机构对AI技术的深度关注与广泛应用。“校园场景风向标”在满足高校多学科智能对话需求的基础上，将持续深耕教育场景，开发覆盖教学、学习、科研与管理等全流程的深度工具与服务，全面提升教育效率与质量。通过构建良性循环的智能化服务体系，智慧数境致力于打造一个完整的教育生态闭环，为高校、教师、学生及教育管理者提供全方位、多层次的支持，推动教育数字化转型。
         </p>
-        <p class="message2">
-          <el-image style="width: 480px; height: 350px" :src="meesage2" />
+        <p class="message2" style="background: white;border-radius: 10px;">
+          <el-image style="width: 496px; height: 403px;background: white;border-radius: 10px;" :src="meesage2" />
+    <!-- <v-dyWord></v-dyWord> -->
+
         </p>
       </div>
       <div class="message-right">
@@ -16,11 +18,18 @@
               <div class="atropos-inner">
                 <div class="message-style">
                   <span class="ripple"></span>
-                  <el-icon :size="20">
-                    <Edit />
-                  </el-icon>
+                  <!-- <i class="iconfont icon-lujing1"></i> -->
+                  <el-icon>
+                      <i
+                        class="iconfont icon-caidan"
+                        style="font-size: 26px;color: #1570C4;margin-bottom: 5px;"
+                      ></i>
+                    </el-icon>
+                  <!-- <el-icon :size="20" style="color: cornflowerblue;">
+                    <Menu />
+                  </el-icon> -->
                   <p
-                    style="font-size: 20px; margin-bottom: 10px"
+                    style="font-size: 20px; margin-bottom: 10px;margin-top: 10px;"
                     class="mssageHover"
                   >
                     学科AI场景全覆盖
@@ -38,11 +47,18 @@
             <div class="atropos-rotate">
               <div class="atropos-inner">
                 <div class="message-style">
-                  <el-icon :size="20">
+                  <!-- <el-icon :size="20">
                     <Edit />
-                  </el-icon>
+                  </el-icon> -->
+                  <el-icon>
+                      <i
+                        class="iconfont icon-wuguan"
+                        style="font-size: 26px;color: #1570C4;margin-bottom: 5px;"
+                      ></i>
+                    </el-icon>
+                  
                   <p
-                    style="font-size: 20px; margin-bottom: 10px"
+                    style="font-size: 20px; margin-bottom: 10px;margin-top: 10px;"
                     class="mssageHover"
                   >
                     智能赋能教育双向优化
@@ -60,11 +76,17 @@
             <div class="atropos-rotate">
               <div class="atropos-inner">
                 <div class="message-style">
-                  <el-icon :size="20">
+                  <!-- <el-icon :size="20">
                     <Edit />
-                  </el-icon>
+                  </el-icon> -->
+                  <el-icon>
+                      <i
+                        class="iconfont icon-lujing1"
+                        style="font-size: 26px;color: #1570C4;margin-bottom: 5px;"
+                      ></i>
+                    </el-icon>
                   <p
-                    style="font-size: 20px; margin-bottom: 10px"
+                    style="font-size: 20px; margin-bottom: 10px;margin-top: 10px;"
                     class="mssageHover"
                   >
                     个性化学习路径
@@ -82,11 +104,17 @@
             <div class="atropos-rotate">
               <div class="atropos-inner">
                 <div class="message-style">
-                  <el-icon :size="20">
+                  <!-- <el-icon :size="20">
                     <Edit />
-                  </el-icon>
+                  </el-icon> -->
+                  <el-icon>
+                      <i
+                        class="iconfont icon-gongju"
+                        style="font-size: 26px;color: #1570C4;margin-bottom: 5px;"
+                      ></i>
+                    </el-icon>
                   <p
-                    style="font-size: 20px; margin-bottom: 10px"
+                    style="font-size: 20px; margin-bottom: 10px;margin-top: 10px;"
                     class="mssageHover"
                   >
                     教学辅助工具
@@ -104,11 +132,17 @@
             <div class="atropos-rotate">
               <div class="atropos-inner">
                 <div class="message-style">
-                  <el-icon :size="20">
+                  <!-- <el-icon :size="20">
                     <Edit />
-                  </el-icon>
+                  </el-icon> -->
+                  <el-icon>
+                      <i
+                        class="iconfont icon-biaoqiankuozhan_shuji-167"
+                        style="font-size: 26px;color: #1570C4;margin-bottom: 5px;"
+                      ></i>
+                    </el-icon>
                   <p
-                    style="font-size: 20px; margin-bottom: 10px"
+                    style="font-size: 20px; margin-bottom: 10px;margin-top: 10px;"
                     class="mssageHover"
                   >
                     教育管理优化
@@ -126,11 +160,17 @@
             <div class="atropos-rotate">
               <div class="atropos-inner">
                 <div class="message-style">
-                  <el-icon :size="20">
+                  <!-- <el-icon :size="20">
                     <Edit />
-                  </el-icon>
+                  </el-icon> -->
+                  <el-icon>
+                      <i
+                        class="iconfont icon-huizixing"
+                        style="font-size: 26px;color: #1570C4;margin-bottom: 5px;"
+                      ></i>
+                    </el-icon>
                   <p
-                    style="font-size: 20px; margin-bottom: 10px"
+                    style="font-size: 20px; margin-bottom: 10px;margin-top: 10px;"
                     class="mssageHover"
                   >
                     生态闭环与持续创新
@@ -150,10 +190,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { AbstractShapeBg } from "../../build/jsm/AbstractShapeBg.module.js";
-
-import meesage2 from "../assets/img/mesage2.png";
-
+import meesage2 from "../assets/img/未命名 (14).png";
 import axios from "axios";
+import vDyWord from "../components/dyWord.vue";
+
 // import Atropos from "atropos";
 onMounted(() => {
   let colorbg = new AbstractShapeBg({
@@ -264,7 +304,7 @@ padding-right: 10px;
 .message2 {
   position: absolute;
   left: 35px;
-  top: 300px;
+  top: 280px;
   width: 480px;
   height: 300px;
   opacity: 1;
@@ -377,7 +417,7 @@ padding-right: 10px;
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background: url(../../assets/img/login-bg.jpg) center/cover no-repeat;
+  /* background: url(../../assets/img/login-bg.jpg) center/cover no-repeat; */
 }
 
 .login-header {

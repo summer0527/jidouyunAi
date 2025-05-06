@@ -8,16 +8,15 @@
         justify-content: center;
         align-items: center;
         padding-left: 4%;
-    padding-right: 4%;
-    box-sizing: border-box;
+        padding-right: 4%;
+        box-sizing: border-box;
       "
     >
       <v-homeStyle></v-homeStyle>
       <div class="login-container">
         <div class="login-header">
           <img class="logo mr10" src="../../assets/img/logo.png" alt="" />
-        <div class="login-title">吉斗云AI-校园场景风向标</div>
-
+          <div class="login-title">吉斗云AI-校园场景风向标</div>
         </div>
 
         <el-form
@@ -29,33 +28,69 @@
           size="large"
         >
           <el-form-item prop="s_name" label="用户名">
-            <el-input v-model="param.s_name" placeholder="请输入用户名">
-              <template #append>
+            <el-input v-model="param.s_name" placeholder="请输入用户名"  style="width: 82%;border-bottom-right-radius: 0 !important;
+		  border-top-right-radius: 0 !important;" >
+              <!-- <template #append>
                 <el-icon><UserFilled /></el-icon>
-              </template>
+              </template> -->
             </el-input>
+            <div  class='append' style="box-shadow: 0 1px 0 0 #dcdfe6 inset, 0 -1px 0 0 #dcdfe6 inset, -1px 0 0 0 #dcdfe6 inset;width:18%;float: left;">
+              
+              <el-icon><UserFilled /></el-icon>
+            </div>
           </el-form-item>
           <el-form-item prop="s_student_id" label="学号">
-            <el-input v-model="param.s_student_id" placeholder="请输入学号">
-              <template #append>
+            <el-input v-model="param.s_student_id" placeholder="请输入学号" style="width: 82%;border-bottom-right-radius: 0 !important;
+		  border-top-right-radius: 0 !important;">
+              <!-- <template #append>
                 <el-icon><Coin /></el-icon>
-              </template>
+              </template> -->
             </el-input>
+            <div  class='Coin append' style="box-shadow: 0 1px 0 0 #dcdfe6 inset, 0 -1px 0 0 #dcdfe6 inset, -1px 0 0 0 #dcdfe6 inset;width:18%;float: left;">
+              
+              <el-icon><Coin /></el-icon>
+            </div>
           </el-form-item>
 
           <el-form-item prop="s_college" label="学院">
-            <el-input v-model="param.s_college" placeholder="请输入学院">
-              <template #append>
+            <el-input v-model="param.s_college" placeholder="请输入学院" style="width: 82%;border-bottom-right-radius: 0 !important;
+		  border-top-right-radius: 0 !important;">
+              <!-- <template #append>
                 <el-icon><School /></el-icon>
-              </template>
+              </template> -->
             </el-input>
+            <div  class='Coin append' style="box-shadow: 0 1px 0 0 #dcdfe6 inset, 0 -1px 0 0 #dcdfe6 inset, -1px 0 0 0 #dcdfe6 inset;width:18%;float: left;">
+              
+              <el-icon><School /></el-icon>
+            </div>
           </el-form-item>
           <el-form-item prop="s_speciality" label="专业">
-            <el-input v-model="param.s_speciality" placeholder="请输入专业">
-              <template #append>
-                <el-icon><Guide /></el-icon>
-              </template>
-            </el-input>
+            <!-- <el-input v-model="param.s_speciality" placeholder="请输入专业"> -->
+            <el-select
+              v-model="param.s_speciality"
+              placeholder="请选择你的专业"
+              clearable
+              style="width: 82%;border-bottom-right-radius: 0 !important;
+		  border-top-right-radius: 0 !important;" 
+              class="myselfSelect"
+            >
+              <el-option v-for="(item,index) in spData"  :label="item.label" :value="item.value" />
+              <!-- <el-option label="外语专业" value="外语专业" />
+              <el-option label="企业专业" value="企业专业" />
+              <el-option label="心理专业" value="心理专业" />
+              <el-option label="汽车专业" value="汽车专业" />
+              <el-option label="医学专业" value="医学专业" /> -->
+
+             
+              <!-- <template>
+                <el-icon><Search /></el-icon>
+              </template> -->
+            </el-select>
+            <div  class='append' style="box-shadow: 0 1px 0 0 #dcdfe6 inset, 0 -1px 0 0 #dcdfe6 inset, -1px 0 0 0 #dcdfe6 inset;width:18%;float: left;">
+              
+              <el-icon><Guide /></el-icon>
+            </div>
+            <!-- </el-input> -->
           </el-form-item>
 
           <el-form-item prop="s_pass" label="密码">
@@ -63,14 +98,20 @@
               type="password"
               placeholder="请输入密码"
               v-model="param.s_pass"
-             
+              autocomplete="new-password"
+               style="width: 82%;border-bottom-right-radius: 0 !important;
+		  border-top-right-radius: 0 !important;"
             >
-              <template #append>
+              <!-- <template #append>
                 <el-icon>
                   <View />
                 </el-icon>
-              </template>
+              </template> -->
             </el-input>
+            <div  class='View append' style="box-shadow: 0 1px 0 0 #dcdfe6 inset, 0 -1px 0 0 #dcdfe6 inset, -1px 0 0 0 #dcdfe6 inset;width:18%;float: left;">
+              
+              <el-icon><School /></el-icon>
+            </div>
             <span class="passTip">密码为6到12位的英文字符</span>
           </el-form-item>
           <el-form-item prop="password" label="确认密码">
@@ -78,13 +119,20 @@
               type="password"
               placeholder="请再次输入密码"
               v-model="param.password"
-               @keydown.enter="submitForm(register)"
+              @keydown.enter="submitForm(register)"
+               style="width: 82%;border-bottom-right-radius: 0 !important;
+		  border-top-right-radius: 0 !important;"
             >
-              <template #append>
-                
+              <!-- <template #append>
                 <el-icon><SuccessFilled /></el-icon>
-              </template>
+              </template> -->
+             
             </el-input>
+
+            <div  class='View append' style="box-shadow: 0 1px 0 0 #dcdfe6 inset, 0 -1px 0 0 #dcdfe6 inset, -1px 0 0 0 #dcdfe6 inset;width:18%;float: left;">
+              
+              <el-icon><SuccessFilled /></el-icon>
+            </div>
           </el-form-item>
           <el-button
             class="login-btn"
@@ -94,12 +142,17 @@
             >立即注册</el-button
           >
         </el-form>
-      </div>
-      <p style="position: fixed;
-    bottom: 2%;
-    z-index: 10000000;
-    color: #ffffff;">吉林省吉斗云科技有限公司版权所有  Copyright © JiDouYun.com, All Rights Reserved.</p>
 
+        <p class="login-text">
+          已有账号？<el-link type="primary" @click="$router.push('/login')"
+            >去登录</el-link
+          >
+        </p>
+      </div>
+      <p style="position: fixed; bottom: 2%; z-index: 10000000; color: #ffffff">
+        吉林省吉斗云科技有限公司版权所有 Copyright © JiDouYun.com, All Rights
+        Reserved.
+      </p>
     </div>
   </div>
 </template>
@@ -118,8 +171,12 @@ import {
 // import { AbstractShapeBg } from "../../../build/jsm/AbstractShapeBg.module.js";
 // import meesage2 from "../../assets/img/mesage2.png";
 import axios from "axios";
-import { registerApi } from "../../api/index";
+import { registerApi,specialitiesApi } from "../../api/index";
 import request from "../../utils/request";
+
+import { Search } from "@element-plus/icons-vue";
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
 // import Atropos from "atropos";
 const router = useRouter();
 interface Register {
@@ -129,6 +186,7 @@ interface Register {
   s_speciality: string;
   s_student_id: string;
   password: string;
+  selectValue: string;
 }
 const param = reactive<Register>({
   s_name: "",
@@ -137,7 +195,45 @@ const param = reactive<Register>({
   s_speciality: "",
   s_student_id: "",
   password: "",
+  selectValue: "",
 });
+const spData=ref([])
+onMounted(()=>{
+  getSelectData()
+})
+function getSelectData(){
+  request
+      .get(specialitiesApi)
+      .then((response) => {
+        console.log("响应数据:", response);
+        const { status,data } = response;
+        if (status == 200) {
+          // spData.value=data
+          data.forEach((element:any) => {
+            spData.value.push({value:element,label:element})
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("请求出错:", error);
+        if (error == "未登录，请先登录") {
+          console.log(router, "routerrouterrouterrouterrouter");
+          router.push("/login");
+        }
+        const { code, message } = error.response.data;
+        if (code == 409) {
+          ElMessage({
+            message: message,
+            type: "error",
+          });
+        } else {
+          ElMessage({
+            message: error.response.data,
+            type: "error",
+          });
+        }
+      });
+}
 // onMounted(() => {
 //   let colorbg = new AbstractShapeBg({
 //     dom: "login-wrap",
@@ -257,8 +353,8 @@ const rules: FormRules = {
     { validator: userUserValidate, trigger: "blur" },
   ],
   s_speciality: [
-    { required: true, message: "请输入专业", trigger: "blur" },
-    { validator: userUserValidate, trigger: "blur" },
+    { required: true, message: "请选择专业", trigger: "change" },
+    // { validator: userUserValidate, trigger: "change" },
   ],
   s_student_id: [
     { required: true, message: "请输入学号", trigger: "blur" },
@@ -285,7 +381,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         .then((response) => {
           // 请求成功，处理响应数据
           console.log("响应数据:", response);
-          const { message, s_name, code } = response;
+          const { message, s_name, code } = response.data;
           if (code == 201) {
             ElMessageBox.confirm(s_name + "您已注册成功,是否去登陆?", "提示", {
               confirmButtonText: "确定",
@@ -327,6 +423,24 @@ const submitForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped>
+
+.append{
+  align-items: center;
+    background-color:#f5f7fa;
+    border-radius: 4px;
+    color: #909399;
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    border-bottom-left-radius: 0 !important;
+		  border-top-left-radius: 0 !important;
+    /* min-height: 100%; */
+    /* padding: 0 20px; */
+}
+.el-select--large .el-select__prefix,
+.el-select--large .el-select__suffix {
+  display: none !important;
+}
 .el-message--error {
   min-width: 400px;
   min-height: 50px;
@@ -459,7 +573,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background: url(../../assets/img/login-bg.jpg) center/cover no-repeat;
+  /* background: url(../../assets/img/login-bg.jpg) center/cover no-repeat; */
 }
 
 .login-header {
@@ -485,7 +599,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   background: #fff;
   padding: 40px 50px 50px;
   box-sizing: border-box;
-  z-index: 100000000000;
+  z-index: 2000;
   float: left;
   /* margin-left: 72%; */
   /* margin-top: 12px; */
@@ -494,9 +608,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   left: 41px;
   top: 120px; */
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .pwd-tips {
@@ -544,15 +658,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
 .el-form-item--large {
   margin-bottom: 30px !important;
 }
-.sub-title{
+.sub-title {
   font-family: HarmonyOS Sans SC;
-    font-size: 23px;
-    font-weight: normal;
-    line-height: 36px;
-    letter-spacing: 0px;
-    font-variation-settings: "opsz" auto;
-    font-feature-settings: "kern" on;
-    color: #333;
-    margin-bottom: 20px;
+  font-size: 23px;
+  font-weight: normal;
+  line-height: 36px;
+  letter-spacing: 0px;
+  font-variation-settings: "opsz" auto;
+  font-feature-settings: "kern" on;
+  color: #333;
+  margin-bottom: 20px;
 }
 </style>

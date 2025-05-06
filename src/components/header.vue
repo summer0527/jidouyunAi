@@ -2,9 +2,9 @@
   <div class="header">
     <!-- 折叠按钮 -->
     <div class="header-left">
-      <img class="logo" src="../assets/img/logo.png" alt="" />
+      <img class="logo" src="/image/logono.png" alt="" style="width: 66px" />
       <div class="web-title">吉斗云AI-校园场景风向标</div>
-      <div class="collapse-btn" @click="collapseChage">
+      <div class="collapse-btn" @click="collapseChage" v-show="!sidebar.isDa">
         <el-icon v-if="sidebar.collapse">
           <Expand />
         </el-icon>
@@ -15,11 +15,124 @@
     </div>
     <div class="header-right">
       <div class="header-user-con">
-        <div class="btn-icon" @click="router.push('/theme')">
+        <div v-show="!sidebar.isDa">
+          <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            :ellipsis="false"
+            @select="handleSelect"
+          >
+            <el-sub-menu index="1">
+              <template #title>切换新场景</template>
+
+              <!-- <el-menu-item index="/dify-teacher" style="font-size: 20px;color: blue;">  <i class="el-icon-lx-skin"></i>教师场景</el-menu-item> -->
+              <!-- <el-divider /> -->
+              <el-menu-item index="/dify-teacher" style="margin-top: 20px;">
+                <i class="iconfont icon-laoshi" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >教案生成助手</el-menu-item
+              >
+              <el-menu-item index="/dify-man">
+                <i class="iconfont icon-laoshi" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >辩论主持人助手</el-menu-item
+              >
+              <el-menu-item index="/dify-subject">
+                <i class="iconfont icon-laoshi" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >分层练习题助手</el-menu-item
+              >
+              <el-menu-item index="/dify-gang">
+                <i class="iconfont icon-laoshi" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >教学大纲生成助手</el-menu-item
+              >
+              <el-menu-item index="/dify-class">
+                <i class="iconfont icon-laoshi" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >课堂互动问答助手</el-menu-item
+              >
+              <el-menu-item index="/dify-virtuallearning">
+                <i class="iconfont icon-laoshi" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >虚拟合作伙伴助手</el-menu-item
+              >
+              <!-- <el-menu-item index="/dify-teacher" style="font-size: 20px;color: blue;">  <i class="el-icon-lx-skin"></i>学生场景</el-menu-item> -->
+              <el-divider />
+
+              <el-menu-item index="/dify-translate">
+                <i class="iconfont icon-chengyuan" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >翻译助手</el-menu-item
+              >
+              <el-menu-item index="/dify-code">
+                <i class="iconfont icon-chengyuan" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >代码生成助手</el-menu-item
+              >
+              <el-menu-item index="/dify-qa">
+                <i class="iconfont icon-chengyuan" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >研发问答助手</el-menu-item
+              >
+              <el-menu-item index="/dify-memory">
+                <i class="iconfont icon-chengyuan" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >对话记忆助手</el-menu-item
+              >
+              <el-menu-item index="/dify-lean">
+                <i class="iconfont icon-chengyuan" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >个性化学习助手</el-menu-item
+              >
+              <el-menu-item index="/dify-sql">
+                <i class="iconfont icon-chengyuan" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >数据表字段生成助手</el-menu-item
+              >
+              <!-- <el-menu-item index="/dify-teacher" style="font-size: 20px;color: blue;">  <i class="el-icon-lx-skin"></i>行业场景</el-menu-item> -->
+              <el-divider />
+
+              <el-menu-item index="/dify-physical">
+                <i class="iconfont icon-xingye" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >体检助手</el-menu-item
+              >
+              <el-menu-item index="/dify-customer">
+                <i class="iconfont icon-xingye" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >智能客服助手</el-menu-item
+              >
+              <el-menu-item index="/dify-knowledge">
+                <i class="iconfont icon-xingye" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >行业知识库助手</el-menu-item
+              >
+              <el-menu-item index="/dify-health">
+                <i class="iconfont icon-xingye" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >心理健康支持助手</el-menu-item
+              >
+              <el-menu-item index="/dify-car">
+                <i class="iconfont icon-xingye" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >汽车故障检修助手</el-menu-item
+              >
+              <el-menu-item index="/dify-treatment">
+                <i class="iconfont icon-xingye" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >治疗虚拟教学培训助手</el-menu-item
+              >
+              <el-menu-item index="/dify-guidance" style="margin-bottom: 20px;">
+                <i class="iconfont icon-xingye" style="margin-right: 5px;color:#F80526;font-weight: 600;"></i
+                >智能导诊与患者服务助手</el-menu-item
+              >
+            </el-sub-menu>
+          </el-menu>
+        </div>
+        <!-- <div class="header-user-con">
+          <el-button
+            type="text"
+            @click="handleOpenNew"
+            style="
+              border: 1px solid;
+              padding: 10px;
+              border-radius: 15px;
+              margin-left: 20px;
+              margin-right: 20px;
+            "
+          >
+            通识选修课
+          </el-button>
+        </div> -->
+        <!-- <div class="btn-icon" @click="router.push('/theme')">
           <el-tooltip effect="dark" content="设置主题" placement="bottom">
             <i class="el-icon-lx-skin"></i>
           </el-tooltip>
-        </div>
+        </div> -->
         <!-- <div class="btn-icon" @click="router.push('/ucenter')">
                     <el-tooltip
                         effect="dark"
@@ -30,11 +143,11 @@
                     </el-tooltip>
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div> -->
-        <div class="btn-icon" @click="setFullScreen">
+        <!-- <div class="btn-icon" @click="setFullScreen">
           <el-tooltip effect="dark" content="全屏" placement="bottom">
             <i class="el-icon-lx-full"></i>
           </el-tooltip>
-        </div>
+        </div> -->
         <!-- 用户头像 -->
         <el-avatar class="user-avator" :size="30" :src="imgurl" />
         <!-- 用户名下拉菜单 -->
@@ -47,7 +160,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="user">个人中心</el-dropdown-item>
+              <!-- <el-dropdown-item command="user">个人中心</el-dropdown-item> -->
               <el-dropdown-item divided command="loginout"
                 >退出登录</el-dropdown-item
               >
@@ -59,24 +172,35 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useSidebarStore } from "../store/sidebar";
-import { useRouter } from "vue-router";
-import imgurl from "../assets/img/img.jpg";
+import { useRouter, useRoute } from "vue-router";
+import imgurl from "/image/avtor.jpg";
 import { loginOut } from "../api/index";
 import request from "../utils/request";
-import { ElMessage, ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox, ElMenu } from "element-plus";
+const currentRoute = ref(null);
+const route = useRoute();
 
+const router = useRouter();
 const username: string | null = localStorage.getItem("s_name");
 const message: number = 2;
-
+const activeIndex = ref("1");
 const sidebar = useSidebarStore();
 // 侧边栏折叠
 const collapseChage = () => {
   sidebar.handleCollapse();
 };
-
+// 开启新对话
+const handleOpenNew = () => {
+  router.push("/dashboard");
+};
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+  router.push(keyPath[1]);
+};
 onMounted(() => {
+  console.log(sidebar.isDa, " sidebar.isDa sidebar.isDa sidebar.isDa");
   if (document.body.clientWidth < 1500) {
     collapseChage();
   }
@@ -87,7 +211,7 @@ function loginOutFunction() {
     .then((response) => {
       // 请求成功，处理响应数据
       console.log("响应数据:", response);
-      const { code, message } = response;
+      const { code, message } = response.data;
       if (code == 200) {
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("token");
@@ -112,7 +236,6 @@ function loginOutFunction() {
     });
 }
 // 用户名下拉菜单选择事件
-const router = useRouter();
 const handleCommand = (command: string) => {
   if (command == "loginout") {
     loginOutFunction();

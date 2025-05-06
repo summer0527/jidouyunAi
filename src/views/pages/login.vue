@@ -114,8 +114,7 @@ const param = reactive<LoginInfo>({
  
 });
 const reg2 = /^[a-zA-Z]{6,12}$/;
-const userPassValidate = (rule, value, callback) => {
-  console.log("lllll");
+const userPassValidate = (rule:any, value:any, callback:any) => {
   if (!value) {
     return callback(new Error("密码不能为空"));
   }
@@ -130,8 +129,7 @@ const userPassValidate = (rule, value, callback) => {
   }, 0);
 };
 const reg = /^[\u4e00-\u9fff]+$/;
-const userUserValidate = (rule, value, callback) => {
-  console.log("lllll");
+const userUserValidate = (rule:any, value:any, callback:any) => {
   if (!value) {
     return callback(new Error("用户名不能为空"));
   }
@@ -168,7 +166,7 @@ const login = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
   console.log('-=-=-=-=-=-=-=')
   if (!formEl) return;
-  formEl.validate((valid: boolean) => {
+  formEl.validate((valid: boolean): void => {
     if (valid) {
       const config = {
 
@@ -181,11 +179,13 @@ request.post(loginApi, qs.stringify(param),config)
     .then(response => {
           // 请求成功，处理响应数据
           console.log('响应数据:', response);
-          const { code,access_token,refresh_token,s_name } = response;
+          const { code,access_token,refresh_token,s_name,s_speciality,data } = response.data;
           if (code == 201) {
             localStorage.setItem("token", access_token);
             localStorage.setItem("refreshToken", refresh_token);
             localStorage.setItem("s_name", s_name);
+            localStorage.setItem("s_speciality", s_speciality);
+            localStorage.setItem("data", JSON.stringify(data));
 
             router.push("/dashboard");
           } 
@@ -209,13 +209,15 @@ request.post(loginApi, qs.stringify(param),config)
 
      
     } else {
-      return false;
+      // return false;
     }
     
   });
 };
 const handleChange = () => {};
 onMounted(() => {
+console.log(import.meta.env.VITE_APP_ENV,'process.env.VUE_APP_ENV589565555')
+
   let colorbg = new AbstractShapeBg({
     dom: "login-wrap",
     colors: ["#0F52BB", "#27C6E6", "#D2F6F7", "#B0EEF4", "#439AE6", "#0F52BB"],
@@ -388,7 +390,7 @@ tabs.clearTabs();
   justify-content: center; */
   width: 100%;
   height: 100vh;
-  background: url(../../assets/img/login-bg.jpg) center/cover no-repeat;
+  /* background: url(../../assets/img/login-bg.jpg) center/cover no-repeat; */
 }
 
 .login-header {

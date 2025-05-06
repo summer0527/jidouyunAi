@@ -3,8 +3,10 @@ import { resolve } from 'node:path';
 import VueMacros from 'unplugin-vue-macros/vite'
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { fileURLToPath } from 'url';
+import {dirname} from 'path';
 
-
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const externals = ['vue'];
 
 export default defineConfig({
@@ -17,22 +19,22 @@ export default defineConfig({
       // 覆盖插件选项
     }),
   ],
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'antdx',
-      fileName: 'index',
-    },
-    rollupOptions: {
-      external: [...externals],
-      output: {
-        globals: {
-          'vue': 'Vue',
-        },
-      },
-    },
-    outDir: 'dist',
-  },
+  // build: {
+  //   lib: {
+  //     entry: resolve(__dirname, 'src/index.ts'),
+  //     name: 'antdx',
+  //     fileName: 'index',
+  //   },
+  //   rollupOptions: {
+  //     external: [...externals],
+  //     output: {
+  //       globals: {
+  //         'vue': 'Vue',
+  //       },
+  //     },
+  //   },
+  //   outDir: 'dist',
+  // },
   resolve: {
     dedupe: ['vue'],
   },

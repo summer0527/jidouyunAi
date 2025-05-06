@@ -1,4 +1,6 @@
 <template>
+    <el-watermark content="吉斗云教育AI业态大模型" fill-style="rgba(0, 0, 0, 0.1)" style="height: 100%;" :gap="[300, 300]" zIndex="5">
+
     <div class="login-bg">
         <div class="login-container">
           <div class="login-header" style="display: flex
@@ -48,6 +50,7 @@
             </el-form>
         </div>
     </div>
+    </el-watermark>
 </template>
 
 <script setup lang="ts">
@@ -141,7 +144,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         .then((response) => {
           // 请求成功，处理响应数据
           console.log("响应数据:", response);
-          const {success,message} = response
+          const {success,message} = response.data
          
           if (success) {
             ElMessageBox.confirm(message+ ",是否去登陆?", "提示", {
