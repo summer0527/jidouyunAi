@@ -257,6 +257,8 @@ const isShowScene = ref(true);
 
 const sqlType = ref("语文老师");
 const sqlTypeOptions = ref([
+{ label: "历史老师", value: "历史老师" },
+
 { label: "语文老师", value: "语文老师" },
   { label: "数学老师", value: "数学老师" },
   { label: "英语老师", value: "英语老师" },
