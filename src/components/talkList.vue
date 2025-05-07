@@ -62,7 +62,6 @@
                       width: 120px;
                       text-align: left;
                       overflow: hidden;
-                      text-overflow: ellipsis;
                       white-space: nowrap;
                     "
                     @click="handleOpenConstionZ(item.conversation_id)"

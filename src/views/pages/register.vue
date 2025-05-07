@@ -15,9 +15,19 @@
       <v-homeStyle></v-homeStyle>
       <div class="login-container">
         <div class="login-header">
-          <img class="logo mr10" src="../../assets/img/logo.png" alt="" />
-          <div class="login-title">吉斗云AI-校园场景风向标</div>
-        </div>
+       
+        
+       <div class="login-title">
+         <p style='display: flex
+;
+   justify-content: center;'>
+           <img class="logo" src="../../assets/img/logo.png" alt="" />吉斗云AI</p>
+         <p>教育专业大模型AI场景提供商</p>
+
+       </div>
+       <!-- <div class="login-title">教育专业大模型AI场景提供商</div> -->
+
+     </div>
 
         <el-form
           :model="param"
