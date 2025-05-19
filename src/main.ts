@@ -12,7 +12,7 @@ import 'ace-builds/src-noconflict/ace';
 // 引入 JSON 模式
 import 'ace-builds/src-noconflict/mode-json';
 import './assets/iconfont/iconfont.css'; // 引入 Iconfont 样式
- 
+
   // import css style
 const app = createApp(App);
 app.use(createPinia());

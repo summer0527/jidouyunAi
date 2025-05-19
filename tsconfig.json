@@ -10,7 +10,7 @@
     "jsxImportSource": "vue",
     "moduleResolution": "node",
     "strictNullChecks": false,
-    
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "types": ["unplugin-vue-macros/macros-global", "node","puppeteer"],
     "paths": {

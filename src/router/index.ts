@@ -24,7 +24,16 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
             },
-           
+            {
+                path: '/scense',
+                name: 'scense',
+                meta: {
+                    title: '场景模式',
+                    noAuth: true,
+                },
+                component: () => import(/* webpackChunkName: "scense" */ '../views/scense.vue'),
+            },
+            
             {
                 path: '/system-user',
                 name: 'system-user',
@@ -243,7 +252,35 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "dify-ppt" */ '../views/table/ppt.vue'),
             },
-          
+            {
+                path: '/dify-pdf',
+                name: 'dify-pdf',
+                meta: {
+                    title: 'pdf',
+                    permiss: '39',
+                },
+                component: () => import(/* webpackChunkName: "dify-pdf" */ '../views/table/pdf.vue'),
+            },
+            {
+                path: '/dify-pptiframe',
+                name: 'dify-pptiframe',
+                meta: {
+                    title: 'pptiframe',
+                    permiss: '39',
+                },
+                component: () => import(/* webpackChunkName: "dify-pptiframe" */ '../views/table/pptiframe.vue'),
+            },
+            
+            {
+                path: '/dify-generic',
+                name: 'dify-generic',
+                meta: {
+                    title: '通用助手',
+                    permiss: '40',
+                },
+                component: () => import(/* webpackChunkName: "dify-generic" */ '../views/table/dify-generic.vue'),
+            },
+            
             
             {
                 path: '/ucenter',

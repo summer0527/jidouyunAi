@@ -176,7 +176,7 @@ i {
 		/* background: rgb(240, 242, 245) !important;
 		padding: 5px 20px;
 		border-radius: 5px; */
-		margin-top: -30px;
+		/* margin-top: -30px; */
 		/* overflow: scroll; */
 
 
@@ -214,3 +214,54 @@ i {
 		border-bottom-right-radius: 0 !important;
 		  border-top-right-radius: 0 !important;
 	  } */
+	   /* 自定义滚动条样式 */
+/* 滚动条整体样式 */
+::-webkit-scrollbar {
+	width: 8px; /* 垂直滚动条宽度 */
+	height: 8px; /* 水平滚动条高度 */
+  }
+  
+  /* 滚动条轨道 */
+  ::-webkit-scrollbar-track {
+	background: #f1f1f1; 
+	border-radius: 4px;
+  }
+  
+  /* 滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+	background: #888; 
+	border-radius: 4px;
+  }
+  
+  /* 滚动条滑块悬停状态 */
+  ::-webkit-scrollbar-thumb:hover {
+	background: #555; 
+  }
+  
+  /* Firefox 滚动条样式 */
+  * {
+	scrollbar-width: thin;
+	scrollbar-color: #888 #f1f1f1;
+  }
+  .typer-container{
+	white-space: pre-wrap !important;
+  }
+  .conStyle{
+	width: 100%;
+  }
+  .conStyle2{
+	width: 89%;
+  }
+  /* .el-overlay {
+    z-index: 2800000 !important;
+} */
+.el-bubble-content.el-bubble-content-filled{
+	background: #FFF6F6 !important;
+	color: #333333 !important;
+}
+.el-dropdown-menu__item:not(.is-disabled):focus, .el-dropdown-menu__item:not(.is-disabled):hover {
+	color: #BF1F1A !important;
+}
+.pptx-preview-wrapper {
+    height: 100% !important;
+}

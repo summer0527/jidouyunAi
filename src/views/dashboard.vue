@@ -1,15 +1,17 @@
 <template>
-    <div style="float: left; width: 100%; height: 100%">
+    <div style="float: left; width: 100%; height: 100%;display: flex
+;
+    justify-content: center;" class='bgstyle'>
      
       <el-dialog v-model="dialogVisible">
         <img w-full :src="dialogImageUrl" alt="Preview Image" />
       </el-dialog>
        
       <div
-        style="width: 100%; float: left; height: 100%; background-color: #ffffff;padding: 10px;box-sizing: border-box;"
+        style="width: 100%; float: left; height: 100%;padding: 10px;box-sizing: border-box;"
       >
        
-        <v-speciality></v-speciality>
+        <!-- <v-speciality></v-speciality> -->
   
       
        
@@ -21,6 +23,10 @@
   
        
       </div>
+      <p style="position: fixed; bottom: 2%; z-index: 10000000; color: #000">
+        吉林省吉斗云科技有限公司版权所有 Copyright © JiDouYun.com, All Rights
+        Reserved.
+      </p>
     </div>
   </template>
   
@@ -304,6 +310,10 @@
   </script>
   
   <style scoped lang="less">
+  .bgstyle{
+   background-image:url('/image/bgw.jpg');
+   background-size: cover;
+  }
   pre {
     background-color: #f4f4f4;
     padding: 10px;

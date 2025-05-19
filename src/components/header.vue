@@ -1,10 +1,10 @@
 <template>
   <div class="header">
     <!-- 折叠按钮 -->
-    <div class="header-left">
-      <img class="logo" src="/image/logono.png" alt="" style="width: 66px" />
-      <div class="web-title">吉斗云AI-校园场景风向标</div>
-      <div class="collapse-btn" @click="collapseChage" v-show="!sidebar.isDa">
+    <div class="header-left" style="width: 30%;">
+      <img class="logo" src="/image/logow.png" alt="" style="width: 106.67px;height:40px;max-width: 30%;cursor: pointer;"  @click="handlebackIndex"/>
+      <div class="web-title" style="max-width: 50%;overflow: hidden;">教育专业大模型AI场景提供商</div>
+      <div class="collapse-btn" @click="collapseChage" v-show="!sidebar.isDa" style="max-width: 20%;">
         <el-icon v-if="sidebar.collapse">
           <Expand />
         </el-icon>
@@ -15,7 +15,7 @@
     </div>
     <div class="header-right">
       <div class="header-user-con">
-        <div v-show="!sidebar.isDa">
+        <div v-show="false">
           <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
@@ -113,8 +113,28 @@
             </el-sub-menu>
           </el-menu>
         </div>
-        <!-- <div class="header-user-con">
-          <el-button
+         <div class="header-user-con">
+          <!-- <el-button
+            type="text"
+            @click="handleScense"
+            style="
+              border: 1px solid;
+              padding: 10px;
+              border-radius: 15px;
+              margin-left: 20px;
+              margin-right: 0px;
+            "
+          >
+            场景模型市场
+          </el-button> -->
+          <span  @click="handleScense"
+          class='btnStyle'
+            style="
+            
+            ">场景模型市场</span>
+        </div>
+        <div class="header-user-con">
+          <!-- <el-button
             type="text"
             @click="handleOpenNew"
             style="
@@ -126,8 +146,43 @@
             "
           >
             通识选修课
+          </el-button> -->
+
+          <span  @click="handleOpenNew"
+          class='btnStyle'
+            style="
+            
+            ">通识选修课</span>
+        </div>
+        <div style="">
+        <el-dropdown v-for="(item, index) in specialityList" :key="index" trigger="click">
+          <el-button
+            style="font-family: PingFangSC;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #BF1F1A;
+    border-radius: 18px;
+    border: 1px solid #DF4037;
+    padding: 18px 10px;
+    cursor:pointer;
+    margin-right: 10px;
+    
+    "
+          >
+            {{ item.s_speciality }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
           </el-button>
-        </div> -->
+
+          <template #dropdown>
+            <el-dropdown-menu>
+
+              <el-dropdown-item v-for="(el,index2) in item.paths" @click="handleClick(el)">{{ el.paths_name }}</el-dropdown-item>
+             
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
         <!-- <div class="btn-icon" @click="router.push('/theme')">
           <el-tooltip effect="dark" content="设置主题" placement="bottom">
             <i class="el-icon-lx-skin"></i>
@@ -176,13 +231,19 @@ import { onMounted, ref } from "vue";
 import { useSidebarStore } from "../store/sidebar";
 import { useRouter, useRoute } from "vue-router";
 import imgurl from "/image/avtor.jpg";
-import { loginOut } from "../api/index";
+import { loginOut,difyApi } from "../api/index";
 import request from "../utils/request";
 import { ElMessage, ElMessageBox, ElMenu } from "element-plus";
+const router = useRouter();
+const specialityList = ref([]);
+
+const emit = defineEmits([
+  "handleScense2",
+ 
+]);
 const currentRoute = ref(null);
 const route = useRoute();
 
-const router = useRouter();
 const username: string | null = localStorage.getItem("s_name");
 const message: number = 2;
 const activeIndex = ref("1");
@@ -191,20 +252,41 @@ const sidebar = useSidebarStore();
 const collapseChage = () => {
   sidebar.handleCollapse();
 };
+const handlebackIndex=()=>{
+  router.push("/dashboard");
+
+}
 // 开启新对话
 const handleOpenNew = () => {
-  router.push("/dashboard");
+  router.push("/dify-ppt");
+  // router.push("/dify-pptiframe");
+  // router.push("/dify-pdf");
+
+
+  
 };
+const handleScense=()=>{
+  console.log('handleScense2')
+  emit('handleScense2')
+
+}
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
   router.push(keyPath[1]);
 };
 onMounted(() => {
+specialityList.value = JSON.parse(localStorage.getItem('data'));
+
+console.log(specialityList.value,'测试数据')
   console.log(sidebar.isDa, " sidebar.isDa sidebar.isDa sidebar.isDa");
   if (document.body.clientWidth < 1500) {
     collapseChage();
   }
 });
+const handleClick=(el:any)=>{
+  console.log(el,'elelelelelelelelel')
+  router.push(el.paths)
+}
 function loginOutFunction() {
   request
     .post(loginOut)
@@ -253,13 +335,33 @@ const setFullScreen = () => {
 };
 </script>
 <style scoped>
+.btnStyle{
+  font-family: PingFangSC;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #BF1F1A;
+    border-radius: 18px;
+    border: 1px solid #DF4037;
+    padding: 10px 10px;
+    cursor:pointer;
+    margin-right: 10px;
+    white-space: nowrap;
+    height: 40px;
+    
+}
+.btnStyle:hover{
+  border: 1px solid #C1211C;
+  color:#DF4037
+}
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  height: 70px;
+  height: 60px;
   color: #3d3d3d;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
@@ -277,8 +379,15 @@ const setFullScreen = () => {
 }
 
 .web-title {
-  margin: 0 40px 0 10px;
-  font-size: 22px;
+  margin: 0 40px 0 20px;
+  font-family: PingFangSC;
+font-size: 14px;
+font-weight: normal;
+line-height: normal;
+letter-spacing: 0px;
+
+color: #BF1F1A;
+white-space: nowrap;
 }
 
 .collapse-btn {
@@ -303,7 +412,7 @@ const setFullScreen = () => {
 
 .header-user-con {
   display: flex;
-  height: 70px;
+  height: 60px;
   align-items: center;
 }
 
@@ -339,6 +448,7 @@ const setFullScreen = () => {
 
 .user-avator {
   margin: 0 10px 0 20px;
+  border: 1px solid #DF4037;
 }
 
 .el-dropdown-link {

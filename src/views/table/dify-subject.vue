@@ -1,5 +1,5 @@
 <template>
-  <div style="float: left; width: 100%; height: 100%">
+  <div style="float: left; width: 100%; height: 100%;display: flex;">
     <!--左侧对话列表 -->
     <v-talkList
       :listData="listData"
@@ -17,24 +17,33 @@
 
     <div
       style="
-        width: 89%;
         float: left;
         height: 100%;
-        background-color: #ffffff;
-        padding: 10px 0;
+        background-color: #F7F6F6;
+        padding: 20px 20px;
         box-sizing: border-box;
+        flex: 1;
+        position: relative;
+
+       
       "
     >
+    <div style="width: 100%;height: 100%;background: white;border-radius: 14px;display: flex
+;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;">
       <!-- 头部专业选择 -->
       <!-- <v-speciality></v-speciality> -->
       <!-- 7种场景展示 -->
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" :style="computedHeightStyle">
-        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
-        <el-divider />
+      <div class="list"  style="height: 80%;width: 100%;">
+        <v-bubList :list="list" @handleRate="handleRate" v-if="isShowList" ></v-bubList>
       </div>
       <!-- 选择数据库类型 -->
-      <div
+      <el-divider />
+<div  style="flex: 1;width: 100%;position: relative;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+  <div
         style="
           width: 100%;
           display: flex;
@@ -42,7 +51,7 @@
           align-items: center;
         "
       >
-        <div style="position: fixed; bottom: 70px; width: 60%">
+        <div style="width: 85%">
           <el-form :inline="true" class="demo-form-inline" :model="translateForm"  :rules="rules"
           ref="ruleFormRef">
             <el-form-item label="学科" class="is-required"  prop="a1">
@@ -118,8 +127,9 @@
         <Sender
           ref="senderRef"
           v-model="senderValue"
-          style="position: fixed; bottom: 10px; width: 60%"
+          style="width: 85%"
           submit-type="enter"
+          :auto-size="{ minRows:1, maxRows:1 }"
           @submit="handleSubmit"
         >
           <template #header>
@@ -225,6 +235,10 @@
           </template>
         </Sender>
       </div>
+</div>
+     
+</div>
+      
     </div>
   </div>
 </template>
@@ -233,6 +247,8 @@
 // 示例代码
 
 const contentT = ref(JSON.stringify({ message: "Hello Ace" }));
+import { useSidebarStore } from "../../store/sidebar";
+
 import { ref, reactive, onMounted, Ref, watch,computed } from "vue";
 import { Bubble, Sender, Typewriter } from "vue-element-plus-x";
 import { BubbleList } from "vue-element-plus-x";
@@ -286,6 +302,7 @@ import vTalkList from "../../components/talkList.vue";
 import { tr } from "element-plus/es/locale";
 import vScence from "../../components/scence.vue";
 import vSpeciality from "../../components/speciality.vue";
+const sidebar = useSidebarStore();
 
 const mode = ref("javascript");
 const theme = ref("monokai");
@@ -326,6 +343,7 @@ interface List {
   rate?: string;
   message_id?: string;
   loading?: boolean;
+  isHistory?:boolean
 }
 interface TranslateForm {
   a1: string;
@@ -687,6 +705,7 @@ const handleOpenConstion = (id: any) => {
           israte: true,
           rate: "null",
           message_id: ele.message_id,
+          isHistory:true
         });
       });
     })
@@ -1072,6 +1091,12 @@ function closeHeader() {
 </script>
 
 <style scoped lang="less">
+.conStyle{
+	width: 100%;
+  }
+  .conStyle2{
+	width: 89%;
+  }
 pre {
   background-color: #f4f4f4;
   padding: 10px;

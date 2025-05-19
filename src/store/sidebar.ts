@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export const useSidebarStore = defineStore('sidebar', {
 	state: () => {
 		return {
+
 			isDa:true,
 			collapse: true,
 			bgColor: '#fff',
@@ -27,6 +28,7 @@ export const useSidebarStore = defineStore('sidebar', {
 			
 			  }
 		},
+		
 		setBgColor(color: string) {
 			this.bgColor = color;
 			localStorage.setItem('sidebar-bg-color', color);

@@ -56,6 +56,8 @@ export const historySqlApi:string =baseURL+'/dify_data/messages'
 export const addCodeApi:string =baseURL+'/dify_code/conver_add'
 // 发送对话接口
 export const runCodeApi:string =baseURL+'/dify_code/chat-messages'
+// export const runCodeApi:string =baseURL+'/dify_code/v1/chat/completions'
+
 
 // 消息反馈接口
 export const feedbacksCodeApi:string =baseURL+'/dify_code/messages/'
@@ -471,6 +473,27 @@ export const stopvirtuallearningApi:string =baseURL+'/dify_virtuallearning/chat-
 // 获取会话历史消息接口
 export const historyvirtuallearningApi:string =baseURL+'/dify_virtuallearning/messages'
 export const specialitiesApi:string =baseURL+'/specialityss/specialities'
+
+// 对话存储接口
+export const addgenericApi:string =baseURL+'/dify_generic/conver_add'
+// 发送对话接口
+export const rungenericApi:string =baseURL+'/dify_generic/chat-messages'
+
+// 消息反馈接口
+export const feedbacksgenericApi:string =baseURL+'/dify_generic/messages/'
+// 获取会话列表接口
+export const getListgenericApi:string =baseURL+'/dify_generic/conversations/unique'
+// 删除会话接口
+export const delegenericApi:string =baseURL+'/dify_generic/delete-conversations/'
+export const resetgenericApi:string =baseURL+'/dify_generic/conversations/'
+// 重命名接口
+export const stopgenericApi:string =baseURL+'/dify_generic/chat-messages/'
+// 获取会话历史消息接口
+export const historygenericApi:string =baseURL+'/dify_generic/messages'
+// 请求ppt
+export const classesLookApi:string =baseURL+'/classes_look/classes/list'
+export const getClassesApi:string =baseURL+'/classes_look/classes/'
+export const getuploadstr:string ='192.168.1.150:1819'
 
 
 export const fetchData = () => {

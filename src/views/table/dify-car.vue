@@ -1,5 +1,5 @@
 <template>
-  <div style="float: left; width: 100%; height: 100%">
+  <div style="float: left; width: 100%; height: 100%;display: flex;">
     <!--左侧对话列表 -->
     <v-talkList
       :listData="listData"
@@ -17,24 +17,33 @@
 
     <div
       style="
-        width: 89%;
         float: left;
         height: 100%;
-        background-color: #ffffff;
-        padding: 10px 0;
+        background-color: #F7F6F6;
+        padding: 20px 20px;
         box-sizing: border-box;
+        flex: 1;
+        position: relative;
+       
       "
     >
-      <!-- 头部专业选择 -->
+    <div style="width: 100%;height: 100%;background: white;border-radius: 14px;display: flex
+;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;">
+<!-- 头部专业选择 -->
       <!-- <v-speciality></v-speciality> -->
       <!-- 7种场景展示 -->
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" :style="computedHeightStyle">
-        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
-        <el-divider />
+      <div class="list" style="height: 80%;width: 100%;">
+        <v-bubList :list="list" @handleRate="handleRate" ref='tyref'  v-if="isShowList"></v-bubList>
+       
       </div>
-      <!-- 选择数据库类型 -->
-      <div
+      <el-divider />
+      <div style="flex: 1;width: 100%;position: relative;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+  <!-- 选择数据库类型 -->
+  <div
         style="
           width: 100%;
           display: flex;
@@ -42,7 +51,9 @@
           align-items: center;
         "
       >
+
         <div :class="!showHeaderFlog ? 'fixesS' : 'fixedT'">
+
           <el-form
             :inline="true"
             class="demo-form-inline"
@@ -56,6 +67,7 @@
                 v-model="translateForm.brand"
                 placeholder="请选择你的汽车品牌"
                 style="width: 130px"
+                @change="handleBrandChange"
               >
               <el-option label="奥迪" value="奥迪" />
               <el-option label="红旗" value="红旗" />
@@ -68,8 +80,10 @@
                 v-model="translateForm.model"
                 placeholder="请选择你的汽车型号"
                 style="width: 130px"
+                @change="handleModelChange"
               >
-              <el-option label="奥迪A4" value="奥迪A4" />
+              <el-option v-for="(item,index) in modelOptions"         :label="item.label" :value="item.value"  :key="index"/>
+              <!-- <el-option label="奥迪A4" value="奥迪A4" />
               <el-option label="奥迪A6" value="奥迪A6" />
               <el-option label="奥迪A8" value="奥迪A8" />
               <el-option label="红旗H5" value="红旗H5" />
@@ -77,7 +91,7 @@
               <el-option label="红旗H7" value="红旗H7" />
               <el-option label="大众迈腾(Magotan)" value="大众迈腾(Magotan)" />
               <el-option label="大众捷达(Jetta)" value="大众捷达(Jetta)" />
-              <el-option label="大众朗逸(Lavida)" value="大众朗逸(Lavida)" />
+              <el-option label="大众朗逸(Lavida)" value="大众朗逸(Lavida)" /> -->
               </el-select>
             </el-form-item>
             <el-form-item label="汽车配件" prop="accessory">
@@ -139,8 +153,9 @@
         <Sender
           ref="senderRef"
           v-model="senderValue"
-          style="position: fixed; bottom: 10px; width: 60%"
+          style="width: 85%;"
           submit-type="enter"
+          :auto-size="{ minRows:1, maxRows:1 }"
           @submit="handleSubmit"
         >
           <template #header>
@@ -247,6 +262,10 @@
           </template>
         </Sender>
       </div>
+      </div>
+    
+    </div>
+      
     </div>
   </div>
 </template>
@@ -255,6 +274,8 @@
 // 示例代码
 
 const contentT = ref(JSON.stringify({ message: "Hello Ace" }));
+import { useSidebarStore } from "../../store/sidebar";
+
 import { ref, reactive, onMounted, Ref, watch,computed } from "vue";
 import { Bubble, Sender, Typewriter } from "vue-element-plus-x";
 import { BubbleList } from "vue-element-plus-x";
@@ -305,7 +326,6 @@ import {
 import request from "../../utils/request";
 import type { ElForm } from "element-plus";
 import axios, { AxiosResponse } from "axios";
-import { useXStream } from "vue-element-plus-x";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 // import { b } from "vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P";
 import vBubList from "../../components/bubList.vue";
@@ -313,6 +333,7 @@ import vTalkList from "../../components/talkList.vue";
 import { tr } from "element-plus/es/locale";
 import vScence from "../../components/scence.vue";
 import vSpeciality from "../../components/speciality.vue";
+const sidebar = useSidebarStore();
 
 const mode = ref("javascript");
 const theme = ref("monokai");
@@ -331,7 +352,8 @@ const sqlTypeOptions = ref([
   { label: "医疗专业AI助手", value: "医疗专业AI助手" },
   { label: "外语专业AI助手", value: "外语专业AI助手" },
 ]);
-
+const modelOptions = ref([
+])
 interface ListData {
   id: string;
   title: string;
@@ -353,6 +375,7 @@ interface List {
   rate?: string;
   message_id?: string;
   loading?: boolean;
+  isHistory?:boolean
 }
 interface TranslateForm {
   brand: string;
@@ -382,6 +405,39 @@ const translateForm = ref<TranslateForm>({
   input: '',
 
 });
+const tyref = ref()
+const handleBrandChange = (value: string) => {
+  console.log(value);
+  translateForm.value.model = ''; // 当品牌改变时，清空型号
+  if (value == '奥迪') {
+    modelOptions.value = [
+      { label: '奥迪A4', value: '奥迪A4' },
+      { label: '奥迪A6', value: '奥迪A6' },
+      { label: '奥迪A8', value: '奥迪A8' },
+    ]; 
+  } else if (value == '红旗') {
+    modelOptions.value = [
+      { label: '红旗H5', value: '红旗H5' },
+      { label: '红旗H6', value: '红旗H6' },
+      { label: '红旗H7', value: '红旗H7' },
+    ]; 
+  } else if (value == '大众') {
+    modelOptions.value = [
+      { label: '大众迈腾(Magotan)', value: '大众迈腾(Magotan)' },
+      { label: '大众捷达(Jetta)', value: '大众捷达(Jetta)' },
+      { label: '大众朗逸(Lavida)', value: '大众朗逸(Lavida)' }, 
+    ] 
+  }
+};
+const handleModelChange = (value: string) => {
+  console.log(value);
+ if(!translateForm.value.brand) {
+  ElMessage({
+    message: '请先选择品牌',
+    type: 'error', 
+  })
+ }
+};
 // 存储选中的文件
 const selectedFile = ref<File | null>(null);
 // 上传文件的函数
@@ -740,6 +796,7 @@ const handleOpenConstion = (id: any) => {
           israte: true,
           rate: "null",
           message_id: ele.message_id,
+          isHistory:true
         });
       });
     })
@@ -919,6 +976,7 @@ const fetchStreamData = () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      'Accept': 'text/event-stream',
     },
     signal,
     body: JSON.stringify(rundata),
@@ -966,10 +1024,7 @@ const fetchStreamData = () => {
           ? jsonData.answer
           : "";
 
-        console.log(
-          list.value[list.value.length - 1].content,
-          "list.value[list.value.length-1].content"
-        );
+        
 
         loadingData.value = false;
 
@@ -1072,6 +1127,7 @@ const stopFlowFunction = () => {
       console.log("响应数据:", response);
       const { result } = response.data;
       if (result == "success") {
+        tyref.value.handleEd()
         stopSSE();
       }
     })
@@ -1131,6 +1187,12 @@ function closeHeader() {
 </script>
 
 <style scoped lang="less">
+.conStyle{
+  width: 100%;
+}
+.conStyle2{
+  width: 89%;
+}
 pre {
   background-color: #f4f4f4;
   padding: 10px;
@@ -1266,13 +1328,13 @@ code {
   align-items: center !important;
 }
 .fixesS {
-  position: fixed;
-  bottom: 70px;
-  width: 60%;
+  // position: absolute;
+  // bottom: 120px;
+  width: 90%;
 }
 .fixedT {
-  position: fixed;
-  bottom: 340px;
-  width: 60%;
+  // position: absolute;
+  // bottom: 340px;
+  width: 90%;
 }
 </style>

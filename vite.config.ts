@@ -4,6 +4,7 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+
 export default defineConfig({
 	base: './',
 	plugins: [
@@ -143,12 +144,13 @@ export default defineConfig({
 		}
 	},
 	optimizeDeps: {
-		include: ['schart.js']
+		include: ['schart.js','jquery']
 	},
 	resolve: {
 		alias: {
 			'@': '/src',
 			'~': '/src/assets',
+			'jquery': 'jquery/dist/jquery.min.js'
 		}
 	},
 	define: {
@@ -161,6 +163,16 @@ export default defineConfig({
                 'C:/Users/school-windows-web/jiAi/jidouyunAi/index.html',
                 'C:/Users/school-windows-web/jiAi/jidouyunAi/src/assets/iconfont/demo_index.html'
             ]
-        }
+        },
+		// minify: 'terser',
+		// terserOptions: {
+		//   compress: {
+		// 	drop_console: true, // 移除console
+		// 	drop_debugger: true, // 移除debugger
+		// 	pure_funcs: ['console.log'], // 移除特定的函数调用
+		//   },
+		// },
     }
 });
+
+

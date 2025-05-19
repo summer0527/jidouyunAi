@@ -21,9 +21,15 @@
          <p style='display: flex
 ;
    justify-content: center;'>
-           <img class="logo" src="../../assets/img/logo.png" alt="" />吉斗云AI</p>
-         <p>教育专业大模型AI场景提供商</p>
-
+           <img class="logo" src="../../assets/img/logo.png" alt="" />吉斗云AI教育应用场景平台</p>
+         <!-- <p>教育专业大模型AI场景提供商</p> -->
+         <p style='padding-left: 10px;
+    font-size: 16px;
+    color: #8E8E8F;
+    display: flex
+;
+    justify-content: center;
+    letter-spacing: 3px;'>教育专业大模型AI场景提供商</p>
        </div>
        <!-- <div class="login-title">教育专业大模型AI场景提供商</div> -->
 

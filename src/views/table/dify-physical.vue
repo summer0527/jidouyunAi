@@ -1,5 +1,5 @@
 <template>
-  <div style="float: left; width: 100%; height: 100%">
+  <div style="float: left; width: 100%; height: 100%;display: flex;">
     <!--左侧对话列表 -->
     <v-talkList
       :listData="listData"
@@ -17,24 +17,33 @@
 
     <div
       style="
-        width: 89%;
         float: left;
         height: 100%;
-        background-color: #ffffff;
-        padding: 10px 0;
+        background-color: #F7F6F6;
+        padding: 20px 20px;
         box-sizing: border-box;
+        flex: 1;
+        position: relative;
+
+       
       "
     >
+    <div style="width: 100%;height: 100%;background: white;border-radius: 14px;display: flex
+;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;">
       <!-- 头部专业选择 -->
       <!-- <v-speciality></v-speciality> -->
       <!-- 7种场景展示 -->
       <!-- 对话内容列表 -->
-      <div class="list" v-if="isShowList" :style="computedHeightStyle">
-        <v-bubList :list="list" @handleRate="handleRate"></v-bubList>
-        <el-divider />
+      <div class="list"   style="height: 80%;width: 100%;">
+        <v-bubList :list="list" @handleRate="handleRate" v-if="isShowList" ></v-bubList>
       </div>
       <!-- 选择数据库类型 -->
-      <div
+      <el-divider />
+      <div style="flex: 1;width: 100%;position: relative;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+        <div
         style="
           width: 100%;
           display: flex;
@@ -43,7 +52,20 @@
         "
       >
         <div :class="!showHeaderFlog ? 'fixesS' : 'fixedT'">
-          <el-form
+          <p style="display: flex
+;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;margin-bottom: 10px;">
+            <img
+              class="logo mr10"
+              src="/image/star.png"
+              alt=""
+              style="height: 7px; width: 7px"
+            />
+            <el-button type="danger" round @click="handleaddmessage">填写体检信息</el-button>
+          </p>
+          <!-- <el-form
             :inline="true"
             class="demo-form-inline"
             :model="translateForm"
@@ -126,7 +148,7 @@
               >
               </el-input>
             </el-form-item>
-          </el-form>
+          </el-form> -->
         </div>
       </div>
       <!-- 对话输入框 -->
@@ -142,8 +164,9 @@
         <Sender
           ref="senderRef"
           v-model="senderValue"
-          style="position: fixed; bottom: 10px; width: 60%"
+          style="width: 85%"
           submit-type="enter"
+          :auto-size="{ minRows:1, maxRows:1 }"
           @submit="handleSubmit"
         >
           <template #header>
@@ -249,14 +272,128 @@
           </template>
         </Sender>
       </div>
+      </div>
+      
+</div>
+      
     </div>
+    <el-dialog v-model="dialogFormVisible" title="体检信息" width="570">
+      <template #header="{ close, titleId, titleClass }">
+      <div class="my-header" style="border-bottom: 1px solid #EBEDF0;">
+        <h4 :id="titleId" :class="titleClass" style="display: flex
+;
+    /* justify-content: flex-start; */
+    align-items: center;">
+          <img
+              class="logo mr10"
+              src="/image/xian.png"
+              alt=""
+              style="height: 30px; width: 3px;float: left;margin-bottom: 10px;"
+            />
+          体检信息</h4>
+       
+      </div>
+    </template>
+      <el-form
+            :inline="false"
+            class="demo-form-inline"
+            :model="translateForm"
+            :rules="rules"
+            ref="ruleFormRef"
+            label-width="auto"
+            style="margin-top: 10px;"
+          >
+            <el-form-item label="姓名" prop="name">
+              <el-input
+                v-model="translateForm.name"
+                placeholder="请输入你的姓名"
+                
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item label="年龄" prop="age">
+              <el-input
+                v-model="translateForm.age"
+                placeholder="请输入你的年龄"
+              >
+              
+              </el-input>
+            </el-form-item>
+            <el-form-item label="性别" prop="gender">
+              <el-select
+                v-model="translateForm.gender"
+                placeholder="请选择你的性别"
+              >
+              <el-option label="女" value="女" />
+              <el-option label="男" value="男" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="身高（cm）" prop="height">
+              <el-input
+                v-model="translateForm.height"
+                placeholder="请输入你的身高"
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item label="体重（kg）" prop="weight">
+              <el-input
+                v-model="translateForm.weight"
+                placeholder="请输入你的体重"
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item label="血压（mmHg）" prop="Blood_pressure">
+              <el-input
+                v-model="translateForm.Blood_pressure"
+                placeholder="请输入你的血压"
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item label="心率（次/分钟）" prop="Heart_rate">
+              <el-input
+                v-model="translateForm.Heart_rate"
+                placeholder="请输入你的心率"
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item label="血糖（mmol/L）" prop="Blood_glucose">
+              <el-input
+                v-model="translateForm.Blood_glucose"
+                placeholder="请输入你的血糖"
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item label="其他健康相关数据" prop="other">
+              <el-input
+                v-model="translateForm.other"
+                placeholder="请输入其他健康相关数据"
+              >
+              </el-input>
+            </el-form-item>
+          </el-form>
+    <template #footer>
+       
+      <div class="dialog-footer" style="display: flex
+;
+    align-items: center;
+    justify-content: center;">
+        <el-button @click="dialogFormVisible = false">返回</el-button>
+        <el-button type="danger" @click="handlemessagesub">
+          确认
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
   </div>
+ 
 </template>
 
 <script setup lang="ts">
 // 示例代码
 
 const contentT = ref(JSON.stringify({ message: "Hello Ace" }));
+import { useSidebarStore } from "../../store/sidebar";
+
 import { ref, reactive, onMounted, Ref, watch,computed } from "vue";
 import { Bubble, Sender, Typewriter } from "vue-element-plus-x";
 import { BubbleList } from "vue-element-plus-x";
@@ -314,6 +451,8 @@ import vTalkList from "../../components/talkList.vue";
 import { tr } from "element-plus/es/locale";
 import vScence from "../../components/scence.vue";
 import vSpeciality from "../../components/speciality.vue";
+const dialogFormVisible=ref(false)
+const sidebar = useSidebarStore();
 
 const mode = ref("javascript");
 const theme = ref("monokai");
@@ -354,6 +493,7 @@ interface List {
   rate?: string;
   message_id?: string;
   loading?: boolean;
+  isHistory?:boolean
 }
 interface TranslateForm {
   name: string;
@@ -398,6 +538,25 @@ const computedHeightStyle = computed(()=>{
     height: showHeaderFlog.value ? '75%' : '90%'
   };
 })
+// 填写体检信息
+const handleaddmessage=()=>{
+  dialogFormVisible.value=true
+}
+// 检查信息确定
+const handlemessagesub=()=>{
+  ruleFormRef.value?.validate((valid) => {
+    if (valid) {
+  dialogFormVisible.value=false
+   
+    } else {
+    //   ElMessage({
+    //   message: "请输入要查询的数据",
+    //   type: "error",
+    // });
+    // return;
+    }
+  });
+}
 // 重命名接口
 const handleRestName = (item: any) => {
   item.isEditHist = true;
@@ -746,6 +905,7 @@ const handleOpenConstion = (id: any) => {
           israte: true,
           rate: "null",
           message_id: ele.message_id,
+          isHistory:true
         });
       });
     })
@@ -1134,6 +1294,18 @@ function closeHeader() {
 </script>
 
 <style scoped lang="less">
+::v-deep .el-button--danger{
+  background-color: #BF1F1A;
+}
+::v-deep .el-dialog__header.show-close {
+    padding-right:0px;
+}
+.conStyle{
+	width: 100%;
+  }
+  .conStyle2{
+	width: 89%;
+  }
 pre {
   background-color: #f4f4f4;
   padding: 10px;
@@ -1269,13 +1441,11 @@ code {
   align-items: center !important;
 }
 .fixesS {
-  position: fixed;
-  bottom: 60px;
-  width: 60%;
+
+  width: 85%;
 }
 .fixedT {
-  position: fixed;
-  bottom: 340px;
-  width: 60%;
+  
+  width: 85%;
 }
 </style>
